@@ -1,0 +1,26 @@
+.tagbar-container {
+  background-color: #131718;
+  display: flex;
+  width: 100%;
+  padding: 0.5rem;
+  column-gap: 0.5rem;
+  flex-wrap: nowrap;
+  overflow: scroll;
+  // #1c1e1f
+  // #131718
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  .tag-item {
+    border-radius: 10px;
+    padding: 0.5rem;
+    white-space: nowrap;
+    background-color: #2d2d2d;
+  }
+}

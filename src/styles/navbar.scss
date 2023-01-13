@@ -1,0 +1,32 @@
+nav {
+  background: rgb(239, 239, 239);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: black;
+  position: sticky;
+  top: 0;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  padding-inline: 1rem;
+  
+  a {
+    text-decoration: none;
+    color: black;
+    padding: 3px;
+    border-radius: 10px;
+  }
+
+  a:after {
+    content: "";
+    display: block;
+    margin: auto;
+    height: 3px;
+    width: 0px;
+    background: transparent;
+    transition: width 0.5s ease, background-color 0.5s ease;
+  }
+  a:hover:after {
+    width: 100%;
+    background: black;
+  }
+}

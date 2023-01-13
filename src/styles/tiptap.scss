@@ -1,0 +1,15 @@
+.editor {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: #878d8d;
+  
+  .ProseMirror,
+  .ProseMirror-focused {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+  }
+}
