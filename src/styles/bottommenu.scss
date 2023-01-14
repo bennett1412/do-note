@@ -1,4 +1,19 @@
 .note-menu {
+  position: relative;
+  display: flex;
+  justify-self: end;
+  //   bottom: 1rem;
 }
 .note-menu-button {
+  padding: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+  margin: auto;
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

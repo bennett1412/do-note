@@ -5,6 +5,10 @@ const NotesList = () => {
     return (
         <section className='notes-list'>
             <Note />
+            <Note />
+            <Note />
+            <Note />
+            <Note />
         </section>
     )
 }

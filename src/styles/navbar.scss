@@ -8,7 +8,7 @@ nav {
   display: flex;
   align-items: center;
   padding-inline: 1rem;
-  
+
   a {
     text-decoration: none;
     color: black;
@@ -22,8 +22,8 @@ nav {
     margin: auto;
     height: 3px;
     width: 0px;
-    background: transparent;
-    transition: width 0.5s ease, background-color 0.5s ease;
+    background: black;
+    transition: width 0.4s linear;
   }
   a:hover:after {
     width: 100%;

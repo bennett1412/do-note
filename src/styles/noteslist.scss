@@ -1,4 +1,7 @@
-.notes-list{
-    display: block;
-    padding: 1rem;
+.notes-list {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 1rem;
 }
