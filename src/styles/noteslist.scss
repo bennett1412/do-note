@@ -2,6 +2,20 @@
   position: relative;
   display: grid;
   gap: 1rem;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
   padding: 1rem;
+  justify-items: center;
+}
+
+.add-button {
+  background-color: black;
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  bottom: 10%;
+  right: 5%;
+  svg {
+    color: white;
+  }
 }

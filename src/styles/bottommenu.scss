@@ -1,15 +1,28 @@
-.note-menu {
-  position: relative;
+@use "./utilities/buttons";
+@use "./utilities/colors";
+.toolbar {
   display: flex;
   justify-self: end;
+  opacity: 0;
+  transition: opacity 0.1s linear;
+  height: 20%;
   //   bottom: 1rem;
 }
-.note-menu-button {
+.note-container:hover > .toolbar {
+  opacity: 1;
+}
+
+.note-active > .toolbar {
+  opacity: 1;
+}
+.toolbar-button {
+  @extend .button;
   padding: 0.5rem;
   width: 2rem;
   height: 2rem;
   border-radius: 100%;
   margin: auto;
+  position: relative;
   svg {
     position: absolute;
     top: 50%;

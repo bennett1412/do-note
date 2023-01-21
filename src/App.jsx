@@ -6,7 +6,7 @@ import Tagbar from './components/Tagbar'
 import Note from './components/Note'
 import NotesList from './components/NotesList';
 
-function App() {
+function App({ title = (<p>hello</p>) }) {
   const [count, setCount] = useState(0)
 
   return (

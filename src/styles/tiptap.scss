@@ -4,12 +4,57 @@
   outline: none;
   border: none;
   color: #878d8d;
-  
+
   .ProseMirror,
   .ProseMirror-focused {
     height: 100%;
     width: 100%;
     outline: none;
     border: none;
+
+    ul[data-type="taskList"] {
+      list-style: none;
+      padding: 0;
+
+      p {
+        margin: 0;
+      }
+
+      li {
+        display: flex;
+
+        > label {
+          flex: 0 0 auto;
+          margin-right: 0.5rem;
+          user-select: none;
+        }
+
+        > div {
+          flex: 1 1 auto;
+        }
+      }
+    }
+
+    /* ===== Scrollbar CSS ===== */
+    /* Firefox */
+    * {
+      scrollbar-width: auto;
+      scrollbar-color: #8f54a0 #ffffff;
+    }
+
+    /* Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+      width: 16px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: #8f54a0;
+      border-radius: 10px;
+      border: 3px solid #ffffff;
+    }
   }
 }
