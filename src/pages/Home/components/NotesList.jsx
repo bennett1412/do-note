@@ -4,25 +4,33 @@ import "../../../styles/home/noteslist.scss";
 import { IoAddOutline } from "react-icons/io5";
 import { notes } from "../../../notes";
 import NewNote from "./NewNote";
+import { addNote, getNotes } from "../../../utils/firebase/firestore";
 const NotesList = () => {
-  const [notelist, setNotelist] = useState(notes);
-  const handleAdd = () => {
+  const [notelist, setNotelist] = useState([]);
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await getNotes();
+      setNotelist(res);
+    };
+    fetch();
+  }, []);
+
+  const handleAdd = async () => {
     console.log("adding");
-    setNotelist([
-      ...notelist,
-      {
-        noteTitle: "",
-        noteContent: {
-          type: "doc",
-          content: [
-            {
-              type: "paragraph",
-            },
-          ],
-        },
-        active: true,
+    const newNote = {
+      noteTitle: "",
+      noteContent: {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+          },
+        ],
       },
-    ]);
+      active: true,
+    };
+    setNotelist([...notelist, newNote]);
+    const res = await addNote(newNote);
   };
 
   return (

@@ -4,16 +4,18 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Auth from "./pages/Auth/Auth";
 import Navbar from "./pages/Home/components/Navbar";
+import Pagelayout from "./layouts/Pagelayout";
 
-function App({ title = <p>hello</p> }) {
+function App({}) {
   const [count, setCount] = useState(0);
 
   return (
     <div className="App">
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
+        <Route element={<Pagelayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+        </Route>
       </Routes>
     </div>
   );
