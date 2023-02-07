@@ -1,4 +1,4 @@
-@use "./utilities/colors";
+@use "../utilities/colors";
 nav {
   background: rgb(239, 239, 239);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -9,7 +9,8 @@ nav {
   display: flex;
   align-items: center;
   padding-inline: 1rem;
-
+  z-index: 10;
+  box-shadow: 0 0 8px black;
   a {
     text-decoration: none;
     color: black;

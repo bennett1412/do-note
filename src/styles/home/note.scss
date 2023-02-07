@@ -1,12 +1,13 @@
-@use "../styles/utilities/colors";
+@use "../utilities/colors";
 @import url("https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap");
 .note-container {
   position: relative;
   height: 200px;
+  width: 17rem;
   overflow: hidden;
   border: 1px colors.$note-border solid;
   border-radius: 10px;
-  padding: 0.5rem;
+  padding: 0.8rem;
   background-color: colors.$note-background;
   display: flex;
   flex-direction: column;
@@ -27,6 +28,7 @@
     background-color: colors.$note-background;
     color: colors.$dark;
     font-size: x-large;
+    height: 10%;
     width: 100%;
     outline: none;
     border: none;
@@ -39,9 +41,9 @@
 .note-container.note-active {
   z-index: 1040;
   width: 50vw;
-  height: 50vh;
-  position: absolute;
-  top: 50%;
+  height: 70vh;
+  position: fixed;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   overflow-y: auto;

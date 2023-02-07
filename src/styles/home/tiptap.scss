@@ -1,5 +1,5 @@
 .editor {
-  height: 100%;
+  height: 90%;
   width: 100%;
   outline: none;
   border: none;
@@ -11,7 +11,13 @@
     width: 100%;
     outline: none;
     border: none;
-
+    .is-editor-empty {
+      color: black;
+    }
+    p {
+      margin-block-start: 0.5em;
+      margin-block-end: 0.5em;
+    }
     ul[data-type="taskList"] {
       list-style: none;
       padding: 0;

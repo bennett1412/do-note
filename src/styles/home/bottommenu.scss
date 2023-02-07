@@ -1,11 +1,11 @@
-@use "./utilities/buttons";
-@use "./utilities/colors";
+@use "../utilities/buttons";
+@use "../utilities/colors";
 .toolbar {
   display: flex;
   justify-self: end;
   opacity: 0;
   transition: opacity 0.1s linear;
-  height: 20%;
+  height: 15%;
   //   bottom: 1rem;
 }
 .note-container:hover > .toolbar {

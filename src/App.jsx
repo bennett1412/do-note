@@ -1,21 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import Navbar from './components/Navbar'
-import Tagbar from './components/Tagbar'
-import Note from './components/Note'
-import NotesList from './components/NotesList';
+import { useState } from "react";
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home/Home";
+import Auth from "./pages/Auth/Auth";
+import Navbar from "./pages/Home/components/Navbar";
 
-function App({ title = (<p>hello</p>) }) {
-  const [count, setCount] = useState(0)
+function App({ title = <p>hello</p> }) {
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
       <Navbar />
-      <Tagbar />
-      <NotesList />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<Auth />} />
+      </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

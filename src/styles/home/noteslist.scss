@@ -8,8 +8,13 @@
 }
 
 .add-button {
+  cursor: pointer;
   background-color: black;
   display: flex;
+  border: none;
+  border-radius: 10px;
+  width: 4rem;
+  height: 3rem;
   position: fixed;
   justify-content: center;
   align-items: center;
@@ -17,5 +22,9 @@
   right: 5%;
   svg {
     color: white;
+  }
+  box-shadow: 3px 1.5px 3px #232336;
+  &:active {
+    box-shadow: none;
   }
 }
