@@ -1,5 +1,11 @@
 import { db } from "./init";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 // * note related db operations
 export const addNote = async (noteData) => {
@@ -17,9 +23,19 @@ export const getNotes = async () => {
     const querySnapshot = await getDocs(collection(db, "notes"));
     const notes = [];
     querySnapshot.forEach((doc) => {
-      notes.push(doc.data());
+      notes.push({ id: doc.id, ...doc.data() });
     });
     return notes;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateNote = async (noteId, newContent) => {
+  try {
+    const querySnapshot = await updateDoc(doc(db, "notes", noteId), {
+      noteContent: newContent,
+    });
   } catch (error) {
     console.log(error);
   }

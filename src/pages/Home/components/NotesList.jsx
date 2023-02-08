@@ -7,6 +7,7 @@ import NewNote from "./NewNote";
 import { addNote, getNotes } from "../../../utils/firebase/firestore";
 const NotesList = () => {
   const [notelist, setNotelist] = useState([]);
+
   useEffect(() => {
     const fetch = async () => {
       const res = await getNotes();
@@ -38,12 +39,14 @@ const NotesList = () => {
       <NewNote />
       <section className="notes-list">
         {notelist.map((note, i) => {
+          console.log(note);
           return (
             <Note
               key={i}
               active={note.active ?? false}
               title={note.noteTitle}
               content={note.noteContent}
+              fsId={note.id}
             />
           );
         })}

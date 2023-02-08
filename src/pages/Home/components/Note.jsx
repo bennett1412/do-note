@@ -6,7 +6,8 @@ import clsx from "clsx";
 import OutsideClickHandler from "react-outside-click-handler";
 import CustomOutsideClickHandler from "./minor/CustomOutsideClickHandler";
 import Tags from "./minor/Tags";
-const Note = ({ title, content, active }) => {
+import { IoClose } from "react-icons/io5";
+const Note = ({ title, content, active, fsId }) => {
   const [editMode, setEditMode] = useState(active);
   const ref = useRef();
   const noteRef = useRef();
@@ -41,6 +42,9 @@ const Note = ({ title, content, active }) => {
     }
   };
 
+  const closeNote = () => {
+    setEditMode(false);
+  };
   return (
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
       <div
@@ -48,15 +52,22 @@ const Note = ({ title, content, active }) => {
         className={clsx({ "note-container": true, "note-active": editMode })}
       >
         <div className="note-main" onClick={handleClick}>
-          <input
-            ref={ref}
-            disabled={!editMode}
-            defaultValue={title}
-            placeholder="Enter Title"
-            className="title"
-            type={"text"}
-          />
-          <Tiptap editMode={editMode} content={content} />
+          <div style={{ display: "flex" }}>
+            <input
+              ref={ref}
+              disabled={!editMode}
+              defaultValue={title}
+              placeholder="Enter Title"
+              className="title"
+              type={"text"}
+            />
+            {editMode && (
+              <button onClick={closeNote} className="icon-button">
+                <IoClose color="black" size={25} />
+              </button>
+            )}
+          </div>
+          <Tiptap fsId={fsId} editMode={editMode} content={content} />
         </div>
         {/* <Tags /> */}
         <BottomMenu setEditMode={handleClick} />

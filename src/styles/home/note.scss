@@ -13,10 +13,9 @@
   flex-direction: column;
   justify-content: space-between;
   // transition: width, height 0.4s ease-in;
-  row-gap: 0.5rem;
   font-family: "Fira Mono", monospace;
   .note-main {
-    height: 80%;
+    flex-grow: 1;
     overflow: hidden;
   }
   &:hover {
