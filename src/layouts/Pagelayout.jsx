@@ -1,6 +1,6 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
-import Navbar from "../pages/Home/components/Navbar";
+import { Navigate, Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import "../styles/common/layout.page.scss";
 import { Toaster } from "react-hot-toast";
 import { useAuthUser } from "@react-query-firebase/auth";
@@ -10,17 +10,20 @@ import { auth } from "../utils/firebase/init";
 const Pagelayout = () => {
   const user = useAuthUser(["user"], auth);
 
-  if (user.isLoading) {
-    return <Loader magnify={2} />;
-  }
-
+  // add a case for auth error
   return (
     <>
-      <Navbar pfp={user.data.photoURL} />
-      <main>
-        <Outlet />
-      </main>
-      <Toaster />
+      {user.isLoading ? (
+        <Loader magnify={2} />
+      ) : (
+        <>
+          <Navbar />
+          <main>
+            <Outlet />
+          </main>
+          <Toaster />
+        </>
+      )}
     </>
   );
 };
