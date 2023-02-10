@@ -31,11 +31,9 @@ export const getNotes = async () => {
   }
 };
 
-export const updateNote = async (noteId, newContent) => {
+export const updateNote = async (noteId, newNote) => {
   try {
-    const querySnapshot = await updateDoc(doc(db, "notes", noteId), {
-      noteContent: newContent,
-    });
+    const querySnapshot = await updateDoc(doc(db, "notes", noteId), newNote);
   } catch (error) {
     console.log(error);
   }

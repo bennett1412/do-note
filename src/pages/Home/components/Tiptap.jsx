@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import FloatingMenu from "./minor/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
@@ -7,10 +7,12 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import FloatingMenuExt from "@tiptap/extension-floating-menu";
-import { useDebounce } from "./../../../hooks/useDebounceHook";
+// import { useDebounce } from "./../../../hooks/useDebounceHook";
+import { useDebounce } from "use-debounce";
 import { updateNote } from "./../../../utils/firebase/firestore";
 
 const Tiptap = ({ editMode, content = [], fsId }) => {
+  const [debouncedValue, setDebouncedValue] = useState(content);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -27,7 +29,6 @@ const Tiptap = ({ editMode, content = [], fsId }) => {
     onCreate: () => {
       console.log("editor being created");
     },
-    onUpdate: () => {},
   });
 
   useEffect(() => {
@@ -41,14 +42,25 @@ const Tiptap = ({ editMode, content = [], fsId }) => {
     }
   }, [editMode, editor]);
 
-  // const debouncedContent = useDebounce(editor?.getJSON().content, 3000);
   useEffect(() => {
-    console.log("syncing with db");
-    const syncNote = async () => {
-      await updateNote(fsId, editor?.getJSON().content);
+    const handler = setTimeout(() => {
+      console.log("editor is focused:", editor.isFocused);
+      if (editor && !editor.isDestroyed) {
+        console.log("syncing with db");
+        const syncNote = async () => {
+          await updateNote(fsId, {
+            noteContent: editor?.getJSON(),
+          });
+        };
+        syncNote();
+        console.log(editor.getJSON());
+      }
+    }, 3000);
+    return () => {
+      console.log("Nope got updated");
+      clearTimeout(handler);
     };
-    syncNote();
-  }, [editor?.getJSON().content]);
+  }, [editor?.getJSON()]);
 
   return (
     <>

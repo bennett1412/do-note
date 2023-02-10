@@ -7,10 +7,26 @@ import OutsideClickHandler from "react-outside-click-handler";
 import CustomOutsideClickHandler from "./minor/CustomOutsideClickHandler";
 import Tags from "./minor/Tags";
 import { IoClose } from "react-icons/io5";
-const Note = ({ title, content, active, fsId }) => {
+import { updateNote } from "./../../../utils/firebase/firestore";
+const Note = ({ title: noteTitle, content, active, fsId }) => {
   const [editMode, setEditMode] = useState(active);
+  const [title, setTitle] = useState(noteTitle);
   const ref = useRef();
   const noteRef = useRef();
+
+  useEffect(() => {
+    const titleHandler = setTimeout(() => {
+      if (title != "") {
+        console.log("updateing title");
+        updateNote(fsId, {
+          noteTitle: title,
+        });
+      }
+    }, 3000);
+    return () => {
+      clearTimeout(titleHandler);
+    };
+  }, [title]);
   useEffect(() => {
     // let grid = noteRef.current;
     // let rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
@@ -60,6 +76,7 @@ const Note = ({ title, content, active, fsId }) => {
               placeholder="Enter Title"
               className="title"
               type={"text"}
+              onChange={(e) => setTitle(e.target.value)}
             />
             {editMode && (
               <button onClick={closeNote} className="icon-button">
