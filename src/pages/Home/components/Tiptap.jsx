@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import FloatingMenu from "./minor/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
@@ -28,12 +28,12 @@ const Tiptap = ({ editMode, content, fsId }) => {
       }),
     ],
     editable: false,
-    content: noteContent,
+    content: JSON.parse(noteContent),
     onCreate: () => {
       console.log("editor being created");
     },
     onUpdate: ({ editor }) => {
-      setNoteContent(editor.getJSON());
+      setNoteContent(JSON.stringify(editor.getJSON()));
     },
   });
 
@@ -49,17 +49,14 @@ const Tiptap = ({ editMode, content, fsId }) => {
   }, [editMode, editor]);
 
   useEffect(() => {
+    if (noteContent !== content) updateSync(true);
     const handler = setTimeout(() => {
-      console.log("editor is focused:", editor.isFocused);
-      updateSync(true);
       console.time("updating db");
-      if (editor && !editor.isDestroyed) {
-        console.log(editor.getJSON());
-        console.log(content);
+      if (editor && !editor.isDestroyed && noteContent !== content) {
         console.log("syncing with db");
         const syncNote = async () => {
           await updateNote(fsId, {
-            noteContent: editor?.getJSON(),
+            noteContent: JSON.stringify(editor.getJSON()),
           });
         };
         syncNote();
@@ -71,7 +68,7 @@ const Tiptap = ({ editMode, content, fsId }) => {
       console.log("Nope got updated");
       clearTimeout(handler);
     };
-  }, [editor?.getJSON()]);
+  }, [noteContent, content, updateSync, editor, fsId]);
 
   return (
     <>

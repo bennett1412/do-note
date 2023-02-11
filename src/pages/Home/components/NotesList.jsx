@@ -20,14 +20,14 @@ const NotesList = () => {
     console.log("adding");
     const newNote = {
       noteTitle: "",
-      noteContent: {
+      noteContent: JSON.stringify({
         type: "doc",
         content: [
           {
             type: "paragraph",
           },
         ],
-      },
+      }),
       active: true,
     };
     setNotelist([...notelist, newNote]);

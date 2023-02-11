@@ -5,8 +5,12 @@ const Tagbar = () => {
   return (
     <section className="tagbar">
       <div className="tags-container">
-        {tags.map((ele) => {
-          return <button className="tag-item">{ele}</button>;
+        {tags.map((ele, i) => {
+          return (
+            <button key={i} className="tag-item">
+              {ele}
+            </button>
+          );
         })}
       </div>
     </section>
