@@ -9,7 +9,6 @@ import { auth } from "../utils/firebase/init";
 
 const Pagelayout = () => {
   const user = useAuthUser(["user"], auth);
-
   // add a case for auth error
   return (
     <>

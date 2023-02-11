@@ -10,8 +10,11 @@ import FloatingMenuExt from "@tiptap/extension-floating-menu";
 // import { useDebounce } from "./../../../hooks/useDebounceHook";
 import { useDebounce } from "use-debounce";
 import { updateNote } from "./../../../utils/firebase/firestore";
+import useStore from "../../../hooks/useStore";
 
-const Tiptap = ({ editMode, content = [], fsId }) => {
+const Tiptap = ({ editMode, content, fsId }) => {
+  const updateSync = useStore((state) => state.updateSync);
+  const [noteContent, setNoteContent] = useState(content);
   const [debouncedValue, setDebouncedValue] = useState(content);
   const editor = useEditor({
     extensions: [
@@ -25,9 +28,12 @@ const Tiptap = ({ editMode, content = [], fsId }) => {
       }),
     ],
     editable: false,
-    content: content,
+    content: noteContent,
     onCreate: () => {
       console.log("editor being created");
+    },
+    onUpdate: ({ editor }) => {
+      setNoteContent(editor.getJSON());
     },
   });
 
@@ -45,7 +51,11 @@ const Tiptap = ({ editMode, content = [], fsId }) => {
   useEffect(() => {
     const handler = setTimeout(() => {
       console.log("editor is focused:", editor.isFocused);
+      updateSync(true);
+      console.time("updating db");
       if (editor && !editor.isDestroyed) {
+        console.log(editor.getJSON());
+        console.log(content);
         console.log("syncing with db");
         const syncNote = async () => {
           await updateNote(fsId, {
@@ -53,7 +63,8 @@ const Tiptap = ({ editMode, content = [], fsId }) => {
           });
         };
         syncNote();
-        console.log(editor.getJSON());
+        console.timeEnd("updating db");
+        updateSync(false);
       }
     }, 3000);
     return () => {
