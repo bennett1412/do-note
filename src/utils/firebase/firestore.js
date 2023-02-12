@@ -5,13 +5,14 @@ import {
   getDocs,
   updateDoc,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
 
 // * note related db operations
 export const addNote = async (noteData) => {
   try {
     const docRef = await addDoc(collection(db, "notes"), noteData);
-    console.log("Document written with ID: ", docRef.id);
+    return docRef;
   } catch (e) {
     console.error("Error adding document: ", e);
     return error;
@@ -34,6 +35,15 @@ export const getNotes = async () => {
 export const updateNote = async (noteId, newNote) => {
   try {
     const querySnapshot = await updateDoc(doc(db, "notes", noteId), newNote);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteNote = async (noteId) => {
+  try {
+    const res = await deleteDoc(doc(db, "cities", "DC"));
+    return res;
   } catch (error) {
     console.log(error);
   }

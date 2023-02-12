@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Note from "./Note";
 import "../../../styles/home/noteslist.scss";
 import { IoAddOutline } from "react-icons/io5";
@@ -28,10 +28,11 @@ const NotesList = () => {
           },
         ],
       }),
-      active: true,
     };
-    setNotelist([...notelist, newNote]);
     const res = await addNote(newNote);
+    console.log(res);
+
+    setNotelist([...notelist, { active: true, fsId: res.id, ...newNote }]);
   };
 
   return (
@@ -43,7 +44,7 @@ const NotesList = () => {
           return (
             <Note
               key={i}
-              active={note.active ?? false}
+              active={false}
               title={note.noteTitle}
               content={note.noteContent}
               fsId={note.id}

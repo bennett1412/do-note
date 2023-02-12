@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Tiptap from "./Tiptap";
 import "../../../styles/home/note.scss";
 import BottomMenu from "./BottomMenu";
@@ -87,7 +87,7 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
           <Tiptap fsId={fsId} editMode={editMode} content={content} />
         </div>
         {/* <Tags /> */}
-        <BottomMenu setEditMode={handleClick} />
+        <BottomMenu fsId={fsId} active={editMode} setEditMode={handleClick} />
       </div>
     </OutsideClickHandler>
   );
