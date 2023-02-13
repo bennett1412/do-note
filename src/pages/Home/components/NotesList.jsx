@@ -5,6 +5,7 @@ import { IoAddOutline } from "react-icons/io5";
 import { notes } from "../../../notes";
 import NewNote from "./NewNote";
 import { addNote, getNotes } from "../../../utils/firebase/firestore";
+
 const NotesList = () => {
   const [notelist, setNotelist] = useState([]);
 
@@ -17,7 +18,6 @@ const NotesList = () => {
   }, []);
 
   const handleAdd = async () => {
-    console.log("adding");
     const newNote = {
       noteTitle: "",
       noteContent: JSON.stringify({
@@ -30,7 +30,6 @@ const NotesList = () => {
       }),
     };
     const res = await addNote(newNote);
-    console.log(res);
 
     setNotelist([...notelist, { active: true, fsId: res.id, ...newNote }]);
   };
@@ -40,7 +39,6 @@ const NotesList = () => {
       <NewNote />
       <section className="notes-list">
         {notelist.map((note, i) => {
-          console.log(note);
           return (
             <Note
               key={i}

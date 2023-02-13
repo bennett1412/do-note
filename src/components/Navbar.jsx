@@ -10,7 +10,7 @@ import "react-float-menu/dist/react-float-menu.css";
 import { Menu, MenuItem } from "./Menu";
 
 const Navbar = ({ pfp }) => {
-  const user = useAuthUser(["user"], auth);
+  // const user = useAuthUser(["user"], auth);
 
   const syncing = useStore((state) => state.syncing);
   const ringColor = "#939393c7";

@@ -7,7 +7,6 @@ import { RxHeading } from "react-icons/rx";
 import { BsUiChecks } from "react-icons/bs";
 const CustomFloatingMenu = ({ editor }) => {
   if (!editor) {
-    console.log("hello");
     return null;
   }
   return (
