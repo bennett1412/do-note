@@ -13,8 +13,8 @@ export const addNote = async (noteData) => {
   try {
     const docRef = await addDoc(collection(db, "notes"), noteData);
     return docRef;
-  } catch (e) {
-    console.error("Error adding document: ", e);
+  } catch (error) {
+    console.error("Error adding document: ", error);
     return error;
   }
 };
@@ -42,9 +42,10 @@ export const updateNote = async (noteId, newNote) => {
 
 export const deleteNote = async (noteId) => {
   try {
-    const res = await deleteDoc(doc(db, "cities", "DC"));
+    const res = await deleteDoc(doc(db, "notes", noteId));
     return res;
   } catch (error) {
     console.log(error);
+    return error;
   }
 };

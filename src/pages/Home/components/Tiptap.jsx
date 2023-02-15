@@ -41,7 +41,7 @@ const Tiptap = ({ editMode, content, fsId }) => {
     if (editor && !editor.isDestroyed) {
       if (editMode) {
         editor.setEditable(true);
-        editor.chain().focus();
+        editor.commands.focus("end");
       } else {
         editor.setEditable(false);
       }

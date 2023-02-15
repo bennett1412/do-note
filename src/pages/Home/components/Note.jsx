@@ -8,16 +8,19 @@ import CustomOutsideClickHandler from "./minor/CustomOutsideClickHandler";
 import Tags from "./minor/Tags";
 import { IoClose } from "react-icons/io5";
 import { updateNote } from "./../../../utils/firebase/firestore";
+import { useQueryClient } from "@tanstack/react-query";
+
 const Note = ({ title: noteTitle, content, active, fsId }) => {
+  const queryClient = useQueryClient();
   const [editMode, setEditMode] = useState(active);
   const [title, setTitle] = useState(noteTitle);
   const ref = useRef();
   const noteRef = useRef();
-
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title != "") {
-        console.log("updateing title");
+        // console.log("updateing title");
+        // console.log(fsId, title);
         updateNote(fsId, {
           noteTitle: title,
         });
@@ -26,26 +29,12 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
     return () => {
       clearTimeout(titleHandler);
     };
-  }, [title]);
-  useEffect(() => {
-    // let grid = noteRef.current;
-    // let rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
-    // let rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
-    // let rowSpan = Math.ceil((grid.querySelector('.content').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
-    // grid.style.gridRowEnd = "span " + rowSpan;
-  }, []);
+  }, [fsId, title]);
 
   const handleClick = (e) => {
     e.target.focus();
     if (!editMode) {
       setEditMode(true);
-      // let box = noteRef.current.getBoundingClientRect()
-      // console.log('running')
-      // noteRef.current.style.position = 'fixed';
-      // let centerX = window.innerWidth / 2 - (box.left + box.right) / 2;
-      // let centerY = window.innerHeight / 2 - (box.top + box.bottom) / 2;
-      // console.log(centerX, centerY)
-      // noteRef.current.style.transform = `translate(${centerX}px ,${centerY}px)`;
     }
   };
 
