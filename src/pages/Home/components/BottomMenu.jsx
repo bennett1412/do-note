@@ -7,20 +7,17 @@ import clsx from "clsx";
 import { MdOutlineDelete } from "react-icons/md";
 import { deleteNote } from "../../../utils/firebase/firestore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import useDeleteNote from "../../../hooks/useDeleteNote";
 
 const BottomMenu = ({ setEditMode, active, fsId }) => {
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteNote,
-    onSuccess: (data, deletedNoteId) => {
-      queryClient.setQueryData(["notes"], (oldNotes) => {
-        console.log(data, deletedNoteId);
-        const newNotes = oldNotes.filter((note) => {
-          console.log(note.id, deletedNoteId);
-          return note.id != deletedNoteId;
-        });
-        return newNotes;
+  const { mutate } = useDeleteNote({
+    sucessCb: () => {
+      setEditMode(false);
+    },
+    errorCb: () => {
+      toast.error("Deletion failed, pls try later", {
+        id: "delete-error",
       });
     },
   });
@@ -29,7 +26,7 @@ const BottomMenu = ({ setEditMode, active, fsId }) => {
       "Are you sure you want to delete this note?"
     );
     if (confirm) {
-      await deleteMutation.mutate(fsId);
+      mutate(fsId);
     }
   };
   return (

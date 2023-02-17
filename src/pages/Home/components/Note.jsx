@@ -18,9 +18,7 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
   const noteRef = useRef();
   useEffect(() => {
     const titleHandler = setTimeout(() => {
-      if (title != "") {
-        // console.log("updateing title");
-        // console.log(fsId, title);
+      if (title !== "" && title !== noteTitle) {
         updateNote(fsId, {
           noteTitle: title,
         });
@@ -29,10 +27,10 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
     return () => {
       clearTimeout(titleHandler);
     };
-  }, [fsId, title]);
+  }, [fsId, noteTitle, title]);
 
   const handleClick = (e) => {
-    e.target.focus();
+    // e.target.focus();
     if (!editMode) {
       setEditMode(true);
     }
@@ -55,6 +53,7 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
       <div
         ref={noteRef}
         className={clsx({ "note-container": true, "note-active": editMode })}
+        id={fsId}
       >
         <div className="note-main" onClick={handleClick}>
           <div style={{ display: "flex" }}>
@@ -76,7 +75,7 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
           <Tiptap fsId={fsId} editMode={editMode} content={content} />
         </div>
         {/* <Tags /> */}
-        <BottomMenu fsId={fsId} active={editMode} setEditMode={handleClick} />
+        <BottomMenu fsId={fsId} active={editMode} setEditMode={setEditMode} />
       </div>
     </OutsideClickHandler>
   );

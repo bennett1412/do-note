@@ -5,7 +5,6 @@ import useStore from "./../hooks/useStore";
 import { ColorRing } from "react-loader-spinner";
 import { BsCloudCheck } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
-import { useAuthUser } from "@react-query-firebase/auth";
 import "react-float-menu/dist/react-float-menu.css";
 import { Menu, MenuItem } from "./Menu";
 

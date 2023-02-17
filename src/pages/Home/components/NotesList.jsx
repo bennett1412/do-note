@@ -1,35 +1,22 @@
-import React, { useRef, useEffect, useState } from "react";
+import React from "react";
 import Note from "./Note";
 import "../../../styles/home/noteslist.scss";
 import { IoAddOutline } from "react-icons/io5";
-import { notes } from "../../../notes";
-import NewNote from "./NewNote";
-import { addNote, getNotes } from "../../../utils/firebase/firestore";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { toast } from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
+import useAddNote from "../../../hooks/useAddNote";
+import useGetNotes from "../../../hooks/useGetNotes";
 
 const NotesList = () => {
-  const queryClient = useQueryClient();
-  const notesQuery = useQuery({
-    queryKey: ["notes"],
-    queryFn: () => {
-      console.log("fetching notes");
-      return getNotes();
-    },
-  });
-  const mutation = useMutation({
-    mutationFn: addNote,
-    onSuccess: (data, variables) => {
-      // Invalidate and refetch
-      console.log("sucess cb", data, "vars:", variables);
-      queryClient.setQueryData(["notes"], (oldNotes) => [
-        ...oldNotes,
-        { ...variables, id: data.id, active: true },
-      ]);
-    },
-    onError: () => {
-      toast.error("Something went wrong please try later");
+  const { data: notes } = useGetNotes();
+
+  const { mutate, isLoading: addingNote } = useAddNote({
+    successCb: () => {},
+    errorCb: () => {
+      toast.error("Something went wrong please try later", {
+        id: "note-creation-error",
+      });
     },
   });
   const handleAdd = async () => {
@@ -44,20 +31,18 @@ const NotesList = () => {
         ],
       }),
     };
-    // const res = await addNote(newNote);
-    const res = mutation.mutate(newNote);
-    console.log("mutation result", res);
-
-    // setNotelist([...notelist, { active: true, fsId: res.id, ...newNote }]);
+    mutate(newNote);
   };
 
   return (
     <>
       <section className="notes-list">
-        {notesQuery.data?.map((note, i) => {
+        {/* #TODO: add some loading state while fetching notes */}
+        {notes?.map((note) => {
+          console.log(note.noteTitle);
           return (
             <Note
-              key={i}
+              key={note.id}
               active={note.active ?? false}
               title={note.noteTitle}
               content={note.noteContent}
@@ -66,11 +51,11 @@ const NotesList = () => {
           );
         })}
         <button
-          disabled={mutation.isLoading}
+          disabled={addingNote}
           onClick={handleAdd}
           className="add-button"
         >
-          {mutation.isLoading ? (
+          {addingNote ? (
             <Oval
               height={30}
               width={30}

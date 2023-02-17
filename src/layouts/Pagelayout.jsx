@@ -6,7 +6,6 @@ import { Toaster } from "react-hot-toast";
 import { useAuthUser } from "../hooks/useAuthUser";
 import Loader from "../components/Loader";
 import { auth } from "../utils/firebase/init";
-import { useQueryClient } from "react-query";
 
 const Pagelayout = () => {
   const user = useAuthUser();
