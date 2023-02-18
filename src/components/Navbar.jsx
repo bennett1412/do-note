@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { auth } from "../utils/firebase/init";
+import React from "react";
 import "../styles/common/navbar.scss";
 import useStore from "./../hooks/useStore";
 import { ColorRing } from "react-loader-spinner";
 import { BsCloudCheck } from "react-icons/bs";
-import { FiLogOut } from "react-icons/fi";
 import "react-float-menu/dist/react-float-menu.css";
-import { Menu, MenuItem } from "./Menu";
 
-const Navbar = ({ pfp }) => {
-  // const user = useAuthUser(["user"], auth);
-
+const Navbar = () => {
   const syncing = useStore((state) => state.syncing);
   const ringColor = "#939393c7";
   return (
@@ -31,15 +26,15 @@ const Navbar = ({ pfp }) => {
         {syncing ? (
           <ColorRing
             visible={true}
-            height="40"
-            width="40"
+            height="30"
+            width="30"
             ariaLabel="blocks-loading"
             wrapperStyle={{}}
             wrapperClass="blocks-wrapper"
             colors={[ringColor, ringColor, ringColor, ringColor, ringColor]}
           />
         ) : (
-          <BsCloudCheck size={25} />
+          <BsCloudCheck color="#545454" size={30} />
         )}
       </div>
     </nav>

@@ -11,7 +11,6 @@ import { updateNote } from "./../../../utils/firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
 
 const Note = ({ title: noteTitle, content, active, fsId }) => {
-  const queryClient = useQueryClient();
   const [editMode, setEditMode] = useState(active);
   const [title, setTitle] = useState(noteTitle);
   const ref = useRef();
@@ -31,6 +30,7 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
 
   const handleClick = (e) => {
     // e.target.focus();
+    // window.scrollTo(0);
     if (!editMode) {
       setEditMode(true);
     }
@@ -75,7 +75,14 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
           <Tiptap fsId={fsId} editMode={editMode} content={content} />
         </div>
         {/* <Tags /> */}
-        <BottomMenu fsId={fsId} active={editMode} setEditMode={setEditMode} />
+        <BottomMenu
+          fsId={fsId}
+          active={editMode}
+          setEditMode={(flag) => {
+            noteRef.current.scrollIntoView();
+            setEditMode(flag);
+          }}
+        />
       </div>
     </OutsideClickHandler>
   );
