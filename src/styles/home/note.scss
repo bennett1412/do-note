@@ -48,7 +48,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -45%);
   overflow-y: auto;
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
@@ -63,8 +63,8 @@
 
 @media screen and (max-width: 700px) {
   .note-container.note-active {
-    width: 90%;
-    height: 90%;
+    width: 85%;
+    height: 85%;
   }
 }
 .dull-background {
