@@ -6,16 +6,14 @@ import "../../../styles/home/tiptap.scss";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import { Placeholder } from "@tiptap/extension-placeholder";
-import FloatingMenuExt from "@tiptap/extension-floating-menu";
-// import { useDebounce } from "./../../../hooks/useDebounceHook";
-import { useDebounce } from "use-debounce";
 import { updateNote } from "./../../../utils/firebase/firestore";
 import useStore from "../../../hooks/useStore";
+import Image from "@tiptap/extension-image";
+import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
 
 const Tiptap = ({ editMode, content, fsId }) => {
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
-  const [debouncedValue, setDebouncedValue] = useState(content);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -26,6 +24,8 @@ const Tiptap = ({ editMode, content, fsId }) => {
       Placeholder.configure({
         showOnlyWhenEditable: false,
       }),
+      // Image,
+      CustomImageExtension,
     ],
     editable: false,
     content: JSON.parse(noteContent),

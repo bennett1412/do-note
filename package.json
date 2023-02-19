@@ -13,6 +13,7 @@
     "@tanstack/react-query": "^4.24.6",
     "@tanstack/react-query-devtools": "^4.24.6",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.209",
+    "@tiptap/extension-image": "^2.0.0-beta.218",
     "@tiptap/extension-placeholder": "^2.0.0-beta.212",
     "@tiptap/extension-task-item": "^2.0.0-beta.209",
     "@tiptap/extension-task-list": "^2.0.0-beta.209",

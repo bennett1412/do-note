@@ -6,12 +6,17 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  Timestamp,
+  serverTimestamp,
 } from "firebase/firestore";
 
 // * note related db operations
 export const addNote = async (noteData) => {
   try {
-    const docRef = await addDoc(collection(db, "notes"), noteData);
+    const docRef = await addDoc(collection(db, "notes"), {
+      ...noteData,
+      timestamp: serverTimestamp(),
+    });
     return docRef;
   } catch (error) {
     console.error("Error adding document: ", error);
