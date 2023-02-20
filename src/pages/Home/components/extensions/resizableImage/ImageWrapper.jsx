@@ -4,47 +4,58 @@ import useMousePosition from "../../../../../hooks/useMousePosition";
 import "./customimg.scss";
 const ImageWrapper = ({ editor, node }) => {
   const imgRef = useRef();
-  const buttonStyle = {
-    position: "absolute",
-    right: "10%",
-    top: "50%",
-  };
+  const lastClientX = useRef(null);
+
   // const { x, y } = useMousePosition();
   const [mousePos, setMousePos] = useState(null);
+  const [show, setShow] = useState(false);
   const updateMousePos = (e) => {
     var rect = e.target.getBoundingClientRect();
-    var x = e.clientX - rect.left; //x position within the element.
-    var y = e.clientY - rect.top;
-
-    setMousePos({
-      x,
-      y,
-    });
-    console.log(mousePos, rect.left, mousePos - rect.left);
+    console.log(
+      lastClientX.current,
+      e.clientX,
+      lastClientX.current - e.clientX
+    );
+    let percent = lastClientX.current - e.clientX;
+    percent = percent < 0 ? percent * -1 : percent;
+    if (percent > 80) {
+      percent = 80;
+    }
+    if (percent < 30) {
+      percent = 30;
+    }
+    imgRef.current.clientWidth;
+    imgRef.current.style.width = `${percent}%`;
   };
 
   const startTracking = (e) => {
-    setMousePos(e.clientX);
+    lastClientX.current = e.clientX;
+    setShow(true);
     window.addEventListener("mousemove", updateMousePos);
     window.addEventListener("mouseup", stopTracking);
     console.log("traking now");
   };
-  const stopTracking = () => {
+  const stopTracking = (e) => {
     window.removeEventListener("mousemove", updateMousePos);
     window.removeEventListener("mouseup", stopTracking);
     console.log("tracking stopped");
+    setShow(false);
   };
   const resizeImage = (e) => {
     console.log(mousePos);
   };
   return (
-    <NodeViewWrapper style={{ position: "relative" }}>
-      <img ref={imgRef} src={node.attrs.src} alt="node-image" />
-      <button
-        onMouseDown={startTracking}
-        // onMouseUp={stopTracking}
-        className={"size-control"}
-      ></button>
+    <NodeViewWrapper ref={imgRef} style={{ maxWidth: "400px" }}>
+      <div className={"node-image-container"}>
+        <div className="content">
+          <div>
+            <img src={node.attrs.src} alt="node-image" />
+          </div>
+          <div className={`size-control`}>
+            <div onMouseDown={startTracking} className="cursor"></div>
+          </div>
+        </div>
+      </div>
     </NodeViewWrapper>
   );
 };

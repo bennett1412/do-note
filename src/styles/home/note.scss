@@ -38,6 +38,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -64,7 +65,7 @@
 @media screen and (max-width: 700px) {
   .note-container.note-active {
     width: 90%;
-    height: 90%;
+    height: 80%;
   }
 }
 .dull-background {
