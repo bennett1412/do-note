@@ -10,6 +10,7 @@ import { updateNote } from "./../../../utils/firebase/firestore";
 import useStore from "../../../hooks/useStore";
 import Image from "@tiptap/extension-image";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
+import ClipboardExtension from "./extensions/Clipboard/ClipboardExtension";
 
 const Tiptap = ({ editMode, content, fsId }) => {
   const updateSync = useStore((state) => state.updateSync);
@@ -24,8 +25,8 @@ const Tiptap = ({ editMode, content, fsId }) => {
       Placeholder.configure({
         showOnlyWhenEditable: false,
       }),
-      // Image,
       CustomImageExtension,
+      // ClipboardExtension,
     ],
     editable: false,
     content: JSON.parse(noteContent),
