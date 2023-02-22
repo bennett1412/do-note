@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.19.1",
+    "@szhsin/react-menu": "^3.4.1",
     "@tanstack/react-query": "^4.24.6",
     "@tanstack/react-query-devtools": "^4.24.6",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.209",
