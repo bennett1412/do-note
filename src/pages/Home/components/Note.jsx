@@ -34,6 +34,13 @@ const Note = ({
       clearTimeout(titleHandler);
     };
   }, [fsId, noteTitle, title]);
+  useEffect(() => {
+    if (noteColor !== color) {
+      updateNote(fsId, {
+        color: color,
+      });
+    }
+  }, [color, fsId, noteColor]);
 
   const handleClick = (e) => {
     if (!editMode) {

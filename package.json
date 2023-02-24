@@ -22,6 +22,7 @@
     "@tiptap/starter-kit": "^2.0.0-beta.209",
     "clsx": "^1.2.1",
     "firebase": "^9.17.1",
+    "framer-motion": "^9.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-float-menu": "^0.4.7",
