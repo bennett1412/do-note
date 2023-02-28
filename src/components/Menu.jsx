@@ -16,6 +16,7 @@ const ColorMenu = ({ setColor }) => {
       direction={"bottom"}
       offsetY={12}
       transition
+      align="center"
       className={"color-menu-container"}
     >
       {colors.map((color, i) => (
