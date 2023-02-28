@@ -10,9 +10,16 @@ import { IoClose } from "react-icons/io5";
 import { updateNote } from "./../../../utils/firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
 
-const Note = ({ title: noteTitle, content, active, fsId }) => {
+const Note = ({
+  title: noteTitle,
+  content,
+  active,
+  fsId,
+  color: noteColor,
+}) => {
   const [editMode, setEditMode] = useState(active);
   const [title, setTitle] = useState(noteTitle);
+  const [color, setColor] = useState(noteColor);
   const ref = useRef();
   const noteRef = useRef();
   useEffect(() => {
@@ -29,8 +36,6 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
   }, [fsId, noteTitle, title]);
 
   const handleClick = (e) => {
-    // e.target.focus();
-    // window.scrollTo(0);
     if (!editMode) {
       setEditMode(true);
     }
@@ -48,10 +53,15 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
   const closeNote = () => {
     setEditMode(false);
   };
+
   return (
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
       <div
         ref={noteRef}
+        style={{
+          backgroundColor: color ?? "#d7dede",
+          border: `1px solid ${(color & 0xfefefe) >> 1}`,
+        }}
         className={clsx({ "note-container": true, "note-active": editMode })}
         id={fsId}
       >
@@ -59,6 +69,7 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
           <div style={{ display: "flex" }}>
             <input
               ref={ref}
+              style={{ backgroundColor: color ?? "#d7dede" }}
               disabled={!editMode}
               defaultValue={title}
               placeholder="Enter Title"
@@ -82,6 +93,7 @@ const Note = ({ title: noteTitle, content, active, fsId }) => {
             noteRef.current.scrollIntoView();
             setEditMode(flag);
           }}
+          setColor={setColor}
         />
       </div>
     </OutsideClickHandler>

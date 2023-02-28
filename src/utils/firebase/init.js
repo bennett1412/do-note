@@ -6,8 +6,10 @@ import {
   signInWithPopup,
   getAuth,
   signInAnonymously,
+  signOut,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,10 +30,13 @@ export const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-
+export const storage = getStorage(app);
 const googleProvider = new GoogleAuthProvider();
 
 // google auth function
 export const signInWithGoogle = async () => {
   return signInWithPopup(auth, googleProvider);
+};
+export const logout = async () => {
+  return signOut(auth);
 };

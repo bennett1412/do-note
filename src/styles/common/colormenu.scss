@@ -1,0 +1,33 @@
+.color-menu-container {
+  .szh-menu {
+    min-width: none;
+    padding: 0.25rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    // grid-column-gap: 0.25rem;
+    // grid-row-gap: 1rem;
+    justify-items: space-evenly;
+    // grid-template-columns: 3;
+    .szh-menu__item--hover {
+    }
+    .color-menu-item {
+      width: 2.2rem;
+      height: 2.2rem;
+      display: flex;
+      justify-items: center;
+      padding: 0.25rem;
+      border-radius: 100%;
+      button {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 100%;
+        outline: none;
+        border: none;
+        &:hover {
+          background: none;
+        }
+      }
+    }
+  }
+}

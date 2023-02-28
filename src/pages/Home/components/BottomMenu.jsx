@@ -9,8 +9,9 @@ import { deleteNote } from "../../../utils/firebase/firestore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import useDeleteNote from "../../../hooks/useDeleteNote";
+import ColorMenu from "../../../components/Menu";
 
-const BottomMenu = ({ setEditMode, active, fsId }) => {
+const BottomMenu = ({ setEditMode, active, fsId, setColor }) => {
   const { mutate } = useDeleteNote({
     sucessCb: () => {
       setEditMode(false);
@@ -31,9 +32,7 @@ const BottomMenu = ({ setEditMode, active, fsId }) => {
   };
   return (
     <div className="toolbar">
-      <button className="toolbar-button">
-        <IoIosColorPalette color="white" />
-      </button>
+      <ColorMenu setColor={setColor} />
       <button onClick={setEditMode} className="toolbar-button">
         <FiEdit3 />
       </button>
