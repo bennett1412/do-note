@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "cross-env DEBUG=vite-plugin-pwa:* SW_DEV=true vite",
     "build": "vite build",
+    "firebase-deploy": "vite build && firebase deploy",
     "preview": "vite preview"
   },
   "dependencies": {

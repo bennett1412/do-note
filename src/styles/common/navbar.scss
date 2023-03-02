@@ -29,9 +29,11 @@ nav {
     background: black;
     transition: width 0.4s linear;
   }
-  a:hover:after {
-    width: 100%;
-    background: black;
+  @media (hover: hover) {
+    a:hover:after {
+      width: 100%;
+      background: black;
+    }
   }
   .more-ops {
     display: flex;
