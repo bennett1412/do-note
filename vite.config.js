@@ -5,7 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 // https://vitejs.dev/config/
 const manifest = {
   name: "DoNote",
-  short_name: "Dn",
+  short_name: "DoNote",
   theme_color: "#d7dede",
   icons: [
     {
