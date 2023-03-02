@@ -6,7 +6,6 @@ import { logout } from "../utils/firebase/init";
 export function useProvideAuth() {
   const [user, setUser] = useState({ data: null, isLoading: true });
   useEffect(() => {
-    console.log("i ran");
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser({ data: user.toJSON(), isLoading: false });

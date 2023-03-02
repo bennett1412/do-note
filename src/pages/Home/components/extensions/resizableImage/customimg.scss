@@ -5,10 +5,6 @@
 .node-image-container {
   display: flex;
   // justify-content: space-between;
-  &:hover > .content > .img-ops,
-  &:hover > .content > .size-control {
-    opacity: 1;
-  }
 
   column-gap: 0;
   .content {
@@ -27,7 +23,7 @@
       opacity: 0;
       position: absolute;
       top: 5%;
-      right: 5%;
+      left: 5%;
       button {
         border-radius: 100%;
         position: relative;
@@ -50,7 +46,7 @@
       }
     }
     .size-control {
-      // opacity: 0;
+      opacity: 0;
       position: absolute;
       top: 50%;
       right: 10%;
@@ -72,6 +68,10 @@
           cursor: ew-resize;
         }
       }
+    }
+    &:hover .img-ops,
+    &:hover .size-control {
+      opacity: 1;
     }
   }
   @media (hover: none) {

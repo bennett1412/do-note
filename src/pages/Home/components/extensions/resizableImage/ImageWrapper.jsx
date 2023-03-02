@@ -16,11 +16,9 @@ const ImageWrapper = ({ editor, node, deleteNode, updateAttributes }) => {
     }
     let currWidth = imgRef.current.style.width;
     currWidth = Number(currWidth.substring(0, currWidth.length - 1));
-    // console.log(currWidth);
-    // console.log(currWidth, Math.round(0.1 * currWidth));
+
     let diff = 0.008 * currWidth;
     let subtract = diff;
-    console.log(direction, subtract);
     subtract = direction == "left" ? subtract * -1 : subtract;
     lastClientX.current = e.pageX;
     updateAttributes({ width: currWidth + subtract });

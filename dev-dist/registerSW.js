@@ -1,5 +1,13 @@
-if ("serviceWorker" in navigator)
-  navigator.serviceWorker.register("/dev-sw.js?dev-sw", {
-    scope: "/",
-    type: "classic",
-  });
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/sw.js", {
+      scope: "/",
+      type: "classic",
+    })
+    .then((params) => {
+      console.log(params);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}

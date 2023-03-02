@@ -39,7 +39,6 @@ const NotesList = () => {
       <section className="notes-list">
         {/* #TODO: add some loading state while fetching notes */}
         {notes?.map((note) => {
-          console.log(note.noteTitle);
           return (
             <Note
               key={note.id}
