@@ -10,8 +10,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path="/auth" element={<Auth />} />
         <Route element={<Pagelayout />}>
-          <Route path="/auth" element={<Auth />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<Home />} />
           </Route>
