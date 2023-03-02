@@ -26,5 +26,6 @@ dist-ssr
 todo.md
 .github
 .firebaserc
+.firebase
 firebase*
 firestore*

@@ -30,7 +30,7 @@ const Auth = () => {
       <div className="text">
         <div className="title">Do Note</div>
         <p className="subtext">
-          A lightweigtht note taking app for your hyper productive self.
+          A lightweight note taking app for your hyper productive self.
         </p>
       </div>
       <button onClick={handleGoogleSignup}>
