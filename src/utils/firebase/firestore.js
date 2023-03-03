@@ -8,14 +8,18 @@ import {
   deleteDoc,
   Timestamp,
   serverTimestamp,
+  orderBy,
+  query,
 } from "firebase/firestore";
 
 // * note related db operations
-export const addNote = async (noteData) => {
+
+export const addNote = async (data) => {
   try {
     const docRef = await addDoc(collection(db, "notes"), {
-      ...noteData,
+      ...data.newNote,
       timestamp: serverTimestamp(),
+      creator: data.creatorId,
     });
     return docRef;
   } catch (error) {
@@ -26,7 +30,9 @@ export const addNote = async (noteData) => {
 
 export const getNotes = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, "notes"));
+    const notesRef = collection(db, "notes");
+    const q = query(notesRef, orderBy("timestamp", "desc"));
+    const querySnapshot = await getDocs(q);
     const notes = [];
     querySnapshot.forEach((doc) => {
       notes.push({ id: doc.id, ...doc.data() });
@@ -40,7 +46,10 @@ export const getNotes = async () => {
 
 export const updateNote = async (noteId, newNote) => {
   try {
-    const querySnapshot = await updateDoc(doc(db, "notes", noteId), newNote);
+    const querySnapshot = await updateDoc(doc(db, "notes", noteId), {
+      ...newNote,
+      timestamp: serverTimestamp(),
+    });
     return querySnapshot;
   } catch (error) {
     console.log(error);

@@ -14,7 +14,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // transition: width, height 0.4s ease-in;
+  transition-property: background, color;
+  transition-duration: 0.2s;
   font-family: "Fira Mono", monospace;
   // @extend .masked-overflow;
   .note-main {
@@ -29,7 +30,6 @@
 
   .title {
     background-color: colors.$note-background;
-    color: colors.$dark;
     font-size: x-large;
     height: 10%;
     width: 100%;
@@ -39,6 +39,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 0.5rem;
+    transition-property: background, color;
+    transition-duration: 0.2s;
+  }
+  .title.dark-theme {
+    color: colors.$dark;
   }
 }
 

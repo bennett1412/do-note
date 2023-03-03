@@ -9,6 +9,7 @@ import Tags from "./minor/Tags";
 import { IoClose } from "react-icons/io5";
 import { updateNote } from "./../../../utils/firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
+import { colors } from "../../../utils/common/noteColors";
 
 const Note = ({
   title: noteTitle,
@@ -19,7 +20,7 @@ const Note = ({
 }) => {
   const [editMode, setEditMode] = useState(active);
   const [title, setTitle] = useState(noteTitle);
-  const [color, setColor] = useState(noteColor);
+  const [colorIndex, setColorIndex] = useState(noteColor);
   const ref = useRef();
   const noteRef = useRef();
   useEffect(() => {
@@ -34,7 +35,13 @@ const Note = ({
       clearTimeout(titleHandler);
     };
   }, [fsId, noteTitle, title]);
-
+  useEffect(() => {
+    if (colorIndex !== noteColor) {
+      updateNote(fsId, {
+        color: colorIndex,
+      });
+    }
+  }, [noteColor, colorIndex, fsId]);
   const handleClick = (e) => {
     if (!editMode) {
       setEditMode(true);
@@ -59,8 +66,9 @@ const Note = ({
       <div
         ref={noteRef}
         style={{
-          backgroundColor: color ?? "#d7dede",
-          border: `1px solid ${(color & 0xfefefe) >> 1}`,
+          backgroundColor: colors[colorIndex] ?? "#d7dede",
+          border: `1px solid ${(colors[colorIndex] & 0xfefefe) >> 1}`,
+          color: colorIndex > 2 ? "white" : "black",
         }}
         className={clsx({ "note-container": true, "note-active": editMode })}
         id={fsId}
@@ -69,7 +77,10 @@ const Note = ({
           <div style={{ display: "flex" }}>
             <input
               ref={ref}
-              style={{ backgroundColor: color ?? "#d7dede" }}
+              style={{
+                backgroundColor: colors[colorIndex] ?? "#d7dede",
+                color: colorIndex > 2 ? "white" : "black",
+              }}
               disabled={!editMode}
               defaultValue={title}
               placeholder="Enter Title"
@@ -79,7 +90,7 @@ const Note = ({
             />
             {editMode && (
               <button onClick={closeNote} className="icon-button">
-                <IoClose color="black" size={25} />
+                <IoClose style={{ mixBlendMode: "difference" }} size={25} />
               </button>
             )}
           </div>
@@ -93,7 +104,7 @@ const Note = ({
             noteRef.current.scrollIntoView();
             setEditMode(flag);
           }}
-          setColor={setColor}
+          setColor={setColorIndex}
         />
       </div>
     </OutsideClickHandler>

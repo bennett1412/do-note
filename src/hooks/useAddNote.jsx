@@ -8,8 +8,8 @@ const useAddNote = ({ successCb, errorCb }) => {
     onSuccess: (data, variables) => {
       successCb();
       queryClient.setQueryData(["notes"], (oldNotes) => [
+        { ...variables.newNote, id: data.id, active: true },
         ...oldNotes,
-        { ...variables, id: data.id, active: true },
       ]);
     },
     onError: () => {

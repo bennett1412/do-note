@@ -19,13 +19,14 @@
   border: 1px solid transparent;
   &:hover {
     background: rgba(135, 141, 141, 0.25);
+    mix-blend-mode: difference;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
   }
   &:active {
-    background: rgba(135, 141, 141, 0.753);
+    background: rgba(135, 141, 141, 0.441);
+    mix-blend-mode: difference;
   }
 
   svg {

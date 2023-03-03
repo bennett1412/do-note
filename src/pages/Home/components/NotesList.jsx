@@ -7,10 +7,11 @@ import { toast } from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
 import useAddNote from "../../../hooks/useAddNote";
 import useGetNotes from "../../../hooks/useGetNotes";
+import { useAuthUser } from "../../../hooks/useAuthUser";
 
 const NotesList = () => {
   const { data: notes } = useGetNotes();
-
+  const { user } = useAuthUser();
   const { mutate, isLoading: addingNote } = useAddNote({
     successCb: () => {},
     errorCb: () => {
@@ -31,7 +32,8 @@ const NotesList = () => {
         ],
       }),
     };
-    mutate(newNote);
+    console.log(user.data.uid);
+    mutate({ newNote: newNote, creatorId: user.data.uid });
   };
 
   return (
@@ -46,6 +48,7 @@ const NotesList = () => {
               title={note.noteTitle}
               content={note.noteContent}
               fsId={note.id}
+              color={note.color}
             />
           );
         })}
