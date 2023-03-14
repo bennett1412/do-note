@@ -10,9 +10,10 @@ import useGetNotes from "../../../hooks/useGetNotes";
 import { useAuthUser } from "../../../hooks/useAuthUser";
 
 const NotesList = () => {
-  const { data: notes } = useGetNotes();
   const { user } = useAuthUser();
+  const { data: notes } = useGetNotes(user.data.uid);
   const { mutate, isLoading: addingNote } = useAddNote({
+    creatorId: user.data.uid,
     successCb: () => {},
     errorCb: () => {
       toast.error("Something went wrong please try later", {

@@ -5,9 +5,9 @@ if ("serviceWorker" in navigator) {
       type: "classic",
     })
     .then((params) => {
-      console.log(params);
+      console.log('Registered the service worker');
     })
     .catch((e) => {
-      console.log(e);
+      console.log();
     });
 }

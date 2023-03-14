@@ -10,6 +10,7 @@ import {
   serverTimestamp,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 
 // * note related db operations
@@ -28,10 +29,14 @@ export const addNote = async (data) => {
   }
 };
 
-export const getNotes = async () => {
+export const getNotes = async (creatorId) => {
   try {
     const notesRef = collection(db, "notes");
-    const q = query(notesRef, orderBy("timestamp", "desc"));
+    const q = query(
+      notesRef,
+      orderBy("timestamp", "desc"),
+      where("creator", "==", creatorId)
+    );
     const querySnapshot = await getDocs(q);
     const notes = [];
     querySnapshot.forEach((doc) => {

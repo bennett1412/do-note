@@ -6,9 +6,12 @@ import { MdOutlineDelete } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import useDeleteNote from "../../../hooks/useDeleteNote";
 import ColorMenu from "../../../components/Menu";
+import { useAuthUser } from "../../../hooks/useAuthUser";
 
 const BottomMenu = ({ setEditMode, active, fsId, setColor }) => {
-  const { mutate } = useDeleteNote({
+  const { user } = useAuthUser();
+  const { mutate, isLoading: isDeleting } = useDeleteNote({
+    creatorId: user.data.uid,
     sucessCb: () => {
       setEditMode(false);
     },
@@ -37,7 +40,11 @@ const BottomMenu = ({ setEditMode, active, fsId, setColor }) => {
       </button>
       {active && (
         <>
-          <button onClick={handleDelete} className="toolbar-button">
+          <button
+            disabled={isDeleting}
+            onClick={handleDelete}
+            className="toolbar-button"
+          >
             <MdOutlineDelete />
           </button>
         </>

@@ -17,6 +17,7 @@
   transition-property: background, color;
   transition-duration: 0.2s;
   font-family: "Fira Mono", monospace;
+  color: black;
   // @extend .masked-overflow;
   .note-main {
     flex-grow: 1;
@@ -29,7 +30,6 @@
   }
 
   .title {
-    background-color: colors.$note-background;
     font-size: x-large;
     height: 10%;
     width: 100%;
@@ -41,6 +41,7 @@
     margin-bottom: 0.5rem;
     transition-property: background, color;
     transition-duration: 0.2s;
+    color: black;
   }
   .title.dark-theme {
     color: colors.$dark;
@@ -69,10 +70,25 @@
 
 @media screen and (max-width: 700px) {
   .note-container.note-active {
-    width: 90%;
-    height: 80%;
+    width: 95dvw;
+    height: 98dvh;
+    transform: translate(-50%, -50%);
+    .editor {
+      height: 80dvh;
+    }
+  }
+  .toolbar {
+    position: sticky;
   }
 }
 .dull-background {
   background-color: rgba(0, 0, 0, 0.158);
+}
+
+.dark {
+  color: white;
+  border: 1px solid black;
+  input[type="text"] {
+    color: white;
+  }
 }

@@ -4,11 +4,8 @@ import "../../../styles/home/note.scss";
 import BottomMenu from "./BottomMenu";
 import clsx from "clsx";
 import OutsideClickHandler from "react-outside-click-handler";
-import CustomOutsideClickHandler from "./minor/CustomOutsideClickHandler";
-import Tags from "./minor/Tags";
 import { IoClose } from "react-icons/io5";
 import { updateNote } from "./../../../utils/firebase/firestore";
-import { useQueryClient } from "@tanstack/react-query";
 import { colors } from "../../../utils/common/noteColors";
 
 const Note = ({
@@ -47,6 +44,18 @@ const Note = ({
       setEditMode(true);
     }
   };
+  // useEffect(() => {
+  //   if (editMode) {
+  //     var resizeListener = window.addEventListener("resize", (e) => {
+  //       let keyboardHeight = e.target.height;
+  //       console.log("resized", keyboardHeight);
+  //       noteRef.current.style.height = `${window.innerHeight}px`;
+  //     });
+  //   }
+  //   return () => {
+  //     window.removeEventListener("resize", resizeListener);
+  //   };
+  // }, [editMode]);
 
   const handleBackgroundClick = () => {
     if (editMode) {
@@ -65,22 +74,19 @@ const Note = ({
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
       <div
         ref={noteRef}
-        style={{
-          backgroundColor: colors[colorIndex] ?? "#d7dede",
-          border: `1px solid ${(colors[colorIndex] & 0xfefefe) >> 1}`,
-          color: colorIndex > 2 ? "white" : "black",
-        }}
-        className={clsx({ "note-container": true, "note-active": editMode })}
+        style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
+        className={clsx({
+          "note-container": true,
+          "note-active": editMode,
+          dark: colorIndex > 2,
+        })}
         id={fsId}
       >
         <div className="note-main" onClick={handleClick}>
           <div style={{ display: "flex" }}>
             <input
               ref={ref}
-              style={{
-                backgroundColor: colors[colorIndex] ?? "#d7dede",
-                color: colorIndex > 2 ? "white" : "black",
-              }}
+              style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
               disabled={!editMode}
               defaultValue={title}
               placeholder="Enter Title"

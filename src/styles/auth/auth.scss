@@ -12,21 +12,17 @@
     position: relative;
     text-align: center;
     color: #2a2b2e;
+    font-family: "Josefin Sans";
+    font-style: normal;
+    letter-spacing: 0.04em;
+    font-weight: 400;
     .title {
-      font-weight: 400;
       font-size: 124px;
       line-height: 124px;
-      letter-spacing: 0.04em;
-      font-family: "Josefin Sans";
-      font-style: normal;
     }
     .subtext {
-      font-family: "Josefin Sans";
-      font-style: normal;
-      font-weight: 400;
       font-size: 20px;
       line-height: 20px;
-      letter-spacing: 0.04em;
     }
   }
 
