@@ -4,8 +4,7 @@ import { auth } from "../utils/firebase/init";
 import { useAuthUser } from "./../hooks/useAuthUser";
 
 const ProtectedRoutes = () => {
-  // const user = useAuthUser(["user"], auth);
-  const user = useAuthUser();
+  const { user } = useAuthUser();
   const navigate = useNavigate();
   if (user.data == null) {
     return <Navigate to={"/auth"} />;

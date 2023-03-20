@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   getAuth,
   signInAnonymously,
+  signOut,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -35,4 +36,7 @@ const googleProvider = new GoogleAuthProvider();
 // google auth function
 export const signInWithGoogle = async () => {
   return signInWithPopup(auth, googleProvider);
+};
+export const logout = async () => {
+  return signOut(auth);
 };

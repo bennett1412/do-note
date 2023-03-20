@@ -7,7 +7,7 @@ import { useAuthUser } from "../hooks/useAuthUser";
 import Loader from "../components/Loader";
 
 const Pagelayout = () => {
-  const user = useAuthUser();
+  const { user } = useAuthUser();
 
   return (
     <>

@@ -1,40 +1,39 @@
 import React from "react";
 import "../styles/common/navbar.scss";
-import useStore from "./../hooks/useStore";
-import { ColorRing } from "react-loader-spinner";
-import { BsCloudCheck } from "react-icons/bs";
+import { FiLogOut } from "react-icons/fi";
 import "react-float-menu/dist/react-float-menu.css";
-
+import { useAuthUser } from "./../hooks/useAuthUser";
+import { Menu, MenuDivider, MenuItem } from "@szhsin/react-menu";
+import SyncIndicator from "./SyncIndicator";
+import OfflineToggle from "./OfflineToggle";
 const Navbar = () => {
-  const syncing = useStore((state) => state.syncing);
-  const ringColor = "#939393c7";
+  const { user, logout } = useAuthUser();
+  const handleLogout = async () => {
+    const res = await logout();
+  };
   return (
     <nav>
       <a href="/">DoNote</a>
       <div className="more-ops">
-        {/* {user.data && (
-          <Menu label={<img src={user.data.photoURL} alt="profile-pic" />}>
-            <MenuItem
-              label={
-                <span>
-                  <FiLogOut size={25} /> Logout
-                </span>
-              }
-            />
-          </Menu>
-        )} */}
-        {syncing ? (
-          <ColorRing
-            visible={true}
-            height="30"
-            width="30"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="blocks-wrapper"
-            colors={[ringColor, ringColor, ringColor, ringColor, ringColor]}
-          />
-        ) : (
-          <BsCloudCheck color="#545454" size={30} />
+        {user.data && (
+          <>
+            <Menu
+              menuButton={<img src={user.data.photoURL} alt="profile-pic" />}
+              direction="bottom"
+              offsetY={12}
+              align="end"
+              menuStyle={{ minWidth: "min-content" }}
+            >
+              <MenuItem onClick={handleLogout} className={"menu-item"}>
+                <FiLogOut size={25} /> Logout
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem disabled className={"menu-item"}>
+                <OfflineToggle />
+              </MenuItem>
+            </Menu>
+            <SyncIndicator />
+          </>
         )}
       </div>
     </nav>

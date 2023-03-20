@@ -1,7 +1,7 @@
 @use "../utilities/colors";
 nav {
   background: rgb(239, 239, 239);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   color: black;
   position: -webkit-sticky;
   position: sticky;
@@ -29,9 +29,11 @@ nav {
     background: black;
     transition: width 0.4s linear;
   }
-  a:hover:after {
-    width: 100%;
-    background: black;
+  @media (hover: hover) {
+    a:hover:after {
+      width: 100%;
+      background: black;
+    }
   }
   .more-ops {
     display: flex;
@@ -40,7 +42,7 @@ nav {
   }
   img {
     border-radius: 100%;
-    height: 90%;
-    width: 3rem;
+    width: 2rem;
+    cursor: pointer;
   }
 }

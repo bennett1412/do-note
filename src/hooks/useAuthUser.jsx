@@ -2,11 +2,10 @@ import React from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../utils/firebase/init";
-
+import { logout } from "../utils/firebase/init";
 export function useProvideAuth() {
   const [user, setUser] = useState({ data: null, isLoading: true });
   useEffect(() => {
-    console.log("i ran");
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser({ data: user.toJSON(), isLoading: false });
@@ -18,7 +17,7 @@ export function useProvideAuth() {
     return () => unsubscribe();
   }, []);
 
-  return user;
+  return { user, logout };
 }
 
 const authContext = createContext();

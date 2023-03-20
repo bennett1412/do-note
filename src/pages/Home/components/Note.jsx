@@ -4,11 +4,9 @@ import "../../../styles/home/note.scss";
 import BottomMenu from "./BottomMenu";
 import clsx from "clsx";
 import OutsideClickHandler from "react-outside-click-handler";
-import CustomOutsideClickHandler from "./minor/CustomOutsideClickHandler";
-import Tags from "./minor/Tags";
 import { IoClose } from "react-icons/io5";
 import { updateNote } from "./../../../utils/firebase/firestore";
-import { useQueryClient } from "@tanstack/react-query";
+import { colors } from "../../../utils/common/noteColors";
 
 const Note = ({
   title: noteTitle,
@@ -19,7 +17,7 @@ const Note = ({
 }) => {
   const [editMode, setEditMode] = useState(active);
   const [title, setTitle] = useState(noteTitle);
-  const [color, setColor] = useState(noteColor);
+  const [colorIndex, setColorIndex] = useState(noteColor);
   const ref = useRef();
   const noteRef = useRef();
   useEffect(() => {
@@ -35,18 +33,29 @@ const Note = ({
     };
   }, [fsId, noteTitle, title]);
   useEffect(() => {
-    if (noteColor !== color) {
+    if (colorIndex !== noteColor) {
       updateNote(fsId, {
-        color: color,
+        color: colorIndex,
       });
     }
-  }, [color, fsId, noteColor]);
-
+  }, [noteColor, colorIndex, fsId]);
   const handleClick = (e) => {
     if (!editMode) {
       setEditMode(true);
     }
   };
+  // useEffect(() => {
+  //   if (editMode) {
+  //     var resizeListener = window.addEventListener("resize", (e) => {
+  //       let keyboardHeight = e.target.height;
+  //       console.log("resized", keyboardHeight);
+  //       noteRef.current.style.height = `${window.innerHeight}px`;
+  //     });
+  //   }
+  //   return () => {
+  //     window.removeEventListener("resize", resizeListener);
+  //   };
+  // }, [editMode]);
 
   const handleBackgroundClick = () => {
     if (editMode) {
@@ -65,18 +74,19 @@ const Note = ({
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
       <div
         ref={noteRef}
-        style={{
-          backgroundColor: color ?? "#d7dede",
-          border: `1px solid ${(color & 0xfefefe) >> 1}`,
-        }}
-        className={clsx({ "note-container": true, "note-active": editMode })}
+        style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
+        className={clsx({
+          "note-container": true,
+          "note-active": editMode,
+          dark: colorIndex > 2,
+        })}
         id={fsId}
       >
         <div className="note-main" onClick={handleClick}>
           <div style={{ display: "flex" }}>
             <input
               ref={ref}
-              style={{ backgroundColor: color ?? "#d7dede" }}
+              style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
               disabled={!editMode}
               defaultValue={title}
               placeholder="Enter Title"
@@ -86,7 +96,7 @@ const Note = ({
             />
             {editMode && (
               <button onClick={closeNote} className="icon-button">
-                <IoClose color="black" size={25} />
+                <IoClose style={{ mixBlendMode: "difference" }} size={25} />
               </button>
             )}
           </div>
@@ -100,7 +110,7 @@ const Note = ({
             noteRef.current.scrollIntoView();
             setEditMode(flag);
           }}
-          setColor={setColor}
+          setColor={setColorIndex}
         />
       </div>
     </OutsideClickHandler>

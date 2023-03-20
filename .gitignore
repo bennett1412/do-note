@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 .env
 todo.md
+.github
+.firebaserc
+.firebase
+firebase*
+firestore*

@@ -30,9 +30,7 @@ const Tiptap = ({ editMode, content, fsId }) => {
     ],
     editable: false,
     content: JSON.parse(noteContent),
-    onCreate: () => {
-      console.log("editor being created");
-    },
+    onCreate: () => {},
     onUpdate: ({ editor }) => {
       setNoteContent(JSON.stringify(editor.getJSON()));
     },
@@ -52,21 +50,17 @@ const Tiptap = ({ editMode, content, fsId }) => {
   useEffect(() => {
     if (noteContent !== content) updateSync(true);
     const handler = setTimeout(() => {
-      console.time("updating db");
       if (editor && !editor.isDestroyed && noteContent !== content) {
-        console.log("syncing with db");
         const syncNote = async () => {
           await updateNote(fsId, {
             noteContent: JSON.stringify(editor.getJSON()),
           });
         };
         syncNote();
-        console.timeEnd("updating db");
         updateSync(false);
       }
     }, 3000);
     return () => {
-      console.log("Nope got updated");
       clearTimeout(handler);
     };
   }, [noteContent, content, updateSync, editor, fsId]);

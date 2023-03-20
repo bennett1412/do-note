@@ -1,18 +1,17 @@
 import React from "react";
 import "../../../styles/home/bottommenu.scss";
-import { IoIosColorPalette } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
 import { TbPinned } from "react-icons/tb";
-import clsx from "clsx";
 import { MdOutlineDelete } from "react-icons/md";
-import { deleteNote } from "../../../utils/firebase/firestore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import useDeleteNote from "../../../hooks/useDeleteNote";
 import ColorMenu from "../../../components/Menu";
+import { useAuthUser } from "../../../hooks/useAuthUser";
 
 const BottomMenu = ({ setEditMode, active, fsId, setColor }) => {
-  const { mutate } = useDeleteNote({
+  const { user } = useAuthUser();
+  const { mutate, isLoading: isDeleting } = useDeleteNote({
+    creatorId: user.data.uid,
     sucessCb: () => {
       setEditMode(false);
     },
@@ -41,7 +40,11 @@ const BottomMenu = ({ setEditMode, active, fsId, setColor }) => {
       </button>
       {active && (
         <>
-          <button onClick={handleDelete} className="toolbar-button">
+          <button
+            disabled={isDeleting}
+            onClick={handleDelete}
+            className="toolbar-button"
+          >
             <MdOutlineDelete />
           </button>
         </>

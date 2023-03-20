@@ -14,8 +14,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // transition: width, height 0.4s ease-in;
+  transition-property: background, color;
+  transition-duration: 0.2s;
   font-family: "Fira Mono", monospace;
+  color: black;
   // @extend .masked-overflow;
   .note-main {
     flex-grow: 1;
@@ -28,8 +30,6 @@
   }
 
   .title {
-    background-color: colors.$note-background;
-    color: colors.$dark;
     font-size: x-large;
     height: 10%;
     width: 100%;
@@ -39,21 +39,27 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 0.5rem;
+    transition-property: background, color;
+    transition-duration: 0.2s;
+    color: black;
+  }
+  .title.dark-theme {
+    color: colors.$dark;
   }
 }
 
 .note-container.note-active {
-  // z-index: 1040;
-  // width: 50vw;
-  // height: 70vh;
-  // position: fixed;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
-  // overflow-y: auto;
-  // -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  // -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  // box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  z-index: 1040;
+  width: 50vw;
+  height: 70vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  overflow-y: auto;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 
   .ProseMirror,
   .ProseMirror-focused {
@@ -64,10 +70,25 @@
 
 @media screen and (max-width: 700px) {
   .note-container.note-active {
-    width: 90%;
-    height: 80%;
+    width: 95dvw;
+    height: 98dvh;
+    transform: translate(-50%, -50%);
+    .editor {
+      height: 80dvh;
+    }
+  }
+  .toolbar {
+    position: sticky;
   }
 }
 .dull-background {
   background-color: rgba(0, 0, 0, 0.158);
+}
+
+.dark {
+  color: white;
+  border: 1px solid black;
+  input[type="text"] {
+    color: white;
+  }
 }

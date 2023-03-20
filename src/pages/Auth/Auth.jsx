@@ -5,7 +5,7 @@ import { signInWithGoogle } from "../../utils/firebase/init";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
-const Auth = ({}) => {
+const Auth = () => {
   const navigate = useNavigate();
   const handleGoogleSignup = () => {
     const toastId = toast.loading("Signing you in...");
@@ -28,7 +28,10 @@ const Auth = ({}) => {
   return (
     <section className="auth-section">
       <div className="text">
-        <div>Do Note</div>
+        <div className="title">Do Note</div>
+        <p className="subtext">
+          A lightweight note taking app for your hyper productive self.
+        </p>
       </div>
       <button onClick={handleGoogleSignup}>
         <FcGoogle size={20} />

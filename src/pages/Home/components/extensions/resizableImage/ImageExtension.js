@@ -3,7 +3,7 @@ import { mergeAttributes, ReactNodeViewRenderer } from "@tiptap/react";
 import ImageWrapper from "./ImageWrapper";
 
 const CustomImageExtension = Image.extend({
-  defaultOptions: {
+  addOptions: {
     ...Image.options,
     width: 30,
   },

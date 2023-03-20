@@ -7,11 +7,13 @@ import { toast } from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
 import useAddNote from "../../../hooks/useAddNote";
 import useGetNotes from "../../../hooks/useGetNotes";
-import { AnimatePresence, motion } from "framer-motion";
+import { useAuthUser } from "../../../hooks/useAuthUser";
+
 const NotesList = () => {
-  const { data: notes } = useGetNotes();
-  const [selectedNote, setSelectedNote] = useState(null);
+  const { user } = useAuthUser();
+  const { data: notes } = useGetNotes(user.data.uid);
   const { mutate, isLoading: addingNote } = useAddNote({
+    creatorId: user.data.uid,
     successCb: () => {},
     errorCb: () => {
       toast.error("Something went wrong please try later", {
@@ -31,19 +33,27 @@ const NotesList = () => {
         ],
       }),
     };
-    mutate(newNote);
+    console.log(user.data.uid);
+    mutate({ newNote: newNote, creatorId: user.data.uid });
   };
 
   return (
     <>
       <section className="notes-list">
         {/* #TODO: add some loading state while fetching notes */}
-        {/* {notes?.map((note) => {
-          console.log(note.noteTitle);
+        {notes?.map((note) => {
           return (
-           
+            <Note
+              key={note.id}
+              active={note.active ?? false}
+              title={note.noteTitle}
+              content={note.noteContent}
+              fsId={note.id}
+              color={note.color}
+            />
           );
-        })} */}
+        })}{" "}
+        */}
         {notes?.map((note) => (
           <>
             {(!selectedNote || selectedNote.id != note.id) && (
