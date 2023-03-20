@@ -72,7 +72,6 @@ const Note = ({
   const closeNote = () => {
     setEditMode(false);
   };
-  const [parent] = useAutoAnimate();
   return (
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
       <motion.div
