@@ -7,6 +7,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { IoClose } from "react-icons/io5";
 import { updateNote } from "./../../../utils/firebase/firestore";
 import { colors } from "../../../utils/common/noteColors";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Note = ({
   title: noteTitle,
@@ -60,20 +61,21 @@ const Note = ({
   const handleBackgroundClick = () => {
     if (editMode) {
       setEditMode(false);
-      noteRef.current.style.transform = ``;
-      noteRef.current.style.position = "";
-      ref.current.scrollIntoView();
+      // noteRef.current.style.transform = ``;
+      // noteRef.current.style.position = "";
+      // ref.current.scrollIntoView();
     }
   };
 
   const closeNote = () => {
     setEditMode(false);
   };
-
+  const [parent] = useAutoAnimate();
   return (
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
       <div
-        ref={noteRef}
+        // ref={noteRef}
+        ref={parent}
         style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
         className={clsx({
           "note-container": true,

@@ -13,7 +13,9 @@ const Navbar = () => {
   };
   return (
     <nav>
-      <a href="/">DoNote</a>
+      <a className="logo" href="/">
+        DoNote
+      </a>
       <div className="more-ops">
         {user.data && (
           <>
