@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Note from "./Note";
 import "../../../styles/home/noteslist.scss";
 import { IoAddOutline } from "react-icons/io5";
@@ -8,8 +8,10 @@ import { Oval } from "react-loader-spinner";
 import useAddNote from "../../../hooks/useAddNote";
 import useGetNotes from "../../../hooks/useGetNotes";
 import { useAuthUser } from "../../../hooks/useAuthUser";
+import { AnimatePresence, motion } from "framer-motion";
 
 const NotesList = () => {
+  const [selectedId, setSelectedId] = useState(null);
   const { user } = useAuthUser();
   const { data: notes } = useGetNotes(user.data.uid);
   const { mutate, isLoading: addingNote } = useAddNote({
@@ -50,9 +52,13 @@ const NotesList = () => {
               content={note.noteContent}
               fsId={note.id}
               color={note.color}
+              setSelectedId={setSelectedId}
             />
           );
         })}
+        <AnimatePresence>
+          {selectedId && <motion.div layoutId={selectedId}></motion.div>}
+        </AnimatePresence>
         <button
           disabled={addingNote}
           onClick={handleAdd}

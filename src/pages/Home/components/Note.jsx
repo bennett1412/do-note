@@ -7,7 +7,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { IoClose } from "react-icons/io5";
 import { updateNote } from "./../../../utils/firebase/firestore";
 import { colors } from "../../../utils/common/noteColors";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { motion } from "framer-motion";
 
 const Note = ({
   title: noteTitle,
@@ -15,6 +15,7 @@ const Note = ({
   active,
   fsId,
   color: noteColor,
+  setSelectedId,
 }) => {
   const [editMode, setEditMode] = useState(active);
   const [title, setTitle] = useState(noteTitle);
@@ -43,6 +44,7 @@ const Note = ({
   const handleClick = (e) => {
     if (!editMode) {
       setEditMode(true);
+      // setSelectedId(fsId);
     }
   };
   // useEffect(() => {
@@ -73,9 +75,9 @@ const Note = ({
   const [parent] = useAutoAnimate();
   return (
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
-      <div
-        // ref={noteRef}
-        ref={parent}
+      <motion.div
+        layoutId={fsId}
+        ref={noteRef}
         style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
         className={clsx({
           "note-container": true,
@@ -114,7 +116,7 @@ const Note = ({
           }}
           setColor={setColorIndex}
         />
-      </div>
+      </motion.div>
     </OutsideClickHandler>
   );
 };
