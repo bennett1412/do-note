@@ -8,8 +8,10 @@ import { Oval } from "react-loader-spinner";
 import useAddNote from "../../../hooks/useAddNote";
 import useGetNotes from "../../../hooks/useGetNotes";
 import { useAuthUser } from "../../../hooks/useAuthUser";
+import { AnimatePresence, motion } from "framer-motion";
 
 const NotesList = () => {
+  const [selectedId, setSelectedId] = useState(null);
   const { user } = useAuthUser();
   const { data: notes } = useGetNotes(user.data.uid);
   const { mutate, isLoading: addingNote } = useAddNote({
@@ -50,57 +52,12 @@ const NotesList = () => {
               content={note.noteContent}
               fsId={note.id}
               color={note.color}
+              setSelectedId={setSelectedId}
             />
           );
-        })}{" "}
-        */}
-        {notes?.map((note) => (
-          <>
-            {(!selectedNote || selectedNote.id != note.id) && (
-              <motion.div
-                layoutId={note.id}
-                onClick={() => setSelectedNote(note)}
-              >
-                <Note
-                  key={note.id}
-                  active={note.active ?? false}
-                  title={note.noteTitle}
-                  content={note.noteContent}
-                  fsId={note.id}
-                  color={note.color}
-                />
-              </motion.div>
-            )}
-          </>
-        ))}
+        })}
         <AnimatePresence>
-          {selectedNote && (
-            <motion.div
-              layoutId={selectedNote}
-              animate={{
-                zIndex: 1040,
-                width: "50vw",
-                height: "70vh",
-                position: "fixed",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                overflowY: "auto",
-                WebkitBoxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
-                MozBoxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
-                boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
-              }}
-            >
-              <Note
-                key={selectedNote.id}
-                active={selectedNote.active ?? false}
-                title={selectedNote.noteTitle}
-                content={selectedNote.noteContent}
-                fsId={selectedNote.id}
-                color={selectedNote.color}
-              />
-            </motion.div>
-          )}
+          {selectedId && <motion.div layoutId={selectedId}></motion.div>}
         </AnimatePresence>
         <button
           disabled={addingNote}
