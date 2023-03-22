@@ -7,8 +7,9 @@ import { toast } from "react-hot-toast";
 import useDeleteNote from "../../../hooks/useDeleteNote";
 import ColorMenu from "../../../components/Menu";
 import { useAuthUser } from "../../../hooks/useAuthUser";
+import { clsx } from "clsx";
 
-const BottomMenu = ({ setEditMode, active, fsId, setColor }) => {
+const BottomMenu = ({ setEditMode, active, fsId, setColor, theme }) => {
   const { user } = useAuthUser();
   const { mutate, isLoading: isDeleting } = useDeleteNote({
     creatorId: user.data.uid,
@@ -30,7 +31,7 @@ const BottomMenu = ({ setEditMode, active, fsId, setColor }) => {
     }
   };
   return (
-    <div className="toolbar">
+    <div className={clsx({ toolbar: true, dark_toolbar: theme === "dark" })}>
       <ColorMenu setColor={setColor} />
       <button onClick={setEditMode} className="toolbar-button">
         <FiEdit3 />

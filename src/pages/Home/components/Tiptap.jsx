@@ -8,9 +8,7 @@ import TaskItem from "@tiptap/extension-task-item";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { updateNote } from "./../../../utils/firebase/firestore";
 import useStore from "../../../hooks/useStore";
-import Image from "@tiptap/extension-image";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
-import ClipboardExtension from "./extensions/Clipboard/ClipboardExtension";
 
 const Tiptap = ({ editMode, content, fsId }) => {
   const updateSync = useStore((state) => state.updateSync);

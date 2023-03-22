@@ -5,7 +5,6 @@
   justify-self: end;
   opacity: 0;
   transition: opacity 0.1s linear;
-  //   bottom: 1rem;
 }
 .note-container:hover > .toolbar {
   opacity: 1;
@@ -28,4 +27,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+}
+.dark_toolbar .toolbar-button {
+  background-color: white;
+
+  color-scheme: light;
 }

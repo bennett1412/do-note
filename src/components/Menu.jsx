@@ -11,7 +11,7 @@ const ColorMenu = ({ setColor }) => {
     <Menu
       menuButton={
         <MenuButton className="toolbar-button">
-          <IoIosColorPalette color="white" />
+          <IoIosColorPalette />
         </MenuButton>
       }
       direction={"bottom"}

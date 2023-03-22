@@ -15,7 +15,6 @@ const Note = ({
   active,
   fsId,
   color: noteColor,
-  setSelectedId,
 }) => {
   const [editMode, setEditMode] = useState(active);
   const [title, setTitle] = useState(noteTitle);
@@ -41,31 +40,15 @@ const Note = ({
       });
     }
   }, [noteColor, colorIndex, fsId]);
-  const handleClick = (e) => {
+  const handleClick = () => {
     if (!editMode) {
       setEditMode(true);
-      // setSelectedId(fsId);
     }
   };
-  // useEffect(() => {
-  //   if (editMode) {
-  //     var resizeListener = window.addEventListener("resize", (e) => {
-  //       let keyboardHeight = e.target.height;
-  //       console.log("resized", keyboardHeight);
-  //       noteRef.current.style.height = `${window.innerHeight}px`;
-  //     });
-  //   }
-  //   return () => {
-  //     window.removeEventListener("resize", resizeListener);
-  //   };
-  // }, [editMode]);
 
   const handleBackgroundClick = () => {
     if (editMode) {
       setEditMode(false);
-      // noteRef.current.style.transform = ``;
-      // noteRef.current.style.position = "";
-      // ref.current.scrollIntoView();
     }
   };
 
@@ -114,6 +97,7 @@ const Note = ({
             setEditMode(flag);
           }}
           setColor={setColorIndex}
+          theme={colorIndex < 3 ? "light" : "dark"}
         />
       </motion.div>
     </OutsideClickHandler>
