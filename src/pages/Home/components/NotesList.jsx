@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Note from "./Note";
 import "../../../styles/home/noteslist.scss";
 import { IoAddOutline } from "react-icons/io5";
@@ -23,6 +23,10 @@ const NotesList = () => {
       });
     },
   });
+  useEffect(() => {
+    console.log(notes);
+  }, [notes]);
+
   const handleAdd = async () => {
     const newNote = {
       noteTitle: "",
