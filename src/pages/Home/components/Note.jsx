@@ -70,16 +70,18 @@ const Note = ({
       >
         <div className="note-main" onClick={handleClick}>
           <div style={{ display: "flex" }}>
-            <input
-              ref={ref}
-              style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
-              disabled={!editMode}
-              defaultValue={title}
-              placeholder="Enter Title"
-              className="title"
-              type={"text"}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+            {(title != "" || editMode) && (
+              <input
+                ref={ref}
+                style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
+                disabled={!editMode}
+                defaultValue={title}
+                placeholder="Enter Title"
+                className="title"
+                type={"text"}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            )}
             {editMode && (
               <button onClick={closeNote} className="icon-button">
                 <IoClose style={{ mixBlendMode: "difference" }} size={25} />

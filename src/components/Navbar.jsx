@@ -24,7 +24,7 @@ const Navbar = () => {
               direction="bottom"
               offsetY={12}
               align="end"
-              menuStyle={{ minWidth: "min-content" }}
+              menuStyle={{ minWidth: "8rem" }}
             >
               <MenuItem onClick={handleLogout} className={"menu-item"}>
                 <FiLogOut size={25} /> Logout
