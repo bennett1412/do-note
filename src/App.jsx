@@ -8,16 +8,14 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/auth" element={<Auth />} />
-        <Route element={<Pagelayout />}>
-          <Route element={<ProtectedRoutes />}>
-            <Route path="/" element={<Home />} />
-          </Route>
+    <>
+      <Route path="/auth" element={<Auth />} />
+      <Route element={<Pagelayout />}>
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/" element={<Home />} />
         </Route>
-      </Routes>
-    </div>
+      </Route>
+    </>
   );
 }
 
