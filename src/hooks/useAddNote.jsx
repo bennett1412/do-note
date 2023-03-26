@@ -8,7 +8,6 @@ const useAddNote = ({ creatorId, successCb, errorCb }) => {
     onSuccess: (data, variables) => {
       successCb();
       queryClient.setQueryData(["notes", creatorId], (oldNotes) => {
-        console.log(oldNotes);
         return [
           { ...variables.newNote, id: data.id, active: true },
           ...oldNotes,

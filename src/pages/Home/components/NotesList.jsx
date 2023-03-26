@@ -23,9 +23,6 @@ const NotesList = () => {
       });
     },
   });
-  useEffect(() => {
-    console.log(notes);
-  }, [notes]);
 
   const handleAdd = async () => {
     const newNote = {
@@ -39,7 +36,6 @@ const NotesList = () => {
         ],
       }),
     };
-    console.log(user.data.uid);
     mutate({ newNote: newNote, creatorId: user.data.uid });
   };
 

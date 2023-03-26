@@ -8,7 +8,6 @@ const ClipboardExtension = Extension.create({
         console.log("extension being called");
         const text = await navigator.clipboard.readText();
         const stuff = await navigator.clipboard.read();
-        console.log(stuff);
 
         var item = stuff[0];
 

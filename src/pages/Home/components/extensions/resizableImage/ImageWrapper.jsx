@@ -15,6 +15,9 @@ const ImageWrapper = ({ editor, node, deleteNode, updateAttributes }) => {
       direction = "right";
     }
     let currWidth = imgRef.current.style.width;
+    let currHeight = imgRef.current.height;
+    console.log(currHeight);
+
     currWidth = Number(currWidth.substring(0, currWidth.length - 1));
 
     let diff = 0.008 * currWidth;

@@ -24,13 +24,20 @@ const Navbar = () => {
               direction="bottom"
               offsetY={12}
               align="end"
-              menuStyle={{ minWidth: "8rem" }}
+              menuStyle={{ minWidth: "8rem", fontSize: "18px" }}
             >
               <MenuItem onClick={handleLogout} className={"menu-item"}>
                 <FiLogOut size={25} /> Logout
               </MenuItem>
               <MenuDivider />
-              <MenuItem disabled className={"menu-item"}>
+              <MenuItem
+                onClick={(e) => {
+                  e.stopPropagation = true;
+                  e.keepOpen = true;
+                }}
+                disabled
+                className={"menu-item"}
+              >
                 <OfflineToggle />
               </MenuItem>
             </Menu>
