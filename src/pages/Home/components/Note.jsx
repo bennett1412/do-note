@@ -21,6 +21,7 @@ const Note = ({
   const [colorIndex, setColorIndex] = useState(noteColor);
   const ref = useRef();
   const noteRef = useRef();
+
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== noteTitle) {
@@ -33,6 +34,7 @@ const Note = ({
       clearTimeout(titleHandler);
     };
   }, [fsId, noteTitle, title]);
+
   useEffect(() => {
     if (colorIndex !== noteColor) {
       updateNote(fsId, {
@@ -40,6 +42,7 @@ const Note = ({
       });
     }
   }, [noteColor, colorIndex, fsId]);
+
   const handleClick = () => {
     if (!editMode) {
       setEditMode(true);
@@ -55,6 +58,7 @@ const Note = ({
   const closeNote = () => {
     setEditMode(false);
   };
+
   return (
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
       <motion.div
@@ -73,7 +77,7 @@ const Note = ({
             {(title != "" || editMode) && (
               <input
                 ref={ref}
-                style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
+                style={{ backgroundColor: colors[colorIndex] ?? colors[2] }}
                 disabled={!editMode}
                 defaultValue={title}
                 placeholder="Enter Title"

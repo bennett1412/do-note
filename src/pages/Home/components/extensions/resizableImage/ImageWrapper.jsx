@@ -19,7 +19,6 @@ const ImageWrapper = ({ editor, node, deleteNode, updateAttributes }) => {
     console.log(currHeight);
 
     currWidth = Number(currWidth.substring(0, currWidth.length - 1));
-
     let diff = 0.008 * currWidth;
     let subtract = diff;
     subtract = direction == "left" ? subtract * -1 : subtract;
