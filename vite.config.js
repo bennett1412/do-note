@@ -4,7 +4,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 const manifest = {
-  id: "v0.001",
+  id: "v0.0011",
   name: "DoNote",
   short_name: "DoNote",
   theme_color: "#d7dede",
@@ -30,17 +30,17 @@ const manifest = {
 export default defineConfig({
   plugins: [
     react(),
-    VitePWA({
-      mode: "development",
-      base: "/",
-      manifest: manifest,
-      registerType: "autoUpdate",
-      // injectRegister: "null",
-      devOptions: {
-        enabled: process.env.SW_DEV === "true",
-        type: "module",
-      },
-    }),
+    // VitePWA({
+    //   mode: "development",
+    //   base: "/",
+    //   manifest: manifest,
+    //   registerType: "autoUpdate",
+    //   // injectRegister: "null",
+    //   devOptions: {
+    //     enabled: process.env.SW_DEV === "true",
+    //     type: "module",
+    //   },
+    // }),
   ],
   server: {
     host: true,
