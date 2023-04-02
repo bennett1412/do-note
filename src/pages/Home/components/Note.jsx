@@ -64,7 +64,7 @@ const Note = ({
       <motion.div
         layoutId={fsId}
         ref={noteRef}
-        style={{ backgroundColor: colors[colorIndex] ?? "#d7dede" }}
+        style={{ backgroundColor: colors[colorIndex] ?? colors[2] }}
         className={clsx({
           "note-container": true,
           "note-active": editMode,
@@ -103,7 +103,7 @@ const Note = ({
             setEditMode(flag);
           }}
           setColor={setColorIndex}
-          theme={colorIndex < 3 ? "light" : "dark"}
+          theme={colorIndex ?? 2 < 3 ? "light" : "dark"}
         />
       </motion.div>
     </OutsideClickHandler>

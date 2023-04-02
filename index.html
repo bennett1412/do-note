@@ -14,11 +14,34 @@
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap"
       rel="stylesheet"
     />
-    <link href="./manifest.json" rel="manifest" />
+    <!-- <link href="/src/manifest.json" rel="manifest" /> -->
     <title>DoNote</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // if ("serviceWorker" in navigator) {
+      //   window.addEventListener("load", function () {
+      //     navigator.serviceWorker
+      //       .register("/src/sw.js", {
+      //         scope: "/src",
+      //       })
+      //       .then(
+      //         function (registration) {
+      //           // Registration was successful
+      //           console.log(
+      //             "ServiceWorker registration successful with scope: ",
+      //             registration.scope
+      //           );
+      //         },
+      //         function (err) {
+      //           // registration failed :(
+      //           console.log("ServiceWorker registration failed: ", err);
+      //         }
+      //       );
+      //   });
+      // }
+    </script>
   </body>
 </html>
