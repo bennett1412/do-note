@@ -40,6 +40,9 @@ export default defineConfig({
         enabled: process.env.SW_DEV === "true",
         type: "module",
       },
+      workbox: {
+        cleanupOutdatedCaches: true,
+      },
     }),
   ],
   server: {
