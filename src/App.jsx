@@ -5,6 +5,7 @@ import Home from "./pages/Home/Home";
 import Auth from "./pages/Auth/Auth";
 import Pagelayout from "./layouts/Pagelayout";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import OfflineNotes from "./pages/Offline/Offline";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Home />} />
         </Route>
+        <Route path="/offline" element={<OfflineNotes />} />
       </Route>
     </>
   );

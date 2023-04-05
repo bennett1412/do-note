@@ -9,25 +9,21 @@ import ColorMenu from "../../../components/Menu";
 import { useAuthUser } from "../../../hooks/useAuthUser";
 import { clsx } from "clsx";
 
-const BottomMenu = ({ setEditMode, active, fsId, setColor, theme }) => {
-  const { user } = useAuthUser();
-  const { mutate, isLoading: isDeleting } = useDeleteNote({
-    creatorId: user.data.uid,
-    sucessCb: () => {
-      setEditMode(false);
-    },
-    errorCb: () => {
-      toast.error("Deletion failed, pls try later", {
-        id: "delete-error",
-      });
-    },
-  });
+const BottomMenu = ({
+  setEditMode,
+  active,
+  fsId,
+  setColor,
+  theme,
+  deleteNote,
+  isDeleting,
+}) => {
   const handleDelete = async () => {
     const confirm = window.confirm(
       "Are you sure you want to delete this note?"
     );
     if (confirm) {
-      mutate(fsId);
+      deleteNote(fsId);
     }
   };
   return (

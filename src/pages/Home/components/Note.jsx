@@ -15,6 +15,8 @@ const Note = ({
   active,
   fsId,
   color: noteColor,
+  updateNote,
+  deleteNote,
 }) => {
   const [editMode, setEditMode] = useState(active);
   const [title, setTitle] = useState(noteTitle);
@@ -33,7 +35,7 @@ const Note = ({
     return () => {
       clearTimeout(titleHandler);
     };
-  }, [fsId, noteTitle, title]);
+  }, [fsId, noteTitle, title, updateNote]);
 
   useEffect(() => {
     if (colorIndex !== noteColor) {
@@ -41,7 +43,7 @@ const Note = ({
         color: colorIndex,
       });
     }
-  }, [noteColor, colorIndex, fsId]);
+  }, [noteColor, colorIndex, fsId, updateNote]);
 
   const handleClick = () => {
     if (!editMode) {
@@ -92,12 +94,18 @@ const Note = ({
               </button>
             )}
           </div>
-          <Tiptap fsId={fsId} editMode={editMode} content={content} />
+          <Tiptap
+            fsId={fsId}
+            editMode={editMode}
+            updateNote={updateNote}
+            content={content}
+          />
         </div>
         {/* <Tags /> */}
         <BottomMenu
           fsId={fsId}
           active={editMode}
+          deleteNote={deleteNote}
           setEditMode={(flag) => {
             noteRef.current.scrollIntoView();
             setEditMode(flag);

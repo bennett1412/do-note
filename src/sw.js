@@ -1,6 +1,6 @@
 // This code executes in its own worker or thread
 
-const cacheName = "2-4-23PWA-v1";
+// const cacheName = "2-4-23PWA-v1";
 
 const appShellFiles = [
   "android-chrome-192x192.png",

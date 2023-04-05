@@ -6,11 +6,11 @@ import "../../../styles/home/tiptap.scss";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import { Placeholder } from "@tiptap/extension-placeholder";
-import { updateNote } from "./../../../utils/firebase/firestore";
+// import { updateNote } from "./../../../utils/firebase/firestore";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
 
-const Tiptap = ({ editMode, content, fsId }) => {
+const Tiptap = ({ editMode, content, fsId, updateNote }) => {
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
   const editor = useEditor({
@@ -45,6 +45,7 @@ const Tiptap = ({ editMode, content, fsId }) => {
     }
   }, [editMode, editor]);
 
+  // debounce logic to save notes
   useEffect(() => {
     if (noteContent !== content) updateSync(true);
     const handler = setTimeout(() => {
@@ -61,7 +62,7 @@ const Tiptap = ({ editMode, content, fsId }) => {
     return () => {
       clearTimeout(handler);
     };
-  }, [noteContent, content, updateSync, editor, fsId]);
+  }, [noteContent, content, updateSync, editor, fsId, updateNote]);
 
   return (
     <>

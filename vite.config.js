@@ -4,7 +4,6 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 const manifest = {
-  cacheName: "v0.1_2-4-23",
   name: "DoNote",
   short_name: "DoNote",
   theme_color: "#d7dede",
@@ -27,6 +26,7 @@ const manifest = {
     },
   ],
 };
+
 export default defineConfig({
   plugins: [
     react(),
