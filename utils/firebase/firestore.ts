@@ -1,4 +1,4 @@
-import { Note, addNoteParams } from "@/types/Note";
+import { Note, AddNoteParams } from "@/types/Note";
 import { db } from "./init";
 import {
   collection,
@@ -17,7 +17,7 @@ import {
 
 // * note related db operations
 
-export const addNote = async (data: addNoteParams): Promise<string> => {
+export const addNote = async (data: AddNoteParams): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, "notes"), {
       ...data.newNote,

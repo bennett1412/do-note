@@ -1,0 +1,26 @@
+@use "../utilities/colors";
+@use "../utilities/buttons";
+.float-menu {
+  background-color: colors.$dark;
+  border-radius: 10px;
+  display: flex;
+  .float-item {
+    @extend .button;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: unset;
+    position: relative;
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &:first-child {
+      border-radius: 10px 0 0 10px;
+    }
+    &:last-child {
+      border-radius: 0 10px 10px 0;
+    }
+  }
+}

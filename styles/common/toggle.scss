@@ -1,0 +1,14 @@
+.react-toggle {
+  .react-toggle-track {
+    width: 2rem;
+    height: 1rem;
+  }
+  .react-toggle-thumb {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.react-toggle--checked .react-toggle-thumb {
+  left: 1rem;
+}

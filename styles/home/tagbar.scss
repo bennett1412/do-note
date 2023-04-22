@@ -1,0 +1,35 @@
+@use "../utilities/colors";
+@use "../utilities/buttons";
+.tagbar {
+  background-color: colors.$dark-a;
+  display: flex;
+  padding: 0.5rem;
+  justify-content: safe;
+  column-gap: 2rem;
+}
+.tags-container {
+  cursor: grab;
+  background-color: colors.$dark-a;
+  display: flex;
+  column-gap: 0.5rem;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+  button {
+    @extend .button;
+  }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  .tag-item {
+    border-radius: 10px;
+    padding: 0.5rem;
+    white-space: nowrap;
+    background-color: #2d2d2d;
+  }
+}

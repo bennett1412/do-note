@@ -1,39 +1,26 @@
-import {
-  Mutation,
-  MutationFunction,
-  MutationKey,
-  UseMutationResult,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addNote } from "../utils/firebase/firestore";
-import { Note, addNoteParams } from "@/types/Note";
+import { Note, AddNoteParams, AddNoteMutationParams } from "@/types/Note";
 
-type cbFn = () => void;
-type paramType = {
-  creatorId: string;
-  successCb: cbFn;
-  errorCb: cbFn;
-};
-
-const useAddNote = ({ creatorId, successCb, errorCb }: paramType) => {
+const useAddNote = ({
+  creatorId,
+  successCb,
+  errorCb,
+}: AddNoteMutationParams) => {
   const queryClient = useQueryClient();
-  const AddNoteMutation = useMutation<
-    string,
-    Error,
-    addNoteParams,
-    "mutationFn"
-  >({
+  const AddNoteMutation = useMutation<string, Error, AddNoteParams>({
     mutationFn: addNote,
-    onSuccess: (data: Note, variables: addNoteParams) => {
+    onSuccess: (data: string, variables: AddNoteParams) => {
       successCb();
       queryClient.setQueryData(
         ["notes", creatorId],
-        (oldNotes: Note[]) => {
-          return [
-            { ...variables.newNote, id: data.id, active: true },
-            ...oldNotes,
-          ];
+        (oldNotes: Note[] | undefined) => {
+          if (oldNotes) {
+            return [
+              { ...variables.newNote, id: data, active: true },
+              ...oldNotes,
+            ];
+          }
         }
       );
     },

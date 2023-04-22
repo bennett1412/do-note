@@ -1,10 +1,15 @@
-import React from "react";
+import React, {  ReactNode } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../utils/firebase/init";
 import { logout } from "../utils/firebase/init";
+import { AuthContextType, AuthStateType } from "@/types/Auth";
+
 export function useProvideAuth() {
-  const [user, setUser] = useState({ data: null, isLoading: true });
+  const [user, setUser] = useState<AuthStateType>({
+    data: null,
+    isLoading: true,
+  });
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -20,15 +25,16 @@ export function useProvideAuth() {
   return { user, logout };
 }
 
-const authContext = createContext();
-// Provider component that wraps your app and makes auth object ...
-// ... available to any child component that calls useAuth().
-export function ProvideAuth({ children }) {
+const authContext = createContext<AuthContextType>({
+  user: { data: null, isLoading: false },
+  logout: logout,
+});
+
+export function ProvideAuth({ children }: { children: ReactNode }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
-// Hook for child components to get the auth object ...
-// ... and re-render when it changes.
+
 export const useAuthUser = () => {
   return useContext(authContext);
 };
