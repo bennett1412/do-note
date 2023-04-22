@@ -1,5 +1,8 @@
 export type AuthStateType = {
-  data: Object | null;
+  data: {
+    uid: string;
+    photoURL: string;
+  } | null;
   isLoading: boolean;
 };
 export interface AuthContextType {

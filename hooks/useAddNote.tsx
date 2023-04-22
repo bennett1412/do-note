@@ -8,7 +8,7 @@ const useAddNote = ({
   errorCb,
 }: AddNoteMutationParams) => {
   const queryClient = useQueryClient();
-  const AddNoteMutation = useMutation<string, Error, AddNoteParams>({
+  const AddNoteMutation = useMutation({
     mutationFn: addNote,
     onSuccess: (data: string, variables: AddNoteParams) => {
       successCb();

@@ -27,11 +27,11 @@ export const addNote = async (data: AddNoteParams): Promise<string> => {
     return docRef.id;
   } catch (error) {
     console.error("Error adding document: ", error);
-    return error as string;
+    throw new Error('Failed to add note.');
   }
 };
 
-export const getNotes = async (creatorId: string) => {
+export const getNotes = async (creatorId: string): Promise<Note[]> => {
   try {
     const notesRef = collection(db, "notes");
     const q = query(
@@ -47,7 +47,7 @@ export const getNotes = async (creatorId: string) => {
     return notes;
   } catch (error) {
     console.log(error);
-    return error;
+    throw new Error('Failed to fetch notes');
   }
 };
 

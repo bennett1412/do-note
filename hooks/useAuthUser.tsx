@@ -1,4 +1,4 @@
-import React, {  ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../utils/firebase/init";
@@ -7,13 +7,16 @@ import { AuthContextType, AuthStateType } from "@/types/Auth";
 
 export function useProvideAuth() {
   const [user, setUser] = useState<AuthStateType>({
-    data: null,
+    data: { uid: "", photoURL: "" },
     isLoading: true,
   });
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser({ data: user.toJSON(), isLoading: false });
+        setUser({
+          data: { uid: user.uid, photoURL: user.photoURL ?? "" },
+          isLoading: false,
+        });
       } else {
         setUser({ data: null, isLoading: false });
       }

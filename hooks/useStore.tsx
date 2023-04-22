@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { AppState } from "@/types/AppState";
 
-const useStore = create((set) => ({
+const useStore = create<AppState>((set) => ({
   syncing: false,
-  updateSync: (b: Boolean) => {
-    set((state: AppState) => ({ ...state, syncing: b }));
+  updateSync: (b: boolean) => {
+    set((state) => ({ ...state, syncing: b }));
   },
 }));
 

@@ -1,3 +1,4 @@
 export interface AppState {
-  syncing: Boolean;
+  syncing: boolean;
+  updateSync: (b: boolean) => void
 }

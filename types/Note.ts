@@ -1,9 +1,9 @@
 export interface Note {
-  id: string;
+  id?: string;
   noteTitle: string;
   noteContent: string;
-  colorIndex: Number;
-  active: Boolean;
+  colorIndex?: number;
+  active?: boolean;
 }
 export type AddNoteParams = {
   newNote: Note,

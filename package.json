@@ -42,5 +42,8 @@
     "typescript": "5.0.4",
     "use-debounce": "^9.0.3",
     "zustand": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/react-toggle": "^4.0.3"
   }
 }
