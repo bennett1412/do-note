@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, ReactNode } from "react";
 import Tiptap from "./Tiptap";
-import "../../../styles/home/note.scss";
+import styles from "@/styles/home/note.module.scss";
 import BottomMenu from "./BottomMenu";
 import clsx from "clsx";
 // import OutsideClickHandler from "react-outside-click-handler";
@@ -77,7 +77,7 @@ const Note = ({
     children: ReactNode;
     onOutsideClick: Function;
   }) => {
-    return <>{children}</>;
+    return <div>{children}</div>;
   };
   return (
     <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
@@ -86,13 +86,13 @@ const Note = ({
         ref={noteRef}
         style={{ backgroundColor: colors[colorIndex] ?? colors[2] }}
         className={clsx({
-          "note-container": true,
-          "note-active": editMode,
-          dark: colorIndex > 2,
+          [styles.note_container]: true,
+          [styles.note_active]: editMode,
+          [styles.dark]: colorIndex > 2,
         })}
         id={fsId}
       >
-        <div className="note-main" onClick={handleClick}>
+        <div className={styles.note_main} onClick={handleClick}>
           <div style={{ display: "flex" }}>
             {(title != "" || editMode) && (
               <input
@@ -101,13 +101,13 @@ const Note = ({
                 disabled={!editMode}
                 defaultValue={title}
                 placeholder="Enter Title"
-                className="title"
+                className={styles.title}
                 type={"text"}
                 onChange={(e) => setTitle(e.target.value)}
               />
             )}
             {editMode && (
-              <button onClick={closeNote} className="icon-button">
+              <button onClick={closeNote} className={'icon_button'} >
                 <IoClose style={{ mixBlendMode: "difference" }} size={25} />
               </button>
             )}
@@ -124,7 +124,7 @@ const Note = ({
           fsId={fsId}
           active={editMode}
           deleteNote={deleteNote}
-          setEditMode={(flag:boolean) => {
+          setEditMode={(flag: boolean) => {
             noteRef.current!.scrollIntoView();
             setEditMode(flag);
           }}

@@ -1,5 +1,5 @@
-.color-menu-container {
-  .szh-menu {
+.color_menu_container {
+  .szh_menu {
     min-width: unset;
     padding: 0.25rem;
     display: grid;
@@ -7,9 +7,9 @@
     grid-template-rows: repeat(2, 1fr);
     align-items: center;
     border-radius: 10px;
-    .szh-menu__item--hover {
+    .szh_menu__item_hover {
     }
-    .color-menu-item {
+    .color_menu_item {
       width: 2.2rem;
       height: 2.2rem;
       display: flex;

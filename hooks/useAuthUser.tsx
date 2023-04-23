@@ -10,8 +10,11 @@ export function useProvideAuth() {
     data: { uid: "", photoURL: "" },
     isLoading: true,
   });
+
   useEffect(() => {
+    console.log('hello')
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log('hello')
       if (user) {
         setUser({
           data: { uid: user.uid, photoURL: user.photoURL ?? "" },

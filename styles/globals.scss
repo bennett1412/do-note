@@ -49,7 +49,7 @@ h1 {
   flex-grow: 1;
 }
 
-.icon-button {
+.icon_button {
   position: relative;
   background-color: transparent;
   padding: 0.5rem;
@@ -57,22 +57,24 @@ h1 {
   width: 1.5rem;
   height: 1.5rem;
   border: 1px solid transparent;
+  &:active {
+    background: rgba(135, 141, 141, 0.441);
+    mix-blend-mode: difference;
+  }
+  &:hover {
+    background: rgba(135, 141, 141, 0.25);
+    mix-blend-mode: difference;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+  }
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
 }
-.icon-button:active {
-  background: rgba(135, 141, 141, 0.441);
-  mix-blend-mode: difference;
-}
-.icon-button:hover {
-  background: rgba(135, 141, 141, 0.25);
-  mix-blend-mode: difference;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-radius: 10px;
-}
-.icon-button svg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
+
+

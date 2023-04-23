@@ -1,7 +1,7 @@
 import { NodeViewWrapper } from "@tiptap/react";
-import React, { useRef, useState } from "react";
+import React, { useRef} from "react";
 import useMousePosition from "../../../../../hooks/useMousePosition";
-import "./customimg.scss";
+import styles from "./customimg.module.scss";
 import { MdDeleteForever } from "react-icons/md";
 const ImageWrapper = ({ editor, node, deleteNode, updateAttributes }) => {
   const imgRef = useRef();
@@ -44,16 +44,16 @@ const ImageWrapper = ({ editor, node, deleteNode, updateAttributes }) => {
       ref={imgRef}
       style={{ width: `${node.attrs.width}%`, minWidth: "30%" }}
     >
-      <div className={"node-image-container"}>
-        <div className="content">
+      <div className={styles.node_image_container}>
+        <div className={styles.content}>
           <div style={{ position: "relative" }}>
             <img src={node.attrs.src} alt="node-image" />
-            <div className={`size-control`}>
-              <div onMouseDown={startTracking} className="cursor"></div>
+            <div className={styles.size_control}>
+              <div onMouseDown={startTracking} className={styles.cursor} ></div>
             </div>
           </div>
 
-          <div className="img-ops">
+          <div className={styles.img_ops}>
             <button onClick={handleDelete}>
               <MdDeleteForever size={20} />
             </button>

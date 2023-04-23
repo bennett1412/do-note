@@ -1,14 +1,15 @@
 import React, { MouseEventHandler, useEffect, useState } from "react";
 import Note from "./Note";
-import "../../../styles/home/noteslist.scss";
+import styles from "@/styles/home/noteslist.module.scss";
 import { IoAddOutline } from "react-icons/io5";
 import { toast } from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
-import useAddNote from "../../../hooks/useAddNote";
-import useGetNotes from "../../../hooks/useGetNotes";
-import { useAuthUser } from "../../../hooks/useAuthUser";
+import useAddNote from "@/hooks/useAddNote";
+import useGetNotes from "@/hooks/useGetNotes";
+import { useAuthUser } from "@/hooks/useAuthUser";
 import { AnimatePresence, motion } from "framer-motion";
 import { Note as NoteType } from "@/types/Note";
+import Navbar from "@/components/Common/Navbar";
 
 type NoteListProps = {
   addingNote: boolean;
@@ -29,7 +30,8 @@ const NotesList = ({
 
   return (
     <>
-      <section className="notes-list">
+      <Navbar />
+      <section className={styles.notes_list}>
         {/* #TODO: add some loading state while fetching notes */}
         {notes?.map((note) => {
           return (
@@ -49,7 +51,11 @@ const NotesList = ({
         <AnimatePresence>
           {selectedId && <motion.div layoutId={selectedId}></motion.div>}
         </AnimatePresence>
-        <button disabled={addingNote} onClick={addNote} className="add-button">
+        <button
+          disabled={addingNote}
+          onClick={addNote}
+          className={styles.add_button}
+        >
           {addingNote ? (
             <Oval
               height={30}

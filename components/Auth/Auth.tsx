@@ -16,7 +16,7 @@ const Auth = () => {
           toast.success("Done", {
             id: toastId,
           });
-          router.push("/");
+          router.push("/notes");
         }
       })
       .catch((error) => {

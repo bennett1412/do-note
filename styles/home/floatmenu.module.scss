@@ -1,10 +1,10 @@
 @use "../utilities/colors";
 @use "../utilities/buttons";
-.float-menu {
+.float_menu {
   background-color: colors.$dark;
   border-radius: 10px;
   display: flex;
-  .float-item {
+  .float_item {
     @extend .button;
     width: 0.5em;
     height: 0.5em;

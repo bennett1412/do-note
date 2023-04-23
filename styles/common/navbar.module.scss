@@ -1,5 +1,6 @@
 @use "../utilities/colors";
-nav {
+
+.nav {
   background: rgb(239, 239, 239);
   font-family: "Josefin Sans", sans-serif;
   color: black;
@@ -39,7 +40,7 @@ nav {
       background: black;
     }
   }
-  .more-ops {
+  .more_ops {
     display: flex;
     column-gap: 1rem;
     align-items: center;
@@ -50,7 +51,7 @@ nav {
     cursor: pointer;
   }
 
-  .menu-item {
+  .menu_item {
     justify-content: space-around;
     padding-inline: 0.5rem;
   }

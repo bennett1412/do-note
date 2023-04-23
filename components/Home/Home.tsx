@@ -1,20 +1,22 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import NotesList from "./components/NotesList";
 import { toast } from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
 
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
-import { useAuthUser } from "@/hooks/useAuthUser";
 import { updateNote } from "@/utils/firebase/firestore";
+// import { useAuthUser } from "@/hooks/useAuthUser";
 import { Note } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
+import { AuthStateType } from "@/types/Auth";
+import { AuthUser } from "next-firebase-auth";
 
-const Home = () => {
-  const { user } = useAuthUser();
-  const { data: notes } = useGetNotes(user.data!.uid);
+const Home = ({ user }: { user: AuthUser }) => {
+  const { data: notes } = useGetNotes(user.id!);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
-    creatorId: user.data!.uid,
+    creatorId: user.id!,
     successCb: () => {},
     errorCb: () => {
       toast.error("Something went wrong please try later", {
@@ -23,7 +25,7 @@ const Home = () => {
     },
   });
   const { mutate: deleteMutate, isLoading: isDeleting } = useDeleteNote({
-    creatorId: user.data!.uid,
+    creatorId: user.id!,
     successCb: () => {
       // setEditMode(false);
     },
@@ -46,7 +48,7 @@ const Home = () => {
         ],
       }),
     };
-    addMutate({ newNote: newNote, creatorId: user.data!.uid });
+    addMutate({ newNote: newNote, creatorId: user.id! });
   };
   return (
     <>

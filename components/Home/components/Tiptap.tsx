@@ -2,23 +2,30 @@ import React, { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import FloatingMenu from "./minorComponents/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
-import "@/styles/home/tiptap.scss";
+import styles from "@/styles/home/note.module.scss";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import { Placeholder } from "@tiptap/extension-placeholder";
 // import { updateNote } from "./../../../utils/firebase/firestore";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
+
 type TiptapProps = {
   editMode: boolean;
   content: string;
   fsId: string;
   updateNote: Function;
 };
+
 const Tiptap = ({ editMode, content, fsId, updateNote }: TiptapProps) => {
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
   const editor = useEditor({
+    editorProps: {
+      attributes: {
+        class: styles.ProseMirror,
+      },
+    },
     extensions: [
       StarterKit,
       TaskList,
@@ -72,7 +79,7 @@ const Tiptap = ({ editMode, content, fsId, updateNote }: TiptapProps) => {
   return (
     <>
       <FloatingMenu editor={editor} />
-      <EditorContent className="editor" editor={editor} />
+      <EditorContent className={styles.editor} editor={editor} />
     </>
   );
 };

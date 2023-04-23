@@ -1,5 +1,6 @@
 import React, { MouseEventHandler } from "react";
-import "../../../styles/home/bottommenu.scss";
+import styles from "@/styles/home/note.module.scss";
+import button from "@/styles/common/button.module.scss";
 import { FiEdit3 } from "react-icons/fi";
 import { TbPinned } from "react-icons/tb";
 import { MdOutlineDelete } from "react-icons/md";
@@ -36,12 +37,14 @@ const BottomMenu = ({
     }
   };
   return (
-    <div className={clsx({ toolbar: true, dark_toolbar: theme === "dark" })}>
+    <div
+      className={clsx(styles.toolbar, styles.dark_toolbar && theme == "dark")}
+    >
       <ColorMenu setColor={setColor} />
-      <button onClick={() => setEditMode(true)} className="toolbar-button">
+      <button onClick={() => setEditMode(true)} className={button.toolbar_button}>
         <FiEdit3 />
       </button>
-      <button className="toolbar-button">
+      <button className={button.toolbar_button}>
         <TbPinned />
       </button>
       {active && (
@@ -49,7 +52,7 @@ const BottomMenu = ({
           <button
             disabled={isDeleting}
             onClick={handleDelete}
-            className="toolbar-button"
+            className={button.toolbar_button}
           >
             <MdOutlineDelete />
           </button>
