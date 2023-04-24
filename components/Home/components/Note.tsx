@@ -8,6 +8,7 @@ import { IoClose } from "react-icons/io5";
 import { updateNote } from "./../../../utils/firebase/firestore";
 import { colors } from "../../../utils/common/noteColors";
 import { motion } from "framer-motion";
+import useOnClickOutside from "@/hooks/useOnClickOutside";
 
 type NoteProps = {
   title: string;
@@ -17,6 +18,7 @@ type NoteProps = {
   color: number;
   updateNote: Function;
   deleteNote: Function;
+  setSelectedId: Function;
 };
 
 const Note = ({
@@ -27,6 +29,7 @@ const Note = ({
   color: noteColor,
   updateNote,
   deleteNote,
+  setSelectedId
 }: NoteProps) => {
   const [editMode, setEditMode] = useState<boolean>(active);
   const [title, setTitle] = useState<string>(noteTitle);
@@ -37,6 +40,7 @@ const Note = ({
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== noteTitle) {
+        console.log("being updated");
         updateNote(fsId, {
           noteTitle: title,
         });
@@ -45,7 +49,7 @@ const Note = ({
     return () => {
       clearTimeout(titleHandler);
     };
-  }, [fsId, noteTitle, title, updateNote]);
+  }, [fsId, title, noteTitle, updateNote]);
 
   useEffect(() => {
     if (colorIndex !== noteColor) {
@@ -55,9 +59,12 @@ const Note = ({
     }
   }, [noteColor, colorIndex, fsId, updateNote]);
 
+  useOnClickOutside(noteRef, () => setEditMode(false));
+
   const handleClick = () => {
     if (!editMode) {
       setEditMode(true);
+      setSelectedId(fsId);
     }
   };
 
@@ -70,19 +77,10 @@ const Note = ({
   const closeNote = () => {
     setEditMode(false);
   };
-  const OutsideClickHandler = ({
-    children,
-    onOutsideClick,
-  }: {
-    children: ReactNode;
-    onOutsideClick: Function;
-  }) => {
-    return <div>{children}</div>;
-  };
+
   return (
-    <OutsideClickHandler onOutsideClick={handleBackgroundClick}>
+    <div>
       <motion.div
-        layoutId={fsId}
         ref={noteRef}
         style={{ backgroundColor: colors[colorIndex] ?? colors[2] }}
         className={clsx({
@@ -107,7 +105,7 @@ const Note = ({
               />
             )}
             {editMode && (
-              <button onClick={closeNote} className={'icon_button'} >
+              <button onClick={closeNote} className={"icon_button"}>
                 <IoClose style={{ mixBlendMode: "difference" }} size={25} />
               </button>
             )}
@@ -132,7 +130,7 @@ const Note = ({
           theme={colorIndex ?? 2 < 3 ? "light" : "dark"}
         />
       </motion.div>
-    </OutsideClickHandler>
+    </div>
   );
 };
 

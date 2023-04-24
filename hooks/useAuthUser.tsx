@@ -11,22 +11,20 @@ export function useProvideAuth() {
     isLoading: true,
   });
 
-  useEffect(() => {
-    console.log('hello')
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log('hello')
-      if (user) {
-        setUser({
-          data: { uid: user.uid, photoURL: user.photoURL ?? "" },
-          isLoading: false,
-        });
-      } else {
-        setUser({ data: null, isLoading: false });
-      }
-    });
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       setUser({
+  //         data: { uid: user.uid, photoURL: user.photoURL ?? "" },
+  //         isLoading: false,
+  //       });
+  //     } else {
+  //       setUser({ data: null, isLoading: false });
+  //     }
+  //   });
+  //   // Cleanup subscription on unmount
+  //   return () => unsubscribe();
+  // }, []);
 
   return { user, logout };
 }

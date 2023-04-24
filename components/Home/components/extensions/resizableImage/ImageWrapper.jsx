@@ -1,6 +1,6 @@
 import { NodeViewWrapper } from "@tiptap/react";
-import React, { useRef} from "react";
-import useMousePosition from "../../../../../hooks/useMousePosition";
+import React, { useRef } from "react";
+// import useMousePosition from "../../../../../hooks/useMousePosition";
 import styles from "./customimg.module.scss";
 import { MdDeleteForever } from "react-icons/md";
 const ImageWrapper = ({ editor, node, deleteNode, updateAttributes }) => {

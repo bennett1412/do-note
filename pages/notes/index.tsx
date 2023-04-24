@@ -8,11 +8,11 @@ import React from "react";
 
 const HomePage = () => {
   const user = useAuthUser();
-  console.log(user.id);
+
   if (user.id == null) {
-    return <div>Loading...</div>;
+    return <div style={{ color: "black" }}>Loading...</div>;
   }
-  return <Home user={user} />;
+  return <Home />;
 };
 
 // export default HomePage;

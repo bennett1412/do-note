@@ -6,14 +6,16 @@ import { Oval } from "react-loader-spinner";
 
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
-import { updateNote } from "@/utils/firebase/firestore";
+import { getNotes, updateNote } from "@/utils/firebase/firestore";
 // import { useAuthUser } from "@/hooks/useAuthUser";
 import { Note } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
 import { AuthStateType } from "@/types/Auth";
-import { AuthUser } from "next-firebase-auth";
+import { AuthUser, useAuthUser } from "next-firebase-auth";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 
-const Home = ({ user }: { user: AuthUser }) => {
+const Home = () => {
+  const user = useAuthUser();
   const { data: notes } = useGetNotes(user.id!);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
     creatorId: user.id!,
@@ -50,6 +52,7 @@ const Home = ({ user }: { user: AuthUser }) => {
     };
     addMutate({ newNote: newNote, creatorId: user.id! });
   };
+ 
   return (
     <>
       {/* <Tagbar /> */}
@@ -60,8 +63,21 @@ const Home = ({ user }: { user: AuthUser }) => {
         addingNote={addingNote}
         notes={notes}
       />
+      {/* <div>NotesList</div> */}
     </>
   );
 };
+// export async function getStaticProps() {
+//   const queryClient = new QueryClient();
+//   await queryClient.prefetchQuery({
+//     queryKey: ["notes"],
+//     queryFn: ({ queryKey }: { queryKey: string[] }) => getNotes(queryKey[1]),
+//   });
 
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// }
 export default Home;

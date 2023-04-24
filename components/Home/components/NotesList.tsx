@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState, useRef } from "react";
 import Note from "./Note";
 import styles from "@/styles/home/noteslist.module.scss";
 import { IoAddOutline } from "react-icons/io5";
@@ -27,7 +27,6 @@ const NotesList = ({
   deleteNote,
 }: NoteListProps) => {
   const [selectedId, setSelectedId] = useState(null);
-
   return (
     <>
       <Navbar />
@@ -42,7 +41,7 @@ const NotesList = ({
               content={note.noteContent}
               fsId={note.id!}
               color={note.colorIndex!}
-              // setSelectedId={setSelectedId}
+              setSelectedId={setSelectedId}
               updateNote={updateNote}
               deleteNote={deleteNote}
             />
