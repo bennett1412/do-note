@@ -3,8 +3,8 @@ import "../../../../styles/home/tags.scss";
 const Tags = ({ tags = ["books", "coding"] }) => {
   return (
     <div className="tag-container">
-      {tags.map((tag) => {
-        return <div className="tag-item">{tag}</div>;
+      {tags.map((tag, i) => {
+        return <div key={i} className="tag-item">{tag}</div>;
       })}
     </div>
   );
