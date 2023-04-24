@@ -5,7 +5,6 @@ import BottomMenu from "./BottomMenu";
 import clsx from "clsx";
 // import OutsideClickHandler from "react-outside-click-handler";
 import { IoClose } from "react-icons/io5";
-import { updateNote } from "./../../../utils/firebase/firestore";
 import { colors } from "../../../utils/common/noteColors";
 import { motion } from "framer-motion";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
@@ -21,7 +20,7 @@ type NoteProps = {
   setSelectedId: Function;
 };
 
-const Note = ({
+const Note: React.FC<NoteProps> = ({
   title: noteTitle,
   content,
   active,
@@ -29,8 +28,8 @@ const Note = ({
   color: noteColor,
   updateNote,
   deleteNote,
-  setSelectedId
-}: NoteProps) => {
+  setSelectedId,
+}) => {
   const [editMode, setEditMode] = useState<boolean>(active);
   const [title, setTitle] = useState<string>(noteTitle);
   const [colorIndex, setColorIndex] = useState<number>(noteColor);
@@ -54,7 +53,7 @@ const Note = ({
   useEffect(() => {
     if (colorIndex !== noteColor) {
       updateNote(fsId, {
-        color: colorIndex,
+        colorIndex: colorIndex,
       });
     }
   }, [noteColor, colorIndex, fsId, updateNote]);

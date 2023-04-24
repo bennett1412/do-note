@@ -17,7 +17,12 @@ type TiptapProps = {
   updateNote: Function;
 };
 
-const Tiptap = ({ editMode, content, fsId, updateNote }: TiptapProps) => {
+const Tiptap: React.FC<TiptapProps> = ({
+  editMode,
+  content,
+  fsId,
+  updateNote,
+}) => {
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
   const editor = useEditor({

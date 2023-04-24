@@ -19,13 +19,13 @@ type NoteListProps = {
   updateNote: Function;
 };
 
-const NotesList = ({
+const NotesList: React.FC<NoteListProps> = ({
   addingNote,
   addNote,
   notes,
   updateNote,
   deleteNote,
-}: NoteListProps) => {
+}) => {
   const [selectedId, setSelectedId] = useState(null);
   return (
     <>

@@ -19,7 +19,8 @@ type BottomMenuProps = {
   deleteNote: Function;
   isDeleting?: boolean;
 };
-const BottomMenu = ({
+
+const BottomMenu: React.FC<BottomMenuProps> = ({
   setEditMode,
   active,
   fsId,
@@ -27,7 +28,7 @@ const BottomMenu = ({
   theme,
   deleteNote,
   isDeleting,
-}: BottomMenuProps) => {
+}) => {
   const handleDelete = async () => {
     const confirm = window.confirm(
       "Are you sure you want to delete this note?"
@@ -41,7 +42,10 @@ const BottomMenu = ({
       className={clsx(styles.toolbar, styles.dark_toolbar && theme == "dark")}
     >
       <ColorMenu setColor={setColor} />
-      <button onClick={() => setEditMode(true)} className={button.toolbar_button}>
+      <button
+        onClick={() => setEditMode(true)}
+        className={button.toolbar_button}
+      >
         <FiEdit3 />
       </button>
       <button className={button.toolbar_button}>

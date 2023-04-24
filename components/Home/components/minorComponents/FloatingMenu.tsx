@@ -6,7 +6,9 @@ import { MdFormatListBulleted } from "react-icons/md";
 import { RxHeading } from "react-icons/rx";
 import { BsUiChecks, BsCardImage } from "react-icons/bs";
 
-const CustomFloatingMenu = ({ editor }: { editor: Editor | null }) => {
+type Props = { editor: Editor | null };
+
+const CustomFloatingMenu: React.FC<Props> = ({ editor }) => {
   const addImage = useCallback(() => {
     const url = window.prompt("URL");
     if (url && editor) {
