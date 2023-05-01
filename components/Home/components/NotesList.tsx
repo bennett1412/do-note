@@ -26,12 +26,10 @@ const NotesList: React.FC<NoteListProps> = ({
   updateNote,
   deleteNote,
 }) => {
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState();
   return (
     <>
-      <Navbar />
       <section className={styles.notes_list}>
-        {/* #TODO: add some loading state while fetching notes */}
         {notes?.map((note) => {
           return (
             <Note
@@ -47,9 +45,9 @@ const NotesList: React.FC<NoteListProps> = ({
             />
           );
         })}
-        <AnimatePresence>
-          {selectedId && <motion.div layoutId={selectedId}></motion.div>}
-        </AnimatePresence>
+        {/* <AnimatePresence> */}
+        {/*   {selectedId && <motion.div layoutId={selectedId}></motion.div>} */}
+        {/* </AnimatePresence> */}
         <button
           disabled={addingNote}
           onClick={addNote}

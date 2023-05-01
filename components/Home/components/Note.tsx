@@ -3,11 +3,11 @@ import Tiptap from "./Tiptap";
 import styles from "@/styles/home/note.module.scss";
 import BottomMenu from "./BottomMenu";
 import clsx from "clsx";
-// import OutsideClickHandler from "react-outside-click-handler";
 import { IoClose } from "react-icons/io5";
 import { colors } from "../../../utils/common/noteColors";
 import { motion } from "framer-motion";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
+import Head from "next/head";
 
 type NoteProps = {
   title: string;
@@ -35,7 +35,7 @@ const Note: React.FC<NoteProps> = ({
   const [colorIndex, setColorIndex] = useState<number>(noteColor);
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
-
+  const [inTransition,setInTransition] = useState<boolean>(false);
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== noteTitle) {
@@ -79,20 +79,32 @@ const Note: React.FC<NoteProps> = ({
 
   return (
     <div>
+      <Head>
+        <title>Notes</title>
+      </Head>
       <motion.div
         ref={noteRef}
-        style={{ backgroundColor: colors[colorIndex] ?? colors[2] }}
+        transition={{zIndex:{duration:0}}}
+        layout 
+        style={{
+          backgroundColor: colors[colorIndex] ?? colors[2],
+        }}
         className={clsx({
           [styles.note_container]: true,
           [styles.note_active]: editMode,
           [styles.dark]: colorIndex > 2,
         })}
         id={fsId}
+        layoutId={fsId}
+        onTransitionEnd={() => {
+            setInTransition(false);
+        }}  
       >
-        <div className={styles.note_main} onClick={handleClick}>
+        <motion.div layout='position' className={styles.note_main} onClick={handleClick}>
           <div style={{ display: "flex" }}>
             {(title != "" || editMode) && (
               <input
+                // layout='position'
                 ref={ref}
                 style={{ backgroundColor: colors[colorIndex] ?? colors[2] }}
                 disabled={!editMode}
@@ -115,7 +127,7 @@ const Note: React.FC<NoteProps> = ({
             updateNote={updateNote}
             content={content}
           />
-        </div>
+        </motion.div>
         {/* <Tags /> */}
         <BottomMenu
           fsId={fsId}

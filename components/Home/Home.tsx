@@ -8,10 +8,12 @@ import { updateNote } from "@/utils/firebase/firestore";
 import { Note } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
 import { useAuthUser } from "next-firebase-auth";
+import { LineWave, MutatingDots } from "react-loader-spinner";
+import Navbar from "../Common/Navbar";
 
 const Home: React.FC = () => {
   const user = useAuthUser();
-  const { data: notes } = useGetNotes(user.id!);
+  const { data: notes, isLoading } = useGetNotes(user.id!);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
     creatorId: user.id!,
     successCb: () => {},
@@ -50,14 +52,34 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {/* <Tagbar /> */}
-      <NotesList
-        addNote={handleAdd}
-        updateNote={updateNote}
-        deleteNote={deleteMutate}
-        addingNote={addingNote}
-        notes={notes}
-      />
+      <Navbar />
+      {isLoading ? (
+        <MutatingDots
+          height="100"
+          width="100"
+          color="black"
+          secondaryColor="black"
+          radius="12.5"
+          ariaLabel="mutating-dots-loading"
+          wrapperStyle={{
+            position: "fixed",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%,-50%) scale(1.5)",
+            msTransform: "translate(-50%,-50%) scale(1.5)",
+          }}
+          wrapperClass=""
+          visible={true}
+        />
+      ) : (
+        <NotesList
+          addNote={handleAdd}
+          updateNote={updateNote}
+          deleteNote={deleteMutate}
+          addingNote={addingNote}
+          notes={notes}
+        />
+      )}
     </>
   );
 };
