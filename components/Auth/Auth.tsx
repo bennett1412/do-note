@@ -4,6 +4,8 @@ import { FcGoogle } from "react-icons/fc";
 import { signInWithGoogle } from "../../utils/firebase/init";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
+import { AuthAction, withAuthUser } from "next-firebase-auth";
+import { DotsLoader } from "@/components/Common/Loader";
 
 const Auth = () => {
   const router = useRouter();
@@ -16,7 +18,7 @@ const Auth = () => {
           toast.success("Done", {
             id: toastId,
           });
-          router.push("/notes");
+          // router.push("/notes");
         }
       })
       .catch((error) => {
@@ -41,4 +43,9 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default withAuthUser({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+  whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
+  whenUnauthedAfterInit: AuthAction.RENDER,
+  LoaderComponent: DotsLoader,
+})(Auth);
