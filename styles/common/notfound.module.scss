@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  min-height: 100vh;
+  color: black;
+  .error_code {
+    font-size: 90px;
+    font-family: "Josefin Sans", sans-serif;
+  }
+  .message{
+    color: rgba(86, 86, 86, 0.8);
+  }
+  a{
+    text-decoration: none;
+    color: blue;
+  }
+}
