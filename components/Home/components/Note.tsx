@@ -35,7 +35,7 @@ const Note: React.FC<NoteProps> = ({
   const [colorIndex, setColorIndex] = useState<number>(noteColor);
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
-  const [inTransition,setInTransition] = useState<boolean>(false);
+  const [inTransition, setInTransition] = useState<boolean>(false);
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== noteTitle) {
@@ -58,7 +58,13 @@ const Note: React.FC<NoteProps> = ({
     }
   }, [noteColor, colorIndex, fsId, updateNote]);
 
-  useOnClickOutside(noteRef, () => setEditMode(false));
+  const closeNote = () => {
+    console.log('closing note')
+    setEditMode(false);
+    setSelectedId(null);
+  };
+
+  // useOnClickOutside(noteRef, () => closeNote());
 
   const handleClick = () => {
     if (!editMode) {
@@ -73,10 +79,6 @@ const Note: React.FC<NoteProps> = ({
     }
   };
 
-  const closeNote = () => {
-    setEditMode(false);
-  };
-
   return (
     <div>
       <Head>
@@ -84,8 +86,8 @@ const Note: React.FC<NoteProps> = ({
       </Head>
       <motion.div
         ref={noteRef}
-        transition={{zIndex:{duration:0}}}
-        layout 
+        transition={{ zIndex: { duration: 0 } }}
+        layout
         style={{
           backgroundColor: colors[colorIndex] ?? colors[2],
         }}
@@ -97,10 +99,14 @@ const Note: React.FC<NoteProps> = ({
         id={fsId}
         layoutId={fsId}
         onTransitionEnd={() => {
-            setInTransition(false);
-        }}  
+          setInTransition(false);
+        }}
       >
-        <motion.div layout='position' className={styles.note_main} onClick={handleClick}>
+        <motion.div
+          layout="position"
+          className={styles.note_main}
+          onClick={handleClick}
+        >
           <div style={{ display: "flex" }}>
             {(title != "" || editMode) && (
               <input
@@ -121,12 +127,14 @@ const Note: React.FC<NoteProps> = ({
               </button>
             )}
           </div>
+          {/* text editor component */}
           <Tiptap
             fsId={fsId}
             editMode={editMode}
             updateNote={updateNote}
             content={content}
           />
+
         </motion.div>
         {/* <Tags /> */}
         <BottomMenu

@@ -9,12 +9,12 @@ import { Menu, MenuDivider, MenuItem } from "@szhsin/react-menu";
 import SyncIndicator from "./SyncIndicator";
 import OfflineToggle from "./OfflineToggle";
 import Link from "next/link";
+import Image from "next/image";
 
 const Navbar = () => {
   const user = useAuthUser();
   const handleLogout = async () => {
     const res = await logout();
-    
   };
   return (
     <nav className={styles.nav}>
@@ -26,7 +26,14 @@ const Navbar = () => {
           <>
             <Menu
               //todo: change to custom next image component
-              menuButton={<img src={user.photoURL!} alt="profile-pic" />}
+              menuButton={
+                <Image
+                  width={32}
+                  height={32}
+                  src={user.photoURL!}
+                  alt="profile-pic"
+                />
+              }
               direction="bottom"
               offsetY={12}
               align="end"

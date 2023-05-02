@@ -26,7 +26,7 @@ const NotesList: React.FC<NoteListProps> = ({
   updateNote,
   deleteNote,
 }) => {
-  const [selectedId, setSelectedId] = useState();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   return (
     <>
       <section className={styles.notes_list}>
@@ -71,6 +71,18 @@ const NotesList: React.FC<NoteListProps> = ({
           )}
         </button>
       </section>
+      {selectedId && (
+        <div
+          style={{
+            width: "100%",
+            height: window.outerHeight,
+            background: "#00000096",
+            opacity: "0.7",
+            position: "fixed",
+            top: "0",
+          }}
+        ></div>
+      )}
     </>
   );
 };

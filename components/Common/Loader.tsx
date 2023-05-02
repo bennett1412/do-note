@@ -1,7 +1,7 @@
 import { MutatingDots, Oval, Rings } from "react-loader-spinner";
 import React from "react";
 
-const Loader = ({ magnify }: { magnify: string }) => {
+export const OvalLoader = ({ magnify }: { magnify: string }) => {
   const style = {
     position: "fixed",
     top: "50%",
@@ -24,4 +24,22 @@ const Loader = ({ magnify }: { magnify: string }) => {
   );
 };
 
-export default Loader;
+export const DotsLoader = () => (
+  <MutatingDots
+    height="100"
+    width="100"
+    color="black"
+    secondaryColor="black"
+    radius="12.5"
+    ariaLabel="mutating-dots-loading"
+    wrapperStyle={{
+      position: "fixed",
+      left: "50%",
+      top: "50%",
+      transform: "translate(-50%,-50%) scale(1.5)",
+      msTransform: "translate(-50%,-50%) scale(1.5)",
+    }}
+    wrapperClass=""
+    visible={true}
+  />
+);

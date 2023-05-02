@@ -32,6 +32,7 @@
     "next": "13.3.0",
     "next-firebase-auth": "^1.0.0-canary.19",
     "react": "18.2.0",
+    "react-content-loader": "^6.2.1",
     "react-dom": "18.2.0",
     "react-float-menu": "^0.4.7",
     "react-hot-toast": "^2.4.0",

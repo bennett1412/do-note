@@ -9,7 +9,9 @@ import { Note } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
 import { useAuthUser } from "next-firebase-auth";
 import { LineWave, MutatingDots } from "react-loader-spinner";
+import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
+import { DotsLoader } from "../Common/Loader";
 
 const Home: React.FC = () => {
   const user = useAuthUser();
@@ -54,24 +56,9 @@ const Home: React.FC = () => {
     <>
       <Navbar />
       {isLoading ? (
-        <MutatingDots
-          height="100"
-          width="100"
-          color="black"
-          secondaryColor="black"
-          radius="12.5"
-          ariaLabel="mutating-dots-loading"
-          wrapperStyle={{
-            position: "fixed",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%,-50%) scale(1.5)",
-            msTransform: "translate(-50%,-50%) scale(1.5)",
-          }}
-          wrapperClass=""
-          visible={true}
-        />
+        <DotsLoader />
       ) : (
+        // <NotesLoader/>
         <NotesList
           addNote={handleAdd}
           updateNote={updateNote}

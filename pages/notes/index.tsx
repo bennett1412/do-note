@@ -1,21 +1,22 @@
+import { DotsLoader } from "@/components/Common/Loader";
 import Home from "@/components/Home/Home";
 import {
-  useAuthUser,
+  AuthAction,
   withAuthUser,
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
 import React from "react";
 
 const HomePage = () => {
-  const user = useAuthUser();
-
-  if (user.id == null) {
-    return <div style={{ color: "black" }}>Loading...</div>;
-  }
   return <Home />;
 };
 
 // export default HomePage;
 export const getServerSideProps = withAuthUserTokenSSR()();
 
-export default withAuthUser()(HomePage);
+export default withAuthUser({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+  whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+  LoaderComponent: () => <DotsLoader />,
+})(HomePage);

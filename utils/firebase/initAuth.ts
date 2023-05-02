@@ -1,10 +1,11 @@
 // ./initAuth.js
 import { init } from 'next-firebase-auth';
 import { firebaseConfig } from './init';
+import getAbsoluteURL from './absoluteUrl';
 const initAuth = () => {
   init({
     authPageURL: '/auth',
-    appPageURL: '/',
+    appPageURL: '/notes',
     loginAPIEndpoint: '/api/login',
     logoutAPIEndpoint: '/api/logout',
     onLoginRequestError: (err: unknown) => {
