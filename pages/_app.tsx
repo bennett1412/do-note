@@ -7,7 +7,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { useRef } from "react";
-
+import { Analytics } from '@vercel/analytics/react';
 initAuth();
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -25,6 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient.current}>
       <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
+        <Analytics/>
       </Hydrate>
     </QueryClientProvider>
   );

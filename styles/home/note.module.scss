@@ -16,7 +16,7 @@
   flex-direction: column;
   justify-content: space-between;
   transition-property: background, color;
-  transition-duration: 0.2s;
+  transition-duration: 0.2s, 0.2s;
   font-family: "Fira Mono", monospace;
   color: black;
   // @extend .masked-overflow;

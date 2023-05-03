@@ -1,12 +1,16 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import { GetServerSideProps } from 'next';
 
 export default function Home() {
   return (
-    <>
-    </>
+    <></>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    redirect: {
+      permanent: false,
+      destination: "/auth"
+    }
+  }
 }
