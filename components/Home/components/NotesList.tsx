@@ -45,9 +45,7 @@ const NotesList: React.FC<NoteListProps> = ({
             />
           );
         })}
-        {/* <AnimatePresence> */}
-        {/*   {selectedId && <motion.div layoutId={selectedId}></motion.div>} */}
-        {/* </AnimatePresence> */}
+
         <button
           disabled={addingNote}
           onClick={addNote}
@@ -71,8 +69,9 @@ const NotesList: React.FC<NoteListProps> = ({
           )}
         </button>
       </section>
-      {selectedId && (
+      {/* {selectedId && (
         <div
+          id="overlay"
           style={{
             width: "100%",
             height: window.outerHeight,
@@ -82,7 +81,7 @@ const NotesList: React.FC<NoteListProps> = ({
             top: "0",
           }}
         ></div>
-      )}
+      )} */}
     </>
   );
 };
