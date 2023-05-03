@@ -1,18 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteNote } from "../utils/firebase/firestore";
-import { DeleteNoteParamType, Note } from "@/types/Note";
+import { DeleteNoteMutationParams, Note } from "@/types/Note";
 
 const useDeleteNote = ({
   creatorId,
   successCb,
   errorCb,
-}: DeleteNoteParamType) => {
+}: DeleteNoteMutationParams) => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
     mutationFn: deleteNote,
     onSuccess: (data, deletedNoteId) => {
-      successCb();
+      if (successCb) successCb();
       queryClient.setQueryData(
         ["notes", creatorId],
         (oldNotes: Note[] | undefined) => {
@@ -22,7 +22,7 @@ const useDeleteNote = ({
       );
     },
     onError: () => {
-      errorCb();
+      if (errorCb) errorCb();
     },
   });
 

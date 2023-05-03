@@ -3,7 +3,6 @@ import Home from "@/components/Home/Home";
 import {
   AuthAction,
   withAuthUser,
-  withAuthUserTokenSSR,
 } from "next-firebase-auth";
 import React from "react";
 

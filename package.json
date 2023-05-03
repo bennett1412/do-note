@@ -47,6 +47,8 @@
     "zustand": "^4.3.3"
   },
   "devDependencies": {
-    "@types/react-toggle": "^4.0.3"
+    "@types/react-toggle": "^4.0.3",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "2.8.8"
   }
 }

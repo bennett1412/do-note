@@ -1,25 +1,40 @@
 export interface Note {
-  id?: string;
+  id: string;
+  noteTitle: string;
+  noteContent: string;
+  colorIndex?: number;
+  active?: boolean;
+}
+
+export interface NoteContent {
   noteTitle: string;
   noteContent: string;
   colorIndex?: number;
   active?: boolean;
 }
 export type AddNoteParams = {
-  newNote: Note,
-  creatorId: string
+  newNote: NoteContent,
+  creatorId: string | null
 }
 
 type cbFn = () => void;
 
 export type AddNoteMutationParams = {
-  creatorId: string;
-  successCb: cbFn;
-  errorCb: cbFn;
+  creatorId: string | null;
+  successCb?: cbFn;
+  errorCb?: cbFn;
 };
 
-export type DeleteNoteParamType = {
-  creatorId: string,
-  successCb: cbFn,
-  errorCb: cbFn
+export type DeleteNoteMutationParams = {
+  creatorId: string | null,
+  successCb?: cbFn,
+  errorCb?: cbFn
 }
+
+export type UpdateNoteFn = (noteId: string,
+  newNote: {
+    noteTitle?: string;
+    noteContent?: string;
+    colorIndex?: number;
+    active?: boolean;
+  }) => Promise<void>;

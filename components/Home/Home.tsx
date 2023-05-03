@@ -5,31 +5,26 @@ import { toast } from "react-hot-toast";
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
 import { updateNote } from "@/utils/firebase/firestore";
-import { Note } from "@/types/Note";
+import { NoteContent } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
 import { useAuthUser } from "next-firebase-auth";
-import { LineWave, MutatingDots } from "react-loader-spinner";
-import NotesLoader from "@/components/Common/NotesLoader";
+// import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
 
 const Home: React.FC = () => {
   const user = useAuthUser();
-  const { data: notes, isLoading } = useGetNotes(user.id!);
+  const { data: notes, isLoading } = useGetNotes(user.id);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
-    creatorId: user.id!,
-    successCb: () => {},
+    creatorId: user.id,
     errorCb: () => {
       toast.error("Something went wrong please try later", {
         id: "note-creation-error",
       });
     },
   });
-  const { mutate: deleteMutate, isLoading: isDeleting } = useDeleteNote({
-    creatorId: user.id!,
-    successCb: () => {
-      // setEditMode(false);
-    },
+  const { mutate: deleteMutate } = useDeleteNote({
+    creatorId: user.id,
     errorCb: () => {
       toast.error("Deletion failed, pls try later", {
         id: "delete-error",
@@ -38,7 +33,7 @@ const Home: React.FC = () => {
   });
   // prop
   const handleAdd = async () => {
-    const newNote: Note = {
+    const newNote: NoteContent = {
       noteTitle: "",
       noteContent: JSON.stringify({
         type: "doc",
@@ -49,7 +44,7 @@ const Home: React.FC = () => {
         ],
       }),
     };
-    addMutate({ newNote: newNote, creatorId: user.id! });
+    addMutate({ newNote: newNote, creatorId: user.id });
   };
 
   return (

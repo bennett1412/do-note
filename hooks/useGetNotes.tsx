@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getNotes } from "../utils/firebase/firestore";
-import { Note } from "@/types/Note";
-interface NotesQueryResult {
-  notes: Note[];
-}
-const useGetNotes = (creatorId: string) => {
+
+const useGetNotes = (creatorId: string | null) => {
   const notesQuery = useQuery({
     queryKey: ["notes", creatorId],
-    queryFn: ({ queryKey }: { queryKey: string[] }) => getNotes(queryKey[1]),
+    queryFn: () => getNotes(creatorId),
+    enabled: !!creatorId,
   });
   return notesQuery;
 };

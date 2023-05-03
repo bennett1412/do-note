@@ -1,22 +1,20 @@
-import React, { MouseEventHandler, useEffect, useState, useRef } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import Note from "./Note";
 import styles from "@/styles/home/noteslist.module.scss";
 import { IoAddOutline } from "react-icons/io5";
-import { toast } from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
-import useAddNote from "@/hooks/useAddNote";
-import useGetNotes from "@/hooks/useGetNotes";
-import { useAuthUser } from "@/hooks/useAuthUser";
-import { AnimatePresence, motion } from "framer-motion";
-import { Note as NoteType } from "@/types/Note";
-import Navbar from "@/components/Common/Navbar";
+import {
+  DeleteNoteMutationParams,
+  Note as NoteType,
+  UpdateNoteFn,
+} from "@/types/Note";
 
 type NoteListProps = {
   addingNote: boolean;
   notes?: NoteType[];
   addNote: MouseEventHandler;
-  deleteNote: Function;
-  updateNote: Function;
+  deleteNote: (params: DeleteNoteMutationParams) => void;
+  updateNote: UpdateNoteFn;
 };
 
 const NotesList: React.FC<NoteListProps> = ({
@@ -37,8 +35,8 @@ const NotesList: React.FC<NoteListProps> = ({
               active={note.active ?? false}
               title={note.noteTitle}
               content={note.noteContent}
-              fsId={note.id!}
-              color={note.colorIndex!}
+              fsId={note.id}
+              color={note.colorIndex ?? 0}
               setSelectedId={setSelectedId}
               updateNote={updateNote}
               deleteNote={deleteNote}

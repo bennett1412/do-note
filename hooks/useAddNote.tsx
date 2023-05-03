@@ -11,7 +11,7 @@ const useAddNote = ({
   const AddNoteMutation = useMutation({
     mutationFn: addNote,
     onSuccess: (data: string, variables: AddNoteParams) => {
-      successCb();
+      if (successCb) successCb();
       queryClient.setQueryData(
         ["notes", creatorId],
         (oldNotes: Note[] | undefined) => {
@@ -25,7 +25,7 @@ const useAddNote = ({
       );
     },
     onError: () => {
-      errorCb();
+      if (errorCb) errorCb();
     },
   });
   return AddNoteMutation;

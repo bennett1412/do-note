@@ -1,4 +1,4 @@
-import { Note, AddNoteParams } from "@/types/Note";
+import { Note, AddNoteParams, UpdateNoteFn } from "@/types/Note";
 import { db } from "./init";
 import {
   collection,
@@ -7,17 +7,19 @@ import {
   updateDoc,
   doc,
   deleteDoc,
-  Timestamp,
   serverTimestamp,
   orderBy,
   query,
   where,
-  DocumentReference,
+  QuerySnapshot,
 } from "firebase/firestore";
 
 // * note related db operations
 
 export const addNote = async (data: AddNoteParams): Promise<string> => {
+  if (data.creatorId === null) {
+    return Promise.reject(new Error("Invalid creatorId"));
+  }
   try {
     const docRef = await addDoc(collection(db, "notes"), {
       ...data.newNote,
@@ -31,7 +33,10 @@ export const addNote = async (data: AddNoteParams): Promise<string> => {
   }
 };
 
-export const getNotes = async (creatorId: string): Promise<Note[]> => {
+export const getNotes = async (creatorId: string | null): Promise<Note[]> => {
+  if (creatorId === null) {
+    return Promise.reject(new Error("Invalid creatorId"));
+  }
   try {
     const notesRef = collection(db, "notes");
     const q = query(
@@ -51,16 +56,17 @@ export const getNotes = async (creatorId: string): Promise<Note[]> => {
   }
 };
 
-export const updateNote = async (noteId: string, newNote: Note) => {
+export const updateNote: UpdateNoteFn = async (noteId, newNote) => {
   try {
     const querySnapshot = await updateDoc(doc(db, "notes", noteId), {
       ...newNote,
       timestamp: serverTimestamp(),
     });
+
     return querySnapshot;
   } catch (error) {
     console.log(error);
-    return error;
+    throw new Error("Updation Failed");
   }
 };
 

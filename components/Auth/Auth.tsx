@@ -2,13 +2,11 @@ import React from "react";
 import styles from "../../styles/auth/auth.module.scss";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithGoogle } from "../../utils/firebase/init";
-import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 import { AuthAction, withAuthUser } from "next-firebase-auth";
 import { DotsLoader } from "@/components/Common/Loader";
 
 const Auth = () => {
-  const router = useRouter();
   const handleGoogleSignup = () => {
     const toastId = toast.loading("Signing you in...");
     // * change to async await and disable button till action completes
@@ -22,6 +20,7 @@ const Auth = () => {
         }
       })
       .catch((error) => {
+        console.log(error)
         toast.error("Uh oh, something went wrong", {
           id: toastId,
         });

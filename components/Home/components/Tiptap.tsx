@@ -9,12 +9,13 @@ import { Placeholder } from "@tiptap/extension-placeholder";
 // import { updateNote } from "./../../../utils/firebase/firestore";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
+import { UpdateNoteFn } from "@/types/Note";
 
 type TiptapProps = {
   editMode: boolean;
   content: string;
   fsId: string;
-  updateNote: Function;
+  updateNote: UpdateNoteFn;
 };
 
 const Tiptap: React.FC<TiptapProps> = ({
@@ -45,7 +46,6 @@ const Tiptap: React.FC<TiptapProps> = ({
     ],
     editable: false,
     content: JSON.parse(noteContent),
-    onCreate: () => {},
     onUpdate: ({ editor }) => {
       setNoteContent(JSON.stringify(editor.getJSON()));
     },
