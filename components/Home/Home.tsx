@@ -44,7 +44,10 @@ const Home: React.FC = () => {
         ],
       }),
     };
-    addMutate({ newNote: newNote, creatorId: user.id });
+    addMutate({
+      newNote: newNote,
+      creatorId: user.id,
+    });
   };
 
   return (

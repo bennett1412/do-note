@@ -3,27 +3,17 @@ import Note from "./Note";
 import styles from "@/styles/home/noteslist.module.scss";
 import { IoAddOutline } from "react-icons/io5";
 import { Oval } from "react-loader-spinner";
-import {
-  DeleteNoteMutationParams,
-  Note as NoteType,
-  UpdateNoteFn,
-} from "@/types/Note";
+import { DeleteMutation, Note as NoteType, UpdateNoteFn } from "@/types/Note";
 
 type NoteListProps = {
   addingNote: boolean;
   notes?: NoteType[];
   addNote: MouseEventHandler;
-  deleteNote: (params: DeleteNoteMutationParams) => void;
+  deleteNote: DeleteMutation;
   updateNote: UpdateNoteFn;
 };
 
-const NotesList: React.FC<NoteListProps> = ({
-  addingNote,
-  addNote,
-  notes,
-  updateNote,
-  deleteNote,
-}) => {
+const NotesList: React.FC<NoteListProps> = ({ addingNote, addNote, notes, updateNote, deleteNote }) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   return (
     <>
@@ -44,11 +34,7 @@ const NotesList: React.FC<NoteListProps> = ({
           );
         })}
 
-        <button
-          disabled={addingNote}
-          onClick={addNote}
-          className={styles.add_button}
-        >
+        <button disabled={addingNote} onClick={addNote} className={styles.add_button}>
           {addingNote ? (
             <Oval
               height={30}

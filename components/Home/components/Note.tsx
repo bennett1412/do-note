@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, ReactNode } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Tiptap from "./Tiptap";
 import styles from "@/styles/home/note.module.scss";
 import BottomMenu from "./BottomMenu";
@@ -6,8 +6,9 @@ import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
 import { colors } from "../../../utils/common/noteColors";
 import { motion } from "framer-motion";
-import useOnClickOutside from "@/hooks/useOnClickOutside";
+// import useOnClickOutside from "@/hooks/useOnClickOutside";
 import Head from "next/head";
+import { DeleteMutation, UpdateNoteFn } from "@/types/Note";
 
 type NoteProps = {
   title: string;
@@ -15,9 +16,9 @@ type NoteProps = {
   active: boolean;
   fsId: string;
   color: number;
-  updateNote: Function;
-  deleteNote: Function;
-  setSelectedId: Function;
+  updateNote: UpdateNoteFn;
+  deleteNote: DeleteMutation;
+  setSelectedId: (id: string | null) => void;
 };
 
 const Note: React.FC<NoteProps> = ({
@@ -35,7 +36,7 @@ const Note: React.FC<NoteProps> = ({
   const [colorIndex, setColorIndex] = useState<number>(noteColor);
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
-  const [inTransition, setInTransition] = useState<boolean>(false);
+  // const [inTransition, setInTransition] = useState<boolean>(false);
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== noteTitle) {
@@ -59,7 +60,7 @@ const Note: React.FC<NoteProps> = ({
   }, [noteColor, colorIndex, fsId, updateNote]);
 
   const closeNote = () => {
-    console.log('closing note')
+    console.log("closing note");
     setEditMode(false);
     setSelectedId(null);
   };
@@ -73,11 +74,11 @@ const Note: React.FC<NoteProps> = ({
     }
   };
 
-  const handleBackgroundClick = () => {
-    if (editMode) {
-      setEditMode(false);
-    }
-  };
+  //   const handleBackgroundClick = () => {
+  //     if (editMode) {
+  //       setEditMode(false);
+  //     }
+  //   };
 
   return (
     <div>
@@ -98,15 +99,8 @@ const Note: React.FC<NoteProps> = ({
         })}
         id={fsId}
         layoutId={fsId}
-        onTransitionEnd={() => {
-          setInTransition(false);
-        }}
       >
-        <motion.div
-          layout="position"
-          className={styles.note_main}
-          onClick={handleClick}
-        >
+        <motion.div layout="position" className={styles.note_main} onClick={handleClick}>
           <div style={{ display: "flex" }}>
             {(title != "" || editMode) && (
               <input
@@ -128,13 +122,7 @@ const Note: React.FC<NoteProps> = ({
             )}
           </div>
           {/* text editor component */}
-          <Tiptap
-            fsId={fsId}
-            editMode={editMode}
-            updateNote={updateNote}
-            content={content}
-          />
-
+          <Tiptap fsId={fsId} editMode={editMode} updateNote={updateNote} content={content} />
         </motion.div>
         {/* <Tags /> */}
         <BottomMenu
@@ -142,7 +130,7 @@ const Note: React.FC<NoteProps> = ({
           active={editMode}
           deleteNote={deleteNote}
           setEditMode={(flag: boolean) => {
-            noteRef.current!.scrollIntoView();
+            if (noteRef.current) noteRef.current.scrollIntoView();
             setEditMode(flag);
           }}
           setColor={setColorIndex}

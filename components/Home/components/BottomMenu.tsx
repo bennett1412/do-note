@@ -1,22 +1,20 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import styles from "@/styles/home/note.module.scss";
 import button from "@/styles/common/button.module.scss";
 import { FiEdit3 } from "react-icons/fi";
 import { TbPinned } from "react-icons/tb";
 import { MdOutlineDelete } from "react-icons/md";
-import { toast } from "react-hot-toast";
-import useDeleteNote from "../../../hooks/useDeleteNote";
 import ColorMenu from "@/components/Common/Menu";
-import { useAuthUser } from "../../../hooks/useAuthUser";
 import { clsx } from "clsx";
+import { DeleteMutation } from "@/types/Note";
 
 type BottomMenuProps = {
   setEditMode: (flag: boolean) => void;
   active: boolean;
   fsId: string;
-  setColor: Function;
+  setColor: (colorIndex: number) => void;
   theme: string;
-  deleteNote: Function;
+  deleteNote: DeleteMutation;
   isDeleting?: boolean;
 };
 
@@ -30,22 +28,15 @@ const BottomMenu: React.FC<BottomMenuProps> = ({
   isDeleting,
 }) => {
   const handleDelete = async () => {
-    const confirm = window.confirm(
-      "Are you sure you want to delete this note?"
-    );
+    const confirm = window.confirm("Are you sure you want to delete this note?");
     if (confirm) {
       deleteNote(fsId);
     }
   };
   return (
-    <div
-      className={clsx(styles.toolbar, styles.dark_toolbar && theme == "dark")}
-    >
+    <div className={clsx(styles.toolbar, styles.dark_toolbar && theme == "dark")}>
       <ColorMenu setColor={setColor} />
-      <button
-        onClick={() => setEditMode(true)}
-        className={button.toolbar_button}
-      >
+      <button onClick={() => setEditMode(true)} className={button.toolbar_button}>
         <FiEdit3 />
       </button>
       <button className={button.toolbar_button}>
@@ -53,11 +44,7 @@ const BottomMenu: React.FC<BottomMenuProps> = ({
       </button>
       {active && (
         <>
-          <button
-            disabled={isDeleting}
-            onClick={handleDelete}
-            className={button.toolbar_button}
-          >
+          <button disabled={isDeleting} onClick={handleDelete} className={button.toolbar_button}>
             <MdOutlineDelete />
           </button>
         </>

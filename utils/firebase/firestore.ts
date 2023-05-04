@@ -11,7 +11,6 @@ import {
   orderBy,
   query,
   where,
-  QuerySnapshot,
 } from "firebase/firestore";
 
 // * note related db operations
@@ -76,6 +75,6 @@ export const deleteNote = async (noteId: string) => {
     return res;
   } catch (error) {
     console.log(error);
-    return error;
+    throw new Error("Deletion Failed");
   }
 };

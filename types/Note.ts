@@ -1,3 +1,4 @@
+import { UseMutateFunction } from '@tanstack/react-query';
 export interface Note {
   id: string;
   noteTitle: string;
@@ -38,3 +39,6 @@ export type UpdateNoteFn = (noteId: string,
     colorIndex?: number;
     active?: boolean;
   }) => Promise<void>;
+
+
+export type DeleteMutation = UseMutateFunction<void, Error, string>;

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, UseMutationResult } from "@tanstack/react-query";
 import { deleteNote } from "../utils/firebase/firestore";
 import { DeleteNoteMutationParams, Note } from "@/types/Note";
 
@@ -6,22 +6,20 @@ const useDeleteNote = ({
   creatorId,
   successCb,
   errorCb,
-}: DeleteNoteMutationParams) => {
+}: DeleteNoteMutationParams): UseMutationResult<void, Error, string, void> => {
   const queryClient = useQueryClient();
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteNote,
-    onSuccess: (data, deletedNoteId) => {
+  const deleteMutation = useMutation<void, Error, string, void>((noteId: string) => deleteNote(noteId), {
+    // todo: add some check for verifying creatorid before deleting
+    onSuccess: (_, deletedNoteId) => {
       if (successCb) successCb();
-      queryClient.setQueryData(
-        ["notes", creatorId],
-        (oldNotes: Note[] | undefined) => {
-          if (oldNotes)
-            return oldNotes.filter((note) => note.id != deletedNoteId);
-        }
-      );
+      queryClient.setQueryData<Note[]>(["notes", creatorId], (oldNotes) => {
+        if (oldNotes) return oldNotes.filter((note) => note.id !== deletedNoteId);
+        return oldNotes;
+      });
     },
-    onError: () => {
+    onError: (error) => {
+      console.error("Error deleting note:", error);
       if (errorCb) errorCb();
     },
   });
