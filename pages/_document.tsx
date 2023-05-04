@@ -12,23 +12,22 @@ export default function Document() {
         <link rel="mask-icon" href="/favicon.svg" color="#d7dede" />
         <meta name="msapplication-TileColor" content="#d7dede" />
         <meta name="theme-color" content="#d7dede" />
-        {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
 
-        <meta name="description" content="Description" />
+        <meta name="description" content="A lightweight note-taking app that aims to combine the best of Google Keep and Notion" />
         <meta name="keywords" content="Keywords" />
         {/*twitter meta tags*/}
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:url" content="https://yourdomain.com" />
+        <meta name="twitter:card" content="A lightweight note-taking app." />
+        <meta name="twitter:url" content="https://do-note.vercel.app/" />
         <meta name="twitter:title" content="PWA App" />
         <meta name="twitter:description" content="Best PWA App in the world" />
         <meta name="twitter:image" content="https://yourdomain.com/icons/android-chrome-192x192.png" />
         <meta name="twitter:creator" content="@DavidWShadow" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="PWA App" />
-        <meta property="og:description" content="Best PWA App in the world" />
-        <meta property="og:site_name" content="PWA App" />
-        <meta property="og:url" content="https://yourdomain.com" />
-        <meta property="og:image" content="https://yourdomain.com/icons/apple-touch-icon.png" />
+        {/* <meta property="og:type" content="website" /> */}
+        {/* <meta property="og:title" content="PWA App" /> */}
+        {/* <meta property="og:description" content="Best PWA App in the world" /> */}
+        {/* <meta property="og:site_name" content="PWA App" /> */}
+        {/* <meta property="og:url" content="https://yourdomain.com" /> */}
+        {/* <meta property="og:image" content="https://yourdomain.com/icons/apple-touch-icon.png" /> */}
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
