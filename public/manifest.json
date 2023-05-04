@@ -2,10 +2,9 @@
   "name": "DoNote",
   "short_name": "DoNote",
   "theme_color": "#d7dede",
-  "background_color": "blue",
   "display": "fullscreen",
   "orientation": "portrait",
-  "scope": "/",
+  "scope": ".",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
