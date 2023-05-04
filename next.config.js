@@ -11,6 +11,15 @@ const nextConfig = {
       protocol: 'https',
       hostname: 'lh3.googleusercontent.com'
     }]
+  },
+  redirects: () => {
+    return [
+      {
+        source: '/',
+        destination: '/notes',
+        permanent: false
+      },
+    ]
   }
 }
 

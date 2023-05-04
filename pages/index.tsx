@@ -6,11 +6,3 @@ export default function Home() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    redirect: {
-      permanent: false,
-      destination: "/auth"
-    }
-  }
-}
