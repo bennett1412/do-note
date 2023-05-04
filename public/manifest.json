@@ -4,8 +4,8 @@
   "theme_color": "#d7dede",
   "display": "standalone",
   "orientation": "portrait",
-  "scope": "/",
-  "start_url":"/notes",
+  "scope": ".",
+  "start_url":"./",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
