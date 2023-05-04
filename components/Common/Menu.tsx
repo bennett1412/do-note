@@ -6,7 +6,10 @@ import { IoIosColorPalette } from "react-icons/io";
 import styles from "@/styles/common/colormenu.module.scss";
 import button from "@/styles/common/button.module.scss";
 import { colors } from "@/utils/common/noteColors";
-const ColorMenu = ({ setColor }: { setColor: Function }) => {
+type ColorMenuProps = {
+  setColor: (colorIndex: number) => void;
+};
+const ColorMenu = ({ setColor }: ColorMenuProps) => {
   // #FFEBD1 #FFC6C6 #DBD5FF #0D5C63 241623 #241623
   return (
     <Menu
@@ -23,10 +26,7 @@ const ColorMenu = ({ setColor }: { setColor: Function }) => {
     >
       {colors.map((color, i) => (
         <MenuItem key={i} className={styles.color_menu_item}>
-          <button
-            onClick={() => setColor(i)}
-            style={{ background: color }}
-          ></button>
+          <button onClick={() => setColor(i)} style={{ background: color }}></button>
         </MenuItem>
       ))}
     </Menu>

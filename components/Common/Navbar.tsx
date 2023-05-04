@@ -26,14 +26,7 @@ const Navbar = () => {
           <>
             <Menu
               //todo: change to custom next image component
-              menuButton={
-                <Image
-                  width={32}
-                  height={32}
-                  src={user.photoURL!}
-                  alt="profile-pic"
-                />
-              }
+              menuButton={<Image width={32} height={32} src={user.photoURL!} alt="profile-pic" />}
               direction="bottom"
               offsetY={12}
               align="end"
