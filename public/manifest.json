@@ -2,9 +2,9 @@
   "name": "DoNote",
   "short_name": "DoNote",
   "theme_color": "#d7dede",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
-  "scope": ".",
+  "scope": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -23,5 +23,5 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/"
+  "start_url": "/notes"
 }
