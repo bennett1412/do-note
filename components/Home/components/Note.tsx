@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 // import useOnClickOutside from "@/hooks/useOnClickOutside";
 import Head from "next/head";
 import { DeleteMutation, UpdateNoteFn } from "@/types/Note";
+import Button from "@/components/Common/Button";
 
 type NoteProps = {
   title: string;
@@ -116,9 +117,9 @@ const Note: React.FC<NoteProps> = ({
               />
             )}
             {editMode && (
-              <button onClick={closeNote} className={"icon_button"}>
-                <IoClose style={{ mixBlendMode: "difference" }} size={25} />
-              </button>
+              <Button onClick={closeNote} className={"icon_button"}>
+                {/* <IoClose style={{ mixBlendMode: "difference" }} size={25} /> */}
+              </Button>
             )}
           </div>
           {/* text editor component */}

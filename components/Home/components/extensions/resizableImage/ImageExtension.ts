@@ -1,15 +1,38 @@
-import Image from "@tiptap/extension-image";
+import Image, { ImageOptions } from "@tiptap/extension-image";
 import { mergeAttributes, ReactNodeViewRenderer } from "@tiptap/react";
 import ImageWrapper from "./ImageWrapper";
+interface CustomImageOptions extends ImageOptions {
+  src: string;
+  width: number;
+}
 
-const CustomImageExtension = Image.extend({
-  addOptions: {
-    ...Image.options,
-    width: 30,
-  },
-  addAttributes() {
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    customImage: {
+      /**
+       * Add a custom image node
+       */
+      addCustomImage: (
+        attributes: CustomImageOptions,
+      ) => ReturnType;
+    };
+  }
+}
+const CustomImageExtension = Image.extend<CustomImageOptions>({
+  addOptions() {
+    const baseOptions = Image.options as ImageOptions;
     return {
-      ...Image.config.addAttributes(),
+      ...baseOptions,
+      width: 30,
+      src: ''
+    };
+  },
+  addAttributes(this) {
+    const baseAttributes = Image.options.HTMLAttributes;
+    console.log(baseAttributes)
+    // ?? {};
+    return {
+      ...baseAttributes,
       src: {
         default: "",
         parseHTML: (element) => element.getAttribute("src"),

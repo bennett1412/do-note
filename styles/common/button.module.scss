@@ -1,13 +1,48 @@
-@use '../utilities/buttons';
+// @use "../utilities/buttons";
+
+.button {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: box-shadow 0.25s;
+  position: relative;
+  background-color: var(--button-bg);
+  color: var(--button-font-color);
+  border-radius: 10px;
+  svg {
+    // fill: var(--button-font-color);
+    color: var(--button-font-color);
+    stroke: var(--button-font-color);
+  }
+
+  @media (prefers-color-scheme: light) {
+    background-color: var(--button-bg-light);
+    color: var(--button-font-color-light);
+
+    svg {
+      // fill: var(--button-font-color-light);
+      color: var(--button-font-color-light);
+      stroke: var(--button-font-color-light);
+    }
+  }
+}
+
+.button:focus,
+.button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
 
 .toolbar_button {
-  @extend .button;
+  // @extend .button;
   padding: 0.5rem;
   width: 2rem;
   height: 2rem;
   border-radius: 100%;
   margin: auto;
-  position: relative;
 
   svg {
     position: absolute;
@@ -15,9 +50,4 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
-}
-
-.dark_toolbar .toolbar_button {
-  background-color: white;
-  color-scheme: light;
 }

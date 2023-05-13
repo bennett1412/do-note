@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "@/styles/home/note.module.scss";
 import button from "@/styles/common/button.module.scss";
 import { FiEdit3 } from "react-icons/fi";
@@ -7,6 +7,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import ColorMenu from "@/components/Common/Menu";
 import { clsx } from "clsx";
 import { DeleteMutation } from "@/types/Note";
+import Button from "@/components/Common/Button";
 
 type BottomMenuProps = {
   setEditMode: (flag: boolean) => void;
@@ -18,7 +19,7 @@ type BottomMenuProps = {
   isDeleting?: boolean;
 };
 
-const BottomMenu: React.FC<BottomMenuProps> = ({
+const BottomMenu: FC<BottomMenuProps> = ({
   setEditMode,
   active,
   fsId,
@@ -36,17 +37,17 @@ const BottomMenu: React.FC<BottomMenuProps> = ({
   return (
     <div className={clsx(styles.toolbar, styles.dark_toolbar && theme == "dark")}>
       <ColorMenu setColor={setColor} />
-      <button onClick={() => setEditMode(true)} className={button.toolbar_button}>
+      <Button onClick={() => setEditMode(true)} className={button.toolbar_button}>
         <FiEdit3 />
-      </button>
-      <button className={button.toolbar_button}>
+      </Button>
+      <Button className={button.toolbar_button}>
         <TbPinned />
-      </button>
+      </Button>
       {active && (
         <>
-          <button disabled={isDeleting} onClick={handleDelete} className={button.toolbar_button}>
+          <Button disabled={isDeleting} onClick={handleDelete} className={button.toolbar_button}>
             <MdOutlineDelete />
-          </button>
+          </Button>
         </>
       )}
     </div>

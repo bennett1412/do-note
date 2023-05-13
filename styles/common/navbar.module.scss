@@ -1,7 +1,7 @@
 @use "../utilities/colors";
 
 .nav {
-  background: #eff2f1;
+  background: var(--background-color);
   font-family: "Josefin Sans", sans-serif;
   color: black;
   position: -webkit-sticky;
@@ -37,5 +37,9 @@
   .menu_item {
     justify-content: space-around;
     padding-inline: 0.5rem;
+  }
+
+  @media (prefers-color-scheme: light) {
+    background-color: var(--bg-light);
   }
 }

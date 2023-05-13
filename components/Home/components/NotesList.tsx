@@ -4,6 +4,7 @@ import styles from "@/styles/home/noteslist.module.scss";
 import { IoAddOutline } from "react-icons/io5";
 import { Oval } from "react-loader-spinner";
 import { DeleteMutation, Note as NoteType, UpdateNoteFn } from "@/types/Note";
+import Button from "@/components/Common/Button";
 
 type NoteListProps = {
   addingNote: boolean;
@@ -34,7 +35,7 @@ const NotesList: React.FC<NoteListProps> = ({ addingNote, addNote, notes, update
           );
         })}
 
-        <button disabled={addingNote} onClick={addNote} className={styles.add_button}>
+        <Button disabled={addingNote} onClick={addNote} className={styles.add_button}>
           {addingNote ? (
             <Oval
               height={30}
@@ -51,7 +52,7 @@ const NotesList: React.FC<NoteListProps> = ({ addingNote, addNote, notes, update
           ) : (
             <IoAddOutline size={25} color="white" />
           )}
-        </button>
+        </Button>
       </section>
       {/* {selectedId && (
         <div

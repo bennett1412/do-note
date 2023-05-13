@@ -6,15 +6,15 @@ import { IoIosColorPalette } from "react-icons/io";
 import styles from "@/styles/common/colormenu.module.scss";
 import button from "@/styles/common/button.module.scss";
 import { colors } from "@/utils/common/noteColors";
+import clsx from "clsx";
 type ColorMenuProps = {
   setColor: (colorIndex: number) => void;
 };
 const ColorMenu = ({ setColor }: ColorMenuProps) => {
-  // #FFEBD1 #FFC6C6 #DBD5FF #0D5C63 241623 #241623
   return (
     <Menu
       menuButton={
-        <MenuButton className={button.toolbar_button}>
+        <MenuButton className={clsx(button.button, button.toolbar_button)}>
           <IoIosColorPalette />
         </MenuButton>
       }

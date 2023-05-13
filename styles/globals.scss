@@ -1,9 +1,16 @@
 :root {
+  --font-color: rgba(255, 255, 255, 0.87);
+  --font-color-light: #213547;
+  --bg: black; //change this
+  --bg-light: #eff2f1;
+  --button-bg: #f9f9f9;
+  --button-bg-light: #1a1a1a;
+  --button-font-color: #333333;
+  --button-font-color-light: #e6e6e6;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #eff2f1;
+  color: var(--font-color);
+  background-color: var(--bg);
   box-sizing: border-box;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,7 +20,7 @@
 }
 
 html,
-body{
+body {
   margin: 0;
   width: 100%;
   height: 100%;
@@ -22,7 +29,7 @@ body{
 #__next {
   min-height: 100%;
   min-width: 100%;
-  background: #eff2f1;
+  background: var(--bg);
 }
 
 h1 {
@@ -31,15 +38,13 @@ h1 {
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+  #__next {
+    color: var(--font-color-light);
+    background-color: var(--bg-light);
   }
-  a:hover {
-    color: #747bff;
-  }
+
   button {
-    background-color: #f9f9f9;
+    background-color: var(--button-bg);
   }
 }
 
@@ -57,7 +62,7 @@ h1 {
 .icon_button {
   position: relative;
   background-color: transparent;
-  padding: 0.5rem;
+  // padding: 0.5rem;
   border-radius: 10px;
   width: 1.5rem;
   height: 1.5rem;
@@ -81,5 +86,3 @@ h1 {
     transform: translate(-50%, -50%);
   }
 }
-
-

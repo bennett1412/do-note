@@ -5,26 +5,22 @@
   grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
   padding: 1rem;
   justify-items: center;
+
+  .add_button {
+    display: flex;
+    border: none;
+    width: 4rem;
+    height: 3rem;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    bottom: 10%;
+    right: 5%;
+    // box-shadow: 3px 1.5px 3px #232336;
+    &:active {
+      box-shadow: none;
+    }
+  }
 }
 
-.add_button {
-  cursor: pointer;
-  background-color: black;
-  display: flex;
-  border: none;
-  border-radius: 10px;
-  width: 4rem;
-  height: 3rem;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  bottom: 10%;
-  right: 5%;
-  svg {
-    color: white;
-  }
-  // box-shadow: 3px 1.5px 3px #232336;
-  &:active {
-    box-shadow: none;
-  }
-}
+
