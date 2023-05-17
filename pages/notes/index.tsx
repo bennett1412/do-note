@@ -1,5 +1,5 @@
 import { DotsLoader } from "@/components/Common/Loader";
-import Home from "@/components/Home/Home";
+import Home from "@/components/Home";
 import {
   AuthAction,
   withAuthUser,

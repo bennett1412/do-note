@@ -42,6 +42,7 @@ const Home: React.FC = () => {
             type: "paragraph",
           },
         ],
+
       }),
     };
     addMutate({

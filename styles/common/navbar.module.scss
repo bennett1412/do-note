@@ -1,9 +1,10 @@
 @use "../utilities/colors";
 
 .nav {
-  background: var(--background-color);
+  background: var(--color-surface-100);
+  color: var(--color-primary-100);
   font-family: "Josefin Sans", sans-serif;
-  color: black;
+  // color: var(--color-primary-100);
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -16,7 +17,7 @@
   z-index: 1;
   a {
     text-decoration: none;
-    color: black;
+    color: var(--color-primary-100);
     padding: 3px;
     border-radius: 10px;
   }
@@ -38,8 +39,12 @@
     justify-content: space-around;
     padding-inline: 0.5rem;
   }
-
+  
   @media (prefers-color-scheme: light) {
-    background-color: var(--bg-light);
+    color: var(--color-surface-100);
+    background-color: var(--color-primary-100);
+    a {
+      color: var(--color-surface-100);
+    }
   }
 }

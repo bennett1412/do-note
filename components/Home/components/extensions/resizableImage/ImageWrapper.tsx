@@ -16,10 +16,10 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes }: NodeViewProps) => 
       } else if (e.pageX > lastClientX.current) {
         direction = "right";
       }
-      console.log(direction)
+      // console.log(direction)
       let currWidth = parseInt(imgRef.current.style.width);
       // const currHeight = imgRef.current.style.height;
-      console.log(currWidth)
+      // console.log(currWidth)
       currWidth = Math.round(currWidth);
       const diff = 0.008 * currWidth;
       let subtract = diff;

@@ -10,23 +10,24 @@
   cursor: pointer;
   transition: box-shadow 0.25s;
   position: relative;
-  background-color: var(--button-bg);
-  color: var(--button-font-color);
+  background-color: var(--color-surface-300);
+  color: var(--color-primary-100);
   border-radius: 10px;
+  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
   svg {
     // fill: var(--button-font-color);
-    color: var(--button-font-color);
-    stroke: var(--button-font-color);
+    color: var(--color-primary-100);
+    stroke: var(--color-primary-100);
   }
 
   @media (prefers-color-scheme: light) {
-    background-color: var(--button-bg-light);
-    color: var(--button-font-color-light);
+    background-color: var(--color-primary-300);
+    color: var(--color-primary-100);
 
     svg {
       // fill: var(--button-font-color-light);
-      color: var(--button-font-color-light);
-      stroke: var(--button-font-color-light);
+      color: var(--color-surface-100);
+      stroke: var(--color-surface-100);
     }
   }
 }

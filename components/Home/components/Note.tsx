@@ -16,7 +16,7 @@ type NoteProps = {
   content: string;
   active: boolean;
   fsId: string;
-  color: number;
+  color: number | undefined;
   updateNote: UpdateNoteFn;
   deleteNote: DeleteMutation;
   setSelectedId: (id: string | null) => void;
@@ -34,7 +34,7 @@ const Note: React.FC<NoteProps> = ({
 }) => {
   const [editMode, setEditMode] = useState<boolean>(active);
   const [title, setTitle] = useState<string>(noteTitle);
-  const [colorIndex, setColorIndex] = useState<number>(noteColor);
+  const [colorIndex, setColorIndex] = useState<number | undefined>(noteColor);
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
   // const [inTransition, setInTransition] = useState<boolean>(false);
@@ -61,7 +61,7 @@ const Note: React.FC<NoteProps> = ({
   }, [noteColor, colorIndex, fsId, updateNote]);
 
   const closeNote = () => {
-    console.log("closing note");
+    // console.log("closing note");
     setEditMode(false);
     setSelectedId(null);
   };
@@ -75,6 +75,13 @@ const Note: React.FC<NoteProps> = ({
     }
   };
 
+  const isDarkMode = typeof window != undefined && window.matchMedia("(prefers-color-scheme:dark)").matches;
+  const getColor = (index: number | undefined) => {
+    // console.log(colors[index]);
+    if (index) return colors[index];
+    console.log(isDarkMode)
+    return isDarkMode ? "var(--color-surface-200)" : "var(--color-primary-200)";
+  };
   //   const handleBackgroundClick = () => {
   //     if (editMode) {
   //       setEditMode(false);
@@ -91,12 +98,12 @@ const Note: React.FC<NoteProps> = ({
         transition={{ zIndex: { duration: 0 } }}
         layout
         style={{
-          backgroundColor: colors[colorIndex] ?? colors[2],
+          backgroundColor: getColor(colorIndex),
         }}
         className={clsx({
           [styles.note_container]: true,
           [styles.note_active]: editMode,
-          [styles.dark]: colorIndex > 2,
+          [styles.dark]: colorIndex ? colorIndex > 2 : isDarkMode,
         })}
         id={fsId}
         layoutId={fsId}
@@ -107,7 +114,7 @@ const Note: React.FC<NoteProps> = ({
               <input
                 // layout='position'
                 ref={ref}
-                style={{ backgroundColor: colors[colorIndex] ?? colors[2] }}
+                style={{ backgroundColor: getColor(colorIndex) }}
                 disabled={!editMode}
                 defaultValue={title}
                 placeholder="Enter Title"
@@ -117,8 +124,8 @@ const Note: React.FC<NoteProps> = ({
               />
             )}
             {editMode && (
-              <Button onClick={closeNote} className={"icon_button"}>
-                {/* <IoClose style={{ mixBlendMode: "difference" }} size={25} /> */}
+              <Button onClick={closeNote} className={styles.icon_button}>
+                <IoClose size={25} />
               </Button>
             )}
           </div>

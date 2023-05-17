@@ -1,22 +1,48 @@
 :root {
-  --font-color: rgba(255, 255, 255, 0.87);
-  --font-color-light: #213547;
-  --bg: black; //change this
-  --bg-light: #eff2f1;
-  --button-bg: #f9f9f9;
-  --button-bg-light: #1a1a1a;
-  --button-font-color: #333333;
-  --button-font-color-light: #e6e6e6;
+  // --font-color: #f8f9f9;
+  // --font-color-light: #213547;
+  // --bg: black; //change this
+  // --bg-light: #eff2f1;
+  // --button-bg: #4b4c4c;
+  // --button-bg-light: #1a1a1a;
+  // --button-font-color: #;
+  // --button-font-color-light: #e6e6e6;
+  --weak-border: #0b0e0d1c;
+  /** CSS DARK THEME PRIMARY COLORS */
+  --color-primary-100: #eff2f1;
+  --color-primary-200: #f1f3f3;
+  --color-primary-300: #f3f5f4;
+  --color-primary-400: #f4f6f6;
+  --color-primary-500: #f6f8f7;
+  --color-primary-600: #f8f9f9;
+
+  /* --color-primary-100: #eff2f1; */
+  /* --color-primary-200: #babcbc; */
+  /* --color-primary-300: #888a89; */
+  /* --color-primary-400: #595a5a; */
+  /* --color-primary-500: #2e2e2e; */
+  /* --color-primary-600: #000000; */
+
+  /** CSS DARK THEME SURFACE COLORS */
+  --color-surface-100: #0b0e0d;
+  --color-surface-200: #232524;
+  --color-surface-300: #3a3c3b;
+  --color-surface-400: #535554;
+  --color-surface-500: #6d6f6e;
+  --color-surface-600: #898a89;
+
+  color: var(--color-primary-100);
+  background-color: var(--color-surface-100);
+
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
-  color: var(--font-color);
-  background-color: var(--bg);
   box-sizing: border-box;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  transition: color 0.3s, background-color 0.3s;
 }
 
 html,
@@ -29,7 +55,7 @@ body {
 #__next {
   min-height: 100%;
   min-width: 100%;
-  background: var(--bg);
+  // background: var();
 }
 
 h1 {
@@ -38,13 +64,9 @@ h1 {
 }
 
 @media (prefers-color-scheme: light) {
-  #__next {
-    color: var(--font-color-light);
-    background-color: var(--bg-light);
-  }
-
-  button {
-    background-color: var(--button-bg);
+  :root {
+    color: var(--color-surface-100);
+    background-color: var(--color-primary-100);
   }
 }
 
@@ -86,3 +108,17 @@ h1 {
     transform: translate(-50%, -50%);
   }
 }
+
+/* 
+Dark/Mixed - 100: For body background color
+
+Dark/Mixed - 200: For cards background color
+
+Dark/Mixed - 300: For chips buttons, dropdowns background color
+
+Dark/Mixed - 400: For sidebars, navbar background color
+
+Dark/Mixed - 500: For modal, dialogs background color
+
+Dark/Mixed - 600: For on background texts color
+*/

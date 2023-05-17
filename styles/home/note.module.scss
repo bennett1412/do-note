@@ -11,14 +11,15 @@
   border: 1px colors.$note-border solid;
   border-radius: 10px;
   padding: 0.8rem;
-  background-color: colors.$note-background;
+  background-color: var(--color-surface-200);
+  color: var(--color-surface-100);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition-property: background, color;
   transition-duration: 0.2s, 0.2s;
   font-family: "Fira Mono", monospace;
-  color: black;
+  /* color: black; */
   // @extend .masked-overflow;
   .note_main {
     flex-grow: 1;
@@ -42,10 +43,40 @@
     margin-bottom: 0.5rem;
     transition-property: background, color;
     transition-duration: 0.2s;
-    color: black;
+    color: inherit;
   }
-  .title.dark_theme {
-    color: colors.$dark;
+  /* .title.dark_theme { */
+  /* color: colors.$dark; */
+  /* } */
+  .icon_button {
+    position: relative;
+    background-color: transparent;
+    // padding: 0.5rem;
+    box-shadow: none;
+    border-radius: 10px;
+    width: 1.5rem;
+    height: 1.5rem;
+    /* border: 1px solid transparent; */
+    &:active {
+      background: rgba(135, 141, 141, 0.441);
+      /* mix-blend-mode: difference; */
+    }
+    &:hover {
+      background: rgba(135, 141, 141, 0.25);
+      /* mix-blend-mode: difference; */
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 10px;
+    }
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      width: 1rem;
+      height: 1rem;
+    }
   }
 }
 .in_transition {
@@ -90,10 +121,10 @@
 }
 
 .dark {
-  color: white;
-  border: 1px solid black;
+  color: var(--color-primary-100);
+  border: 1px solid var(--color-surface-200);
   input[type="text"] {
-    color: white;
+    color: var(--color-primary-100);
   }
 }
 
