@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import Head from "next/head";
 import { DeleteMutation, UpdateNoteFn } from "@/types/Note";
 import Button from "@/components/Common/Button";
+import useDarkModeDetection from "@/hooks/useDarkMode";
 
 type NoteProps = {
   title: string;
@@ -38,6 +39,7 @@ const Note: React.FC<NoteProps> = ({
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
   // const [inTransition, setInTransition] = useState<boolean>(false);
+  const isDarkMode = useDarkModeDetection();
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== noteTitle) {
@@ -75,11 +77,9 @@ const Note: React.FC<NoteProps> = ({
     }
   };
 
-  const isDarkMode = typeof window != undefined && window.matchMedia("(prefers-color-scheme:dark)").matches;
   const getColor = (index: number | undefined) => {
     // console.log(colors[index]);
     if (index) return colors[index];
-    console.log(isDarkMode)
     return isDarkMode ? "var(--color-surface-200)" : "var(--color-primary-200)";
   };
   //   const handleBackgroundClick = () => {

@@ -1,6 +1,7 @@
 import { MutatingDots, Oval, Rings } from "react-loader-spinner";
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/common/loader.module.scss";
+import useDarkModeDetection from "@/hooks/useDarkMode";
 export const OvalLoader = ({ magnify }: { magnify: string }) => {
   const style = {
     position: "fixed",
@@ -25,14 +26,7 @@ export const OvalLoader = ({ magnify }: { magnify: string }) => {
 };
 
 export const DotsLoader = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  useEffect(() => {
-    if (window && typeof window !== undefined) {
-      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)")) {
-        setIsDarkTheme(true);
-      }
-    }
-  }, []);
+  const isDarkTheme = useDarkModeDetection();
 
   return (
     <MutatingDots
