@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addNote } from "../utils/firebase/firestore";
+// import { addNote } from "../utils/firebase/firestore";
+import { addNote } from "@/api-integ";
 import { Note, AddNoteParams, AddNoteMutationParams } from "@/types/Note";
 
 const useAddNote = ({

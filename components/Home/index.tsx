@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NotesList from "./components/NotesList";
 import { toast } from "react-hot-toast";
 
@@ -7,13 +7,26 @@ import useGetNotes from "@/hooks/useGetNotes";
 import { updateNote } from "@/utils/firebase/firestore";
 import { NoteContent } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
-import { useAuthUser } from "next-firebase-auth";
+import { useAuthUser, verifyIdToken } from "next-firebase-auth";
 // import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
+import { addToken } from "@/api-integ";
 
 const Home: React.FC = () => {
   const user = useAuthUser();
+  useEffect(() => {
+    const updateAxios = async () => {
+      try {
+        const token = await user.getIdToken();
+        if (token) addToken(token);
+        else console.log("Token missing");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    updateAxios();
+  }, []);
   const { data: notes, isLoading } = useGetNotes(user.id);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
     creatorId: user.id,
@@ -42,7 +55,6 @@ const Home: React.FC = () => {
             type: "paragraph",
           },
         ],
-
       }),
     };
     addMutate({
