@@ -15,7 +15,7 @@ export interface NoteContent {
 }
 export type AddNoteParams = {
   newNote: NoteContent,
-  creatorId: string | null
+  creatorId?: string | null
 }
 
 type cbFn = () => void;
@@ -38,7 +38,7 @@ export type UpdateNoteFn = (noteId: string,
     noteContent?: string;
     colorIndex?: number;
     active?: boolean;
-  }) => Promise<void>;
+  }) => Promise<string>;
 
 
 export type DeleteMutation = UseMutateFunction<void, Error, string>;

@@ -10,6 +10,7 @@ import { Placeholder } from "@tiptap/extension-placeholder";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
 import { UpdateNoteFn } from "@/types/Note";
+import { toast } from "react-hot-toast";
 
 type TiptapProps = {
   editMode: boolean;
@@ -63,9 +64,16 @@ const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote }) 
     const handler = setTimeout(() => {
       if (editor && !editor.isDestroyed && noteContent !== content) {
         const syncNote = async () => {
-          await updateNote(fsId, {
-            noteContent: JSON.stringify(editor.getJSON()),
-          });
+          try {
+            await updateNote(fsId, {
+              noteContent: JSON.stringify(editor.getJSON()),
+            });
+          } catch (error: any) {
+            console.log(error.message);
+            toast.error("Failed to update your note", {
+              id: "update-fail",
+            });
+          }
         };
         syncNote();
         updateSync(false);

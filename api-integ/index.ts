@@ -1,4 +1,4 @@
-import { AddNoteParams, Note } from "@/types/Note";
+import { AddNoteParams, Note, UpdateNoteFn } from "@/types/Note";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 const API = axios.create({
@@ -26,7 +26,7 @@ export const getNotes = async (): Promise<[Note]> => {
   }
 };
 
-export const addNote = async (newNote: AddNoteParams): Promise<string> => {
+export const addNote = async ({ newNote }: AddNoteParams): Promise<string> => {
   try {
     const res = await API.post("/notes", {
       newNote: newNote,
@@ -35,5 +35,26 @@ export const addNote = async (newNote: AddNoteParams): Promise<string> => {
   } catch (error) {
     console.log(error);
     throw Error("Failed to add note");
+  }
+};
+
+export const updateNote: UpdateNoteFn = async (fsId, newNote): Promise<string> => {
+  try {
+    const res = await API.put(`notes/${fsId}`, {
+      updatedNote: newNote,
+    });
+    return res.data.noteId;
+  } catch (error) {
+    throw Error("Failed to update note");
+  }
+};
+
+export const deleteNote = async (noteId: string) => {
+  try {
+    const res = await API.delete(`/notes/${noteId}`);
+    return res.data.noteId;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Deletion Failed");
   }
 };

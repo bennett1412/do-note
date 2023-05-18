@@ -4,14 +4,14 @@ import { toast } from "react-hot-toast";
 
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
-import { updateNote } from "@/utils/firebase/firestore";
+// import { updateNote } from "@/utils/firebase/firestore";
 import { NoteContent } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
 import { useAuthUser, verifyIdToken } from "next-firebase-auth";
 // import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
-import { addToken } from "@/api-integ";
+import { addToken, updateNote, deleteNote } from "@/api-integ";
 
 const Home: React.FC = () => {
   const user = useAuthUser();
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
     };
     addMutate({
       newNote: newNote,
-      creatorId: user.id,
+      // creatorId: user.id,
     });
   };
 

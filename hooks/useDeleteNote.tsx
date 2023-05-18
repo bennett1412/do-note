@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient, UseMutationResult } from "@tanstack/react-query";
-import { deleteNote } from "../utils/firebase/firestore";
+// import { deleteNote } from "../utils/firebase/firestore";
+import { deleteNote } from "@/api-integ";
 import { DeleteNoteMutationParams, Note } from "@/types/Note";
 
 const useDeleteNote = ({
