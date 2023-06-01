@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, CSSProperties } from "react";
 import Tiptap from "./Tiptap";
 import styles from "@/styles/home/note.module.scss";
 import BottomMenu from "./BottomMenu";
@@ -11,6 +11,7 @@ import Head from "next/head";
 import { DeleteMutation, UpdateNoteFn } from "@/types/Note";
 import Button from "@/components/Common/Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
+import { CustomStyle } from "@/types/Styles";
 
 type NoteProps = {
   title: string;
@@ -61,9 +62,8 @@ const Note: React.FC<NoteProps> = ({
       });
     }
   }, [noteColor, colorIndex, fsId, updateNote]);
-
+  
   const closeNote = () => {
-    // console.log("closing note");
     setEditMode(false);
     setSelectedId(null);
   };
@@ -108,7 +108,16 @@ const Note: React.FC<NoteProps> = ({
         id={fsId}
         layoutId={fsId}
       >
-        <motion.div layout="position" className={styles.note_main} onClick={handleClick}>
+        <motion.div
+          style={{
+            WebkitBoxShadow: `inset 0px -50px 5px -6px ${getColor(colorIndex)}`,
+            MozBoxShadow: `inset 0px -30px 5px -6px ${getColor(colorIndex)}`,
+            boxShadow: `inset 0px -30px 5px -6px ${getColor(colorIndex)}`,
+          }}
+          layout="position"
+          className={styles.note_main}
+          onClick={handleClick}
+        >
           <div style={{ display: "flex" }}>
             {(title != "" || editMode) && (
               <input
@@ -130,7 +139,13 @@ const Note: React.FC<NoteProps> = ({
             )}
           </div>
           {/* text editor component */}
-          <Tiptap fsId={fsId} editMode={editMode} updateNote={updateNote} content={content} />
+          <Tiptap
+            style={{ "--note-bg": getColor(colorIndex) } as CustomStyle}
+            fsId={fsId}
+            editMode={editMode}
+            updateNote={updateNote}
+            content={content}
+          />
         </motion.div>
         {/* <Tags /> */}
         <BottomMenu

@@ -19,6 +19,7 @@
   transition-property: background, color;
   transition-duration: 0.2s, 0.2s;
   font-family: "Fira Mono", monospace;
+
   /* color: black; */
   // @extend .masked-overflow;
   .note_main {
@@ -151,6 +152,7 @@
   width: 100%;
   outline: none;
   border: none;
+  position: relative;
   // custom scrollbar
   ::-webkit-scrollbar {
     width: 8px;
@@ -176,6 +178,16 @@
     background: transparent;
     cursor: pointer;
     border-radius: 30px;
+  }
+  &::after {
+    content: " ";
+    height: 20px;
+    width: 100%;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--note-bg) 100%);
+    display: block;
+    position: absolute;
+    bottom: 0;
   }
 
   .ProseMirror,

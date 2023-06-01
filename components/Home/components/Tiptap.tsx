@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import FloatingMenu from "./minorComponents/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
@@ -10,15 +10,17 @@ import { Placeholder } from "@tiptap/extension-placeholder";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
 import { UpdateNoteFn } from "@/types/Note";
+import { CustomStyle } from "@/types/Styles";
 
 type TiptapProps = {
   editMode: boolean;
   content: string;
   fsId: string;
   updateNote: UpdateNoteFn;
+  style: CustomStyle;
 };
 
-const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote }) => {
+const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote, style }) => {
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
   const editor = useEditor({
@@ -79,7 +81,7 @@ const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote }) 
   return (
     <>
       <FloatingMenu editor={editor} />
-      <EditorContent className={styles.editor} editor={editor} />
+      <EditorContent style={style} className={styles.editor} editor={editor} />
     </>
   );
 };
