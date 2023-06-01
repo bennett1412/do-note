@@ -25,6 +25,17 @@
   .note_main {
     flex-grow: 1;
     overflow: hidden;
+    position: relative;
+    &::after {
+      content: " ";
+      height: 20px;
+      width: 100%;
+      background: rgb(0, 0, 0);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--note-bg) 100%);
+      display: block;
+      position: absolute;
+      bottom: 0px;
+    }
   }
   &:hover {
     -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
@@ -158,6 +169,8 @@
     width: 8px;
     height: 8px;
     border-radius: 30px;
+    position: relative;
+    z-index: 10;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -178,16 +191,6 @@
     background: transparent;
     cursor: pointer;
     border-radius: 30px;
-  }
-  &::after {
-    content: " ";
-    height: 20px;
-    width: 100%;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--note-bg) 100%);
-    display: block;
-    position: absolute;
-    bottom: 0;
   }
 
   .ProseMirror,

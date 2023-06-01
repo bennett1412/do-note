@@ -17,7 +17,7 @@ type TiptapProps = {
   content: string;
   fsId: string;
   updateNote: UpdateNoteFn;
-  style: CustomStyle;
+  style?: CustomStyle;
 };
 
 const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote, style }) => {

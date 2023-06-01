@@ -62,7 +62,7 @@ const Note: React.FC<NoteProps> = ({
       });
     }
   }, [noteColor, colorIndex, fsId, updateNote]);
-  
+
   const closeNote = () => {
     setEditMode(false);
     setSelectedId(null);
@@ -109,11 +109,7 @@ const Note: React.FC<NoteProps> = ({
         layoutId={fsId}
       >
         <motion.div
-          style={{
-            WebkitBoxShadow: `inset 0px -50px 5px -6px ${getColor(colorIndex)}`,
-            MozBoxShadow: `inset 0px -30px 5px -6px ${getColor(colorIndex)}`,
-            boxShadow: `inset 0px -30px 5px -6px ${getColor(colorIndex)}`,
-          }}
+          style={{ "--note-bg": getColor(colorIndex) } as CustomStyle}
           layout="position"
           className={styles.note_main}
           onClick={handleClick}
@@ -139,13 +135,7 @@ const Note: React.FC<NoteProps> = ({
             )}
           </div>
           {/* text editor component */}
-          <Tiptap
-            style={{ "--note-bg": getColor(colorIndex) } as CustomStyle}
-            fsId={fsId}
-            editMode={editMode}
-            updateNote={updateNote}
-            content={content}
-          />
+          <Tiptap fsId={fsId} editMode={editMode} updateNote={updateNote} content={content} />
         </motion.div>
         {/* <Tags /> */}
         <BottomMenu
