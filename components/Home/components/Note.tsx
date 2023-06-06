@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, CSSProperties } from "react";
+import React, { useRef, useEffect, useState, CSSProperties, useContext } from "react";
 import Tiptap from "./Tiptap";
 import styles from "@/styles/home/note.module.scss";
 import BottomMenu from "./BottomMenu";
@@ -12,6 +12,7 @@ import { DeleteMutation, UpdateNoteFn } from "@/types/Note";
 import Button from "@/components/Common/Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
 import { CustomStyle } from "@/types/Styles";
+import { NotesContext, NotesContextValue } from "./NotesList";
 
 type NoteProps = {
   title: string;
@@ -19,8 +20,8 @@ type NoteProps = {
   active: boolean;
   fsId: string;
   color: number | undefined;
-  updateNote: UpdateNoteFn;
-  deleteNote: DeleteMutation;
+  // updateNote: UpdateNoteFn;
+  // deleteNote: DeleteMutation;
   setSelectedId: (id: string | null) => void;
 };
 
@@ -30,10 +31,11 @@ const Note: React.FC<NoteProps> = ({
   active,
   fsId,
   color: noteColor,
-  updateNote,
-  deleteNote,
+  // updateNote,
+  // deleteNote,
   setSelectedId,
 }) => {
+  const {updateNote, deleteNote} = useContext(NotesContext) as NotesContextValue;
   const [editMode, setEditMode] = useState<boolean>(active);
   const [title, setTitle] = useState<string>(noteTitle);
   const [colorIndex, setColorIndex] = useState<number | undefined>(noteColor);
@@ -135,20 +137,20 @@ const Note: React.FC<NoteProps> = ({
             )}
           </div>
           {/* text editor component */}
-          <Tiptap fsId={fsId} editMode={editMode} updateNote={updateNote} content={content} />
+          <Tiptap setEditMode fsId={fsId} editMode={editMode} content={content} />
         </motion.div>
         {/* <Tags /> */}
-        <BottomMenu
-          fsId={fsId}
-          active={editMode}
-          deleteNote={deleteNote}
-          setEditMode={(flag: boolean) => {
-            if (noteRef.current) noteRef.current.scrollIntoView();
-            setEditMode(flag);
-          }}
-          setColor={setColorIndex}
-          theme={colorIndex ?? 2 < 3 ? "light" : "dark"}
-        />
+        {/* <BottomMenu */}
+        {/*   fsId={fsId} */}
+        {/*   active={editMode} */}
+        {/*   deleteNote={deleteNote} */}
+        {/*   setEditMode={(flag: boolean) => { */}
+        {/*     if (noteRef.current) noteRef.current.scrollIntoView(); */}
+        {/*     setEditMode(flag); */}
+        {/*   }} */}
+        {/*   setColor={setColorIndex} */}
+        {/*   theme={colorIndex ?? 2 < 3 ? "light" : "dark"} */}
+        {/* /> */}
       </motion.div>
     </div>
   );

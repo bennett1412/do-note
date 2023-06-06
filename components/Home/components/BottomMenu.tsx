@@ -3,6 +3,7 @@ import styles from "@/styles/home/note.module.scss";
 import button from "@/styles/common/button.module.scss";
 import { FiEdit3 } from "react-icons/fi";
 import { TbPinned } from "react-icons/tb";
+import { BiCopy } from "react-icons/bi";
 import { MdOutlineDelete } from "react-icons/md";
 import ColorMenu from "@/components/Common/Menu";
 import { clsx } from "clsx";
@@ -19,15 +20,7 @@ type BottomMenuProps = {
   isDeleting?: boolean;
 };
 
-const BottomMenu: FC<BottomMenuProps> = ({
-  setEditMode,
-  active,
-  fsId,
-  setColor,
-  theme,
-  deleteNote,
-  isDeleting,
-}) => {
+const BottomMenu: FC<BottomMenuProps> = ({ setEditMode, active, fsId, setColor, theme, deleteNote, isDeleting }) => {
   const handleDelete = async () => {
     const confirm = window.confirm("Are you sure you want to delete this note?");
     if (confirm) {
@@ -40,8 +33,8 @@ const BottomMenu: FC<BottomMenuProps> = ({
       <Button onClick={() => setEditMode(true)} className={button.toolbar_button}>
         <FiEdit3 />
       </Button>
-      <Button className={button.toolbar_button}>
-        <TbPinned />
+      <Button onClick={()=> console.log('clickedcopy')} className={button.toolbar_button}>
+        <BiCopy />
       </Button>
       {active && (
         <>
