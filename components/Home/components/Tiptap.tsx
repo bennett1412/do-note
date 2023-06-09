@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties, useContext, createContext } from "react";
+import React, { useState, useEffect, CSSProperties, useContext, createContext, memo } from "react";
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
 import FloatingMenu from "./minorComponents/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
@@ -23,11 +23,11 @@ type TiptapProps = {
   style?: CustomStyle;
 };
 
-export const EditorContext = createContext<EditorContextType | undefined>(undefined);
 
 const Tiptap: React.FC<TiptapProps> = ({ style }) => {
-  const { updateNote, deleteNote } = useContext(NotesContext) as NotesContextValue;
-  const { editMode, content, fsId, noteRef, setEditMode } = useContext(NoteContext) as NoteContextType;
+// function Tiptap({ style }: TiptapProps) {
+  const { updateNote } = useContext(NotesContext) as NotesContextValue;
+  const { editMode, content, fsId } = useContext(NoteContext) as NoteContextType;
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
   const editor = useEditor({
@@ -86,12 +86,12 @@ const Tiptap: React.FC<TiptapProps> = ({ style }) => {
   }, [noteContent, content, updateSync, editor, fsId, updateNote]);
 
   return (
-    <EditorContext.Provider value={{ editor }}>
+    <>
       <FloatingMenu editor={editor} />
       <EditorContent style={style} className={styles.editor} editor={editor} />
-      {/* <BottomMenu /> */}
-    </EditorContext.Provider>
+      <BottomMenu editor={editor} />
+    </>
   );
-};
+}
 
 export default Tiptap;

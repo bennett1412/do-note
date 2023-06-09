@@ -144,11 +144,11 @@
 .toolbar {
   display: flex;
   justify-content: space-between;
-  // width: 100%;
+  width: 100%;
   opacity: 0;
   transition: opacity 0.1s linear;
   position: absolute;
-  bottom: 5px;
+  bottom: 10px;
 }
 
 .note_container:hover .toolbar {

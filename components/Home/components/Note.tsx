@@ -93,7 +93,7 @@ const Note: React.FC<NoteProps> = ({
   //   };
 
   return (
-    <NoteContext.Provider value={{ noteTitle, content, editMode, fsId, colorIndex, noteRef, setEditMode, setColorIndex }}>
+    <NoteContext.Provider value={{ noteTitle, content, editMode, fsId, colorIndex, setEditMode, setColorIndex }}>
       <div>
         <Head>
           <title>Notes</title>

@@ -59,7 +59,7 @@ export type NoteContextType = {
   editMode: boolean;
   fsId: string;
   colorIndex: number | undefined;
-  noteRef: MutableRefObject<HTMLDivElement | null>;
+  noteRef?: MutableRefObject<HTMLDivElement | null>;
   setEditMode: (state: boolean) => void;
   setColorIndex: (colorIndex: number) => void
 };
