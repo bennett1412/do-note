@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import { Toaster } from "react-hot-toast";
 
 export default function Document() {
   const descp = "A lightweight note-taking app that aims to combine the best of Google Keep and Notion";
@@ -45,6 +46,7 @@ export default function Document() {
         <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet" />
       </Head>
       <body>
+        <div><Toaster/></div>
         <Main />
         <NextScript />
       </body>

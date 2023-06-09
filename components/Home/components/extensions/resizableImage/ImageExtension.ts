@@ -29,7 +29,7 @@ const CustomImageExtension = Image.extend<CustomImageOptions>({
   },
   addAttributes(this) {
     const baseAttributes = Image.options.HTMLAttributes;
-    console.log(baseAttributes)
+    // console.log(baseAttributes)
     // ?? {};
     return {
       ...baseAttributes,

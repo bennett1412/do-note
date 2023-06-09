@@ -19,11 +19,23 @@
   transition-property: background, color;
   transition-duration: 0.2s, 0.2s;
   font-family: "Fira Mono", monospace;
+
   /* color: black; */
   // @extend .masked-overflow;
   .note_main {
     flex-grow: 1;
     overflow: hidden;
+    position: relative;
+    &::after {
+      content: " ";
+      height: 20px;
+      width: 100%;
+      background: rgb(0, 0, 0);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--note-bg) 100%);
+      display: block;
+      position: absolute;
+      bottom: 0px;
+    }
   }
   &:hover {
     -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
@@ -131,12 +143,15 @@
 // bottommenu styles
 .toolbar {
   display: flex;
-  justify-self: end;
+  justify-content: space-between;
+  width: 100%;
   opacity: 0;
   transition: opacity 0.1s linear;
+  position: absolute;
+  bottom: 10px;
 }
 
-.note_container:hover > .toolbar {
+.note_container:hover .toolbar {
   opacity: 1;
 }
 
@@ -151,11 +166,14 @@
   width: 100%;
   outline: none;
   border: none;
+  position: relative;
   // custom scrollbar
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
     border-radius: 30px;
+    position: relative;
+    z-index: 10;
   }
 
   ::-webkit-scrollbar-thumb {
