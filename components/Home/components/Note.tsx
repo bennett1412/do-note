@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, CSSProperties, useContext } from "react";
+import React, { useRef, useEffect, useState, CSSProperties, useContext, createContext } from "react";
 import Tiptap from "./Tiptap";
 import styles from "@/styles/home/note.module.scss";
 import BottomMenu from "./BottomMenu";
@@ -8,11 +8,11 @@ import { colors } from "../../../utils/common/noteColors";
 import { motion } from "framer-motion";
 // import useOnClickOutside from "@/hooks/useOnClickOutside";
 import Head from "next/head";
-import { DeleteMutation, UpdateNoteFn } from "@/types/Note";
+import { DeleteMutation, NoteContent, NoteContextType, NotesContextValue, UpdateNoteFn } from "@/types/Note";
 import Button from "@/components/Common/Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
 import { CustomStyle } from "@/types/Styles";
-import { NotesContext, NotesContextValue } from "./NotesList";
+import { NotesContext } from "./NotesList";
 
 type NoteProps = {
   title: string;
@@ -25,6 +25,8 @@ type NoteProps = {
   setSelectedId: (id: string | null) => void;
 };
 
+export const NoteContext = createContext<NoteContextType | undefined>(undefined);
+
 const Note: React.FC<NoteProps> = ({
   title: noteTitle,
   content,
@@ -35,7 +37,7 @@ const Note: React.FC<NoteProps> = ({
   // deleteNote,
   setSelectedId,
 }) => {
-  const {updateNote, deleteNote} = useContext(NotesContext) as NotesContextValue;
+  const { updateNote, deleteNote } = useContext(NotesContext) as NotesContextValue;
   const [editMode, setEditMode] = useState<boolean>(active);
   const [title, setTitle] = useState<string>(noteTitle);
   const [colorIndex, setColorIndex] = useState<number | undefined>(noteColor);
@@ -91,68 +93,70 @@ const Note: React.FC<NoteProps> = ({
   //   };
 
   return (
-    <div>
-      <Head>
-        <title>Notes</title>
-      </Head>
-      <motion.div
-        ref={noteRef}
-        transition={{ zIndex: { duration: 0 } }}
-        layout
-        style={{
-          backgroundColor: getColor(colorIndex),
-        }}
-        className={clsx({
-          [styles.note_container]: true,
-          [styles.note_active]: editMode,
-          [styles.dark]: colorIndex ? colorIndex > 2 : isDarkMode,
-        })}
-        id={fsId}
-        layoutId={fsId}
-      >
+    <NoteContext.Provider value={{ noteTitle, content, editMode, fsId, colorIndex, noteRef, setEditMode, setColorIndex }}>
+      <div>
+        <Head>
+          <title>Notes</title>
+        </Head>
         <motion.div
-          style={{ "--note-bg": getColor(colorIndex) } as CustomStyle}
-          layout="position"
-          className={styles.note_main}
-          onClick={handleClick}
+          ref={noteRef}
+          transition={{ zIndex: { duration: 0 } }}
+          layout
+          style={{
+            backgroundColor: getColor(colorIndex),
+          }}
+          className={clsx({
+            [styles.note_container]: true,
+            [styles.note_active]: editMode,
+            [styles.dark]: colorIndex ? colorIndex > 2 : isDarkMode,
+          })}
+          id={fsId}
+          layoutId={fsId}
         >
-          <div style={{ display: "flex" }}>
-            {(title != "" || editMode) && (
-              <input
-                // layout='position'
-                ref={ref}
-                style={{ backgroundColor: getColor(colorIndex) }}
-                disabled={!editMode}
-                defaultValue={title}
-                placeholder="Enter Title"
-                className={styles.title}
-                type={"text"}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            )}
-            {editMode && (
-              <Button onClick={closeNote} className={styles.icon_button}>
-                <IoClose size={25} />
-              </Button>
-            )}
-          </div>
-          {/* text editor component */}
-          <Tiptap setEditMode fsId={fsId} editMode={editMode} content={content} />
+          <motion.div
+            style={{ "--note-bg": getColor(colorIndex) } as CustomStyle}
+            layout="position"
+            className={styles.note_main}
+            onClick={handleClick}
+          >
+            <div style={{ display: "flex" }}>
+              {(title != "" || editMode) && (
+                <input
+                  // layout='position'
+                  ref={ref}
+                  style={{ backgroundColor: getColor(colorIndex) }}
+                  disabled={!editMode}
+                  defaultValue={title}
+                  placeholder="Enter Title"
+                  className={styles.title}
+                  type={"text"}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              )}
+              {editMode && (
+                <Button onClick={closeNote} className={styles.icon_button}>
+                  <IoClose size={25} />
+                </Button>
+              )}
+            </div>
+            {/* text editor component */}
+            <Tiptap />
+          </motion.div>
+          {/* <Tags /> */}
+          {/* <BottomMenu */}
+          {/*   fsId={fsId} */}
+          {/*   active={editMode} */}
+          {/*   deleteNote={deleteNote} */}
+          {/*   setEditMode={(flag: boolean) => { */}
+          {/*     if (noteRef.current) noteRef.current.scrollIntoView(); */}
+          {/*     setEditMode(flag); */}
+          {/*   }} */}
+          {/*   setColor={setColorIndex} */}
+          {/*   theme={colorIndex ?? 2 < 3 ? "light" : "dark"} */}
+          {/* /> */}
         </motion.div>
-        {/* <Tags /> */}
-        {/* <BottomMenu */}
-        {/*   fsId={fsId} */}
-        {/*   active={editMode} */}
-        {/*   deleteNote={deleteNote} */}
-        {/*   setEditMode={(flag: boolean) => { */}
-        {/*     if (noteRef.current) noteRef.current.scrollIntoView(); */}
-        {/*     setEditMode(flag); */}
-        {/*   }} */}
-        {/*   setColor={setColorIndex} */}
-        {/*   theme={colorIndex ?? 2 < 3 ? "light" : "dark"} */}
-        {/* /> */}
-      </motion.div>
-    </div>
+      </div>
+    </NoteContext.Provider>
   );
 };
 

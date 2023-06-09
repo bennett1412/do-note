@@ -3,15 +3,10 @@ import Note from "./Note";
 import styles from "@/styles/home/noteslist.module.scss";
 import { IoAddOutline } from "react-icons/io5";
 import { Oval } from "react-loader-spinner";
-import { DeleteMutation, Note as NoteType, UpdateNoteFn } from "@/types/Note";
+import { DeleteMutation, Note as NoteType, NotesContextValue, UpdateNoteFn } from "@/types/Note";
 import Button from "@/components/Common/Button";
 
-export type NotesContextValue = {
-  addingNote: boolean;
-  addNote: MouseEventHandler;
-  deleteNote: DeleteMutation;
-  updateNote: UpdateNoteFn;
-};
+
 
 export const NotesContext = createContext<NotesContextValue | undefined>(undefined);
 

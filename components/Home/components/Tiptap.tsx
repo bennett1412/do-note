@@ -1,5 +1,5 @@
-import React, { useState, useEffect, CSSProperties, useContext } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
+import React, { useState, useEffect, CSSProperties, useContext, createContext } from "react";
+import { useEditor, EditorContent, Editor } from "@tiptap/react";
 import FloatingMenu from "./minorComponents/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
 import styles from "@/styles/home/note.module.scss";
@@ -9,21 +9,25 @@ import { Placeholder } from "@tiptap/extension-placeholder";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
 import CopyToClipboardExtension from "./extensions/CopyToClipboard/CopyToClipboardExtension";
-import { UpdateNoteFn } from "@/types/Note";
+import { EditorContextType, NoteContextType, UpdateNoteFn, NotesContextValue } from "@/types/Note";
 import { CustomStyle } from "@/types/Styles";
 import BottomMenu from "./BottomMenu";
-import { NotesContext, NotesContextValue } from "./NotesList";
+import { NotesContext } from "./NotesList";
+import { NoteContext } from "./Note";
 
 type TiptapProps = {
-  editMode: boolean;
-  content: string;
-  fsId: string;
+  // editMode: boolean;
+  // content: string;
+  // fsId: string;
   // updateNote: UpdateNoteFn;
   style?: CustomStyle;
 };
 
-const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, style }) => {
+export const EditorContext = createContext<EditorContextType | undefined>(undefined);
+
+const Tiptap: React.FC<TiptapProps> = ({ style }) => {
   const { updateNote, deleteNote } = useContext(NotesContext) as NotesContextValue;
+  const { editMode, content, fsId, noteRef, setEditMode } = useContext(NoteContext) as NoteContextType;
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
   const editor = useEditor({
@@ -82,21 +86,11 @@ const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, style }) => {
   }, [noteContent, content, updateSync, editor, fsId, updateNote]);
 
   return (
-    <>
+    <EditorContext.Provider value={{ editor }}>
       <FloatingMenu editor={editor} />
       <EditorContent style={style} className={styles.editor} editor={editor} />
-      <BottomMenu
-        fsId={fsId}
-        active={editMode}
-        deleteNote={deleteNote}
-        setEditMode={(flag: boolean) => {
-          if (noteRef.current) noteRef.current.scrollIntoView();
-          setEditMode(flag);
-        }}
-        setColor={setColorIndex}
-        theme={colorIndex ?? 2 < 3 ? "light" : "dark"}
-      />
-    </>
+      {/* <BottomMenu /> */}
+    </EditorContext.Provider>
   );
 };
 
