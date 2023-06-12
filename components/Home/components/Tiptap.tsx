@@ -1,15 +1,15 @@
-import React, { useState, useEffect, CSSProperties, useContext, createContext, memo } from "react";
-import { useEditor, EditorContent, Editor } from "@tiptap/react";
+import React, { useState, useEffect, useContext } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import FloatingMenu from "./minorComponents/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
-import styles from "@/styles/home/note.module.scss";
+import styles from "../styles/note.module.scss";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
 import CopyToClipboardExtension from "./extensions/CopyToClipboard/CopyToClipboardExtension";
-import { EditorContextType, NoteContextType, UpdateNoteFn, NotesContextValue } from "@/types/Note";
+import { NoteContextType, NotesContextValue } from "@/types/Note";
 import { CustomStyle } from "@/types/Styles";
 import BottomMenu from "./BottomMenu";
 import { NotesContext } from "./NotesList";
@@ -23,9 +23,8 @@ type TiptapProps = {
   style?: CustomStyle;
 };
 
-
 const Tiptap: React.FC<TiptapProps> = ({ style }) => {
-// function Tiptap({ style }: TiptapProps) {
+  // function Tiptap({ style }: TiptapProps) {
   const { updateNote } = useContext(NotesContext) as NotesContextValue;
   const { editMode, content, fsId } = useContext(NoteContext) as NoteContextType;
   const updateSync = useStore((state) => state.updateSync);
@@ -92,6 +91,6 @@ const Tiptap: React.FC<TiptapProps> = ({ style }) => {
       <BottomMenu editor={editor} />
     </>
   );
-}
+};
 
 export default Tiptap;

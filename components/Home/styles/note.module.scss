@@ -1,6 +1,7 @@
-@use "../utilities/colors";
-@use "../utilities/effects";
-@use "../utilities/buttons";
+@use "../../../styles/utilities/colors";
+@use "../../../styles/utilities/buttons";
+@use "../../../styles/utilities/effects";
+
 @import url("https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap");
 
 .note_container {
@@ -142,6 +143,7 @@
 
 // bottommenu styles
 .toolbar {
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   width: 100%;

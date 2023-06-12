@@ -1,14 +1,13 @@
-import React, { useRef, useEffect, useState, CSSProperties, useContext, createContext } from "react";
+import React, { useRef, useEffect, useState, useContext, createContext } from "react";
 import Tiptap from "./Tiptap";
-import styles from "@/styles/home/note.module.scss";
-import BottomMenu from "./BottomMenu";
+import styles from "../styles/note.module.scss";
 import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
 import { colors } from "../../../utils/common/noteColors";
 import { motion } from "framer-motion";
 // import useOnClickOutside from "@/hooks/useOnClickOutside";
 import Head from "next/head";
-import { DeleteMutation, NoteContent, NoteContextType, NotesContextValue, UpdateNoteFn } from "@/types/Note";
+import { NoteContextType, NotesContextValue } from "@/types/Note";
 import Button from "@/components/Common/Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
 import { CustomStyle } from "@/types/Styles";
@@ -86,14 +85,12 @@ const Note: React.FC<NoteProps> = ({
     if (index) return colors[index];
     return isDarkMode ? "var(--color-surface-200)" : "var(--color-primary-200)";
   };
-  //   const handleBackgroundClick = () => {
-  //     if (editMode) {
-  //       setEditMode(false);
-  //     }
-  //   };
+
 
   return (
-    <NoteContext.Provider value={{ noteTitle, content, editMode, fsId, colorIndex, setEditMode, setColorIndex }}>
+    <NoteContext.Provider
+      value={{ noteTitle, content, editMode, fsId, colorIndex, setEditMode, setColorIndex }}
+    >
       <div>
         <Head>
           <title>Notes</title>

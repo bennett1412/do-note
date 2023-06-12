@@ -11,7 +11,6 @@ import { useAuthUser } from "next-firebase-auth";
 // import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
-import { createContext } from "vm";
 
 const Home: React.FC = () => {
   const user = useAuthUser();
