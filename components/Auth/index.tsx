@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/auth/auth.module.scss";
+import styles from "./styles/auth/auth.module.scss";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithGoogle } from "../../utils/firebase/init";
 import { toast } from "react-hot-toast";

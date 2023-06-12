@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Editor, FloatingMenu } from "@tiptap/react";
 import clsx from "clsx";
-import styles from "@/styles/home/floatmenu.module.scss";
+import styles from "../../styles/floatmenu.module.scss";
 import { MdFormatListBulleted } from "react-icons/md";
 import { RxHeading } from "react-icons/rx";
 import { BsUiChecks, BsCardImage } from "react-icons/bs";
@@ -26,9 +26,7 @@ const CustomFloatingMenu: React.FC<Props> = ({ editor }) => {
           tippyOptions={{ duration: 100 }}
         >
           <Button
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 3 }).run()
-            }
+            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
             className={clsx({
               [styles.float_item]: true,
               [styles.is_active]: editor.isActive("heading", { level: 1 }),
