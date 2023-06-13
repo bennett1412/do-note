@@ -1,12 +1,10 @@
 import React, { MouseEventHandler, useState, createContext } from "react";
 import Note from "./Note";
-import styles from "@/styles/home/noteslist.module.scss";
+import styles from "../styles/noteslist.module.scss";
 import { IoAddOutline } from "react-icons/io5";
 import { Oval } from "react-loader-spinner";
 import { DeleteMutation, Note as NoteType, NotesContextValue, UpdateNoteFn } from "@/types/Note";
 import Button from "@/components/Common/Button";
-
-
 
 export const NotesContext = createContext<NotesContextValue | undefined>(undefined);
 
@@ -18,7 +16,13 @@ type NoteListProps = {
   updateNote: UpdateNoteFn;
 };
 
-const NotesList: React.FC<NoteListProps> = ({ addingNote, addNote, notes, updateNote, deleteNote }) => {
+const NotesList: React.FC<NoteListProps> = ({
+  addingNote,
+  addNote,
+  notes,
+  updateNote,
+  deleteNote,
+}) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   return (
     <NotesContext.Provider value={{ addingNote, addNote, updateNote, deleteNote }}>
