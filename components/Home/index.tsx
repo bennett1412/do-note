@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import NotesList from "./components/NotesList";
 import { toast } from "react-hot-toast";
 

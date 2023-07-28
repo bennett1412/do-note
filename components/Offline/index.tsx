@@ -1,9 +1,13 @@
 import React from 'react'
+import Navbar from '../Common/Navbar'
+import OfflineNavbar from '../Common/OfflineNavbar'
 
 const Offline = () => {
   return (
-    <div>Offline</div>
+    <>
+      <OfflineNavbar />
+    </>
   )
 }
 
-export default Offline
+export default Offline;

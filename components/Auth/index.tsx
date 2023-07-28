@@ -5,6 +5,8 @@ import { signInWithGoogle } from "../../utils/firebase/init";
 import { toast } from "react-hot-toast";
 import { AuthAction, withAuthUser } from "next-firebase-auth";
 import { DotsLoader } from "@/components/Common/Loader";
+import Button from "../Common/Button";
+import Link from "next/link";
 
 const Auth = () => {
   const handleGoogleSignup = () => {
@@ -27,16 +29,19 @@ const Auth = () => {
   };
   return (
     <section className={styles.auth_section}>
+      <Button className={styles.offline_button}>
+        <Link href={'/notes/offline'}> Go Offline? </Link>
+      </Button>
       <div className={styles.text}>
         <div className={styles.title}>Do Note</div>
         <p className={styles.subtext}>
           A lightweight note taking app for your hyper productive self.
         </p>
       </div>
-      <button onClick={handleGoogleSignup}>
+      <Button className={styles.auth_button} onClick={handleGoogleSignup}>
         <FcGoogle size={20} />
         Continue with Google?
-      </button>
+      </Button>
     </section>
   );
 };
