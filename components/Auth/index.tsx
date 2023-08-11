@@ -30,7 +30,7 @@ const Auth = () => {
   return (
     <section className={styles.auth_section}>
       <Button className={styles.offline_button}>
-        <Link href={'/notes/offline'}> Go Offline? </Link>
+        <Link href={"/notes/offline"}> Go Offline? </Link>
       </Button>
       <div className={styles.text}>
         <div className={styles.title}>Do Note</div>
