@@ -1,22 +1,17 @@
 import { UseMutateFunction } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { MouseEventHandler, MutableRefObject } from 'react';
+
 export interface Note {
-  id: string;
+  id?: string;
   noteTitle: string;
   noteContent: string;
   colorIndex?: number;
   active?: boolean;
 }
 
-export interface NoteContent {
-  noteTitle: string;
-  noteContent: string;
-  colorIndex?: number;
-  active?: boolean;
-}
 export type AddNoteParams = {
-  newNote: NoteContent,
+  newNote: Note,
   creatorId: string | null
 }
 

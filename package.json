@@ -28,6 +28,8 @@
     "@vercel/analytics": "^1.0.0",
     "clsx": "^1.2.1",
     "copy-to-clipboard": "^3.3.3",
+    "dexie": "^3.2.4",
+    "dexie-react-hooks": "^1.1.6",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "firebase": "^9.17.1",

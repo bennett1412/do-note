@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
 import { updateNote } from "@/utils/firebase/firestore";
-import { NoteContent } from "@/types/Note";
+import { Note } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
 import { useAuthUser } from "next-firebase-auth";
 // import NotesLoader from "@/components/Common/NotesLoader";
@@ -33,7 +33,7 @@ const Home: React.FC = () => {
   });
   // prop
   const handleAdd = async () => {
-    const newNote: NoteContent = {
+    const newNote: Note = {
       noteTitle: "",
       noteContent: JSON.stringify({
         type: "doc",
@@ -42,7 +42,6 @@ const Home: React.FC = () => {
             type: "paragraph",
           },
         ],
-
       }),
     };
     addMutate({
