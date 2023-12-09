@@ -50,7 +50,7 @@ export const getNotes = async (creatorId: string | null): Promise<Note[]> => {
     });
     return notes;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw new Error('Failed to fetch notes');
   }
 };
@@ -64,7 +64,7 @@ export const updateNote: UpdateNoteFn = async (noteId, newNote) => {
 
     return querySnapshot;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw new Error("Updation Failed");
   }
 };
@@ -74,7 +74,7 @@ export const deleteNote = async (noteId: string) => {
     const res = await deleteDoc(doc(db, "notes", noteId));
     return res;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw new Error("Deletion Failed");
   }
 };

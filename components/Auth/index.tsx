@@ -19,7 +19,7 @@ const Auth = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         toast.error("Uh oh, something went wrong", {
           id: toastId,
         });

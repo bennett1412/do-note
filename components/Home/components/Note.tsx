@@ -47,7 +47,7 @@ const Note: React.FC<NoteProps> = ({
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== noteTitle) {
-        console.log("being updated");
+        // console.log("being updated");
         updateNote(fsId, {
           noteTitle: title,
         });
