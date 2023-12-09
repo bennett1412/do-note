@@ -29,12 +29,10 @@ const CustomImageExtension = Image.extend<CustomImageOptions>({
   },
   addAttributes(this) {
     const baseAttributes = Image.options.HTMLAttributes;
-    // console.log(baseAttributes)
-    // ?? {};
     return {
       ...baseAttributes,
       src: {
-        default: "",
+        default: "30%",
         parseHTML: (element) => element.getAttribute("src"),
         renderHTML: (attrs) => {
           return {
@@ -43,15 +41,23 @@ const CustomImageExtension = Image.extend<CustomImageOptions>({
         },
       },
       width: {
-        default: 30,
+        default: "50%",
         parseHTML: (element) => element.getAttribute("data-width"),
         renderHTML: (attrs) => {
-          // … and return an object with HTML attributes.
           return {
-            "data-width": `${attrs.width}`,
+            "data-width": `${attrs.width}px`,
           };
         },
       },
+      height: {
+        default: "auto",
+        parseHTML: (element) => element.getAttribute("data-height"),
+        renderHTML: (attrs) => {
+          return {
+            "data-height": `${attrs.height}px`,
+          }
+        }
+      }
     };
   },
   parseHTML() {

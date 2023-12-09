@@ -1,16 +1,12 @@
 .node_image {
   display: flex;
   justify-content: center;
-}
-.node_image_container {
-  display: flex;
-  justify-content: center;
-
-  column-gap: 0;
-  .content {
+  height: auto;
+  width: 100%;
+  flex-grow: 1;
+  .controller_wrapper {
     position: relative;
-    flex-grow: 1;
-    height: auto;
+    display: inline-flex;
     img {
       position: relative;
       max-width: 100%;
@@ -74,10 +70,10 @@
       opacity: 1;
     }
   }
-  @media (hover: none) {
-    .size_control {
-      /* Styles for hover-able devices */
-      display: none;
-    }
+}
+@media (hover: none) {
+  .size_control {
+    /* Styles for hover-able devices */
+    display: none;
   }
 }
