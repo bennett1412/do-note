@@ -41,7 +41,7 @@ const CustomImageExtension = Image.extend<CustomImageOptions>({
         },
       },
       width: {
-        default: "50%",
+        default: "300px",
         parseHTML: (element) => element.getAttribute("data-width"),
         renderHTML: (attrs) => {
           return {

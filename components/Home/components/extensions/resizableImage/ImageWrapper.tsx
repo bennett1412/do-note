@@ -54,7 +54,7 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewPr
     event.preventDefault();
     const image = imgRef.current;
     if (image !== null) {
-      console.group("Resize");
+      // console.group("Resize");
       const { width, height } = image.getBoundingClientRect();
       const positioning = positioningRef.current;
       positioning.startWidth = width;
@@ -72,7 +72,7 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewPr
     }
   };
   const stopTracking = () => {
-    console.groupEnd();
+    // console.groupEnd();
     window.removeEventListener("mousemove", resizeImage);
     window.removeEventListener("mouseup", stopTracking);
   };
