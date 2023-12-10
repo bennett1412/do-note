@@ -6,7 +6,6 @@ import { IoClose } from "react-icons/io5";
 import { colors } from "../../../utils/common/noteColors";
 import { motion } from "framer-motion";
 // import useOnClickOutside from "@/hooks/useOnClickOutside";
-import Head from "next/head";
 import { NoteContextType, NotesContextValue } from "@/types/Note";
 import Button from "@/components/Common/Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
@@ -18,9 +17,7 @@ type NoteProps = {
   content: string;
   active: boolean;
   fsId: string;
-  color: number | undefined;
-  // updateNote: UpdateNoteFn;
-  // deleteNote: DeleteMutation;
+  color: string;
   setSelectedId: (id: string | null) => void;
 };
 
@@ -36,10 +33,10 @@ const Note: React.FC<NoteProps> = ({
   // deleteNote,
   setSelectedId,
 }) => {
-  const { updateNote, deleteNote } = useContext(NotesContext) as NotesContextValue;
+  const { updateNote } = useContext(NotesContext) as NotesContextValue;
   const [editMode, setEditMode] = useState<boolean>(active);
   const [title, setTitle] = useState<string>(noteTitle);
-  const [colorIndex, setColorIndex] = useState<number | undefined>(noteColor);
+  const [color, setColor] = useState<string>(noteColor ?? "var(--note-bg-dark-4)");
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
   // const [inTransition, setInTransition] = useState<boolean>(false);
@@ -59,12 +56,12 @@ const Note: React.FC<NoteProps> = ({
   }, [fsId, title, noteTitle, updateNote]);
 
   useEffect(() => {
-    if (colorIndex !== noteColor) {
+    if (color !== noteColor) {
       updateNote(fsId, {
-        colorIndex: colorIndex,
+        color: color,
       });
     }
-  }, [noteColor, colorIndex, fsId, updateNote]);
+  }, [noteColor, color, fsId, updateNote]);
 
   const closeNote = () => {
     setEditMode(false);
@@ -86,32 +83,32 @@ const Note: React.FC<NoteProps> = ({
     return isDarkMode ? "var(--color-surface-200)" : "var(--color-primary-200)";
   };
 
+  const isNoteDarkThemed = (color: string): boolean => {
+    return /dark/i.test(color);
+  };
 
   return (
     <NoteContext.Provider
-      value={{ noteTitle, content, editMode, fsId, colorIndex, setEditMode, setColorIndex }}
+      value={{ noteTitle, content, editMode, fsId, color, setEditMode, setColor }}
     >
       <div>
-        <Head>
-          <title>Notes</title>
-        </Head>
         <motion.div
           ref={noteRef}
           transition={{ zIndex: { duration: 0 } }}
           layout
           style={{
-            backgroundColor: getColor(colorIndex),
+            backgroundColor: color,
           }}
           className={clsx({
             [styles.note_container]: true,
             [styles.note_active]: editMode,
-            [styles.dark]: colorIndex ? colorIndex > 2 : isDarkMode,
+            [styles.dark]: isNoteDarkThemed(color),
           })}
           id={fsId}
           layoutId={fsId}
         >
           <motion.div
-            style={{ "--note-bg": getColor(colorIndex) } as CustomStyle}
+            style={{ "--note-bg": color } as CustomStyle}
             layout="position"
             className={styles.note_main}
             onClick={handleClick}
@@ -121,7 +118,7 @@ const Note: React.FC<NoteProps> = ({
                 <input
                   // layout='position'
                   ref={ref}
-                  style={{ backgroundColor: getColor(colorIndex) }}
+                  // style={{ backgroundColor: color}}
                   disabled={!editMode}
                   defaultValue={title}
                   placeholder="Enter Title"
@@ -131,7 +128,14 @@ const Note: React.FC<NoteProps> = ({
                 />
               )}
               {editMode && (
-                <Button onClick={closeNote} className={styles.icon_button}>
+                <Button
+                  onClick={closeNote}
+                  className={clsx({
+                    [styles.note_button]: true,
+                    [styles.dark_button]: !isNoteDarkThemed(color),
+                    [styles.light_button]: isNoteDarkThemed(color),
+                  })}
+                >
                   <IoClose size={25} />
                 </Button>
               )}
@@ -148,8 +152,8 @@ const Note: React.FC<NoteProps> = ({
           {/*     if (noteRef.current) noteRef.current.scrollIntoView(); */}
           {/*     setEditMode(flag); */}
           {/*   }} */}
-          {/*   setColor={setColorIndex} */}
-          {/*   theme={colorIndex ?? 2 < 3 ? "light" : "dark"} */}
+          {/*   setColor={setcolor} */}
+          {/*   theme={color ?? 2 < 3 ? "light" : "dark"} */}
           {/* /> */}
         </motion.div>
       </div>

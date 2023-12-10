@@ -12,30 +12,34 @@
   border: 1px colors.$note-border solid;
   border-radius: 10px;
   padding: 0.8rem;
-  background-color: var(--color-surface-200);
+  background-color: var(--note-bg);
   color: var(--color-surface-100);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition-property: background, color;
-  transition-duration: 0.2s, 0.2s;
+  transition-duration: 0.2s;
   font-family: "Fira Mono", monospace;
 
-  /* color: black; */
-  // @extend .masked-overflow;
+  input[type="text"] {
+    background: var(--note-bg);
+  }
+
   .note_main {
     flex-grow: 1;
     overflow: hidden;
     position: relative;
+
+    // overflow blur
     &::after {
       content: " ";
       height: 20px;
       width: 100%;
-      background: rgb(0, 0, 0);
       background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--note-bg) 100%);
       display: block;
       position: absolute;
       bottom: 0px;
+      transition: background 5s 2s;
     }
   }
   &:hover {
@@ -58,25 +62,18 @@
     transition-duration: 0.2s;
     color: inherit;
   }
-  /* .title.dark_theme { */
-  /* color: colors.$dark; */
-  /* } */
-  .icon_button {
+
+  .note_button {
     position: relative;
     background-color: transparent;
-    // padding: 0.5rem;
     box-shadow: none;
     border-radius: 10px;
-    // width: 1.5rem;
-    // height: 1.5rem;
-    /* border: 1px solid transparent; */
+
     &:active {
       background: rgba(135, 141, 141, 0.441);
-      /* mix-blend-mode: difference; */
     }
     &:hover {
       background: rgba(135, 141, 141, 0.25);
-      /* mix-blend-mode: difference; */
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       border-radius: 10px;
@@ -89,6 +86,19 @@
       transform: translate(-50%, -50%);
       width: 1rem;
       height: 1rem;
+    }
+  }
+
+  .note_button.dark_button {
+    svg{
+      stroke: var(--color-surface-100);
+      color: var(--color-surface-100);
+    }
+  }
+  .note_button.light_button {
+    svg{
+      stroke: var(--color-primary-100);
+      color: var(--color-primary-100);
     }
   }
 }
@@ -136,9 +146,6 @@
 .dark {
   color: var(--color-primary-100);
   border: 1px solid var(--color-surface-200);
-  input[type="text"] {
-    color: var(--color-primary-100);
-  }
 }
 
 // bottommenu styles
@@ -175,7 +182,7 @@
     height: 8px;
     border-radius: 30px;
     position: relative;
-    z-index: 10;
+    z-index: 3;
   }
 
   ::-webkit-scrollbar-thumb {

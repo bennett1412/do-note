@@ -11,6 +11,7 @@ import { useAuthUser } from "next-firebase-auth";
 // import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
+import Head from "next/head";
 
 const Home: React.FC = () => {
   const user = useAuthUser();
@@ -42,8 +43,8 @@ const Home: React.FC = () => {
             type: "paragraph",
           },
         ],
-
       }),
+      color: "var(--note-bg-dark-4)"
     };
     addMutate({
       newNote: newNote,
@@ -53,6 +54,9 @@ const Home: React.FC = () => {
 
   return (
     <>
+      <Head>
+        <title>Notes</title>
+      </Head>
       <Navbar />
       {isLoading ? (
         <DotsLoader />

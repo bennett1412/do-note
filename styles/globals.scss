@@ -31,6 +31,14 @@
   --color-surface-500: #6d6f6e;
   --color-surface-600: #898a89;
 
+  // note background colors
+  // --note-bg-default: var(--color-surface-200);
+  --note-bg-light-1: #ffc6c6;
+  --note-bg-light-2: #dbd5ff;
+  --note-bg-dark-1: #0d5c63;
+  --note-bg-dark-2: #241623;
+  --note-bg-dark-3: #071e22;
+  --note-bg-dark-4: var(--color-surface-200);
   color: var(--color-primary-100);
   background-color: var(--color-surface-100);
 
@@ -63,6 +71,7 @@ h1 {
   line-height: 1.1;
 }
 
+// settings for light mode
 @media (prefers-color-scheme: light) {
   :root {
     color: var(--color-surface-100);

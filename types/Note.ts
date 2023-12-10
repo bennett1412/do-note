@@ -1,20 +1,18 @@
 import { UseMutateFunction } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { MouseEventHandler, MutableRefObject } from 'react';
-export interface Note {
-  id: string;
-  noteTitle: string;
-  noteContent: string;
-  colorIndex?: number;
-  active?: boolean;
-}
+
 
 export interface NoteContent {
   noteTitle: string;
   noteContent: string;
-  colorIndex?: number;
+  color: string;
   active?: boolean;
 }
+export interface Note extends NoteContent {
+  id: string;
+}
+
 export type AddNoteParams = {
   newNote: NoteContent,
   creatorId: string | null
@@ -38,7 +36,7 @@ export type UpdateNoteFn = (noteId: string,
   newNote: {
     noteTitle?: string;
     noteContent?: string;
-    colorIndex?: number;
+    color?: string;
     active?: boolean;
   }) => Promise<void>;
 
@@ -58,10 +56,10 @@ export type NoteContextType = {
   content: string;
   editMode: boolean;
   fsId: string;
-  colorIndex: number | undefined;
+  color: string;
   noteRef?: MutableRefObject<HTMLDivElement | null>;
   setEditMode: (state: boolean) => void;
-  setColorIndex: (colorIndex: number) => void
+  setColor: (color: string) => void
 };
 
 export type EditorContextType = {
