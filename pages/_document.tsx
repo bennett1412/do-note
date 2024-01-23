@@ -61,14 +61,14 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap"
           rel="stylesheet"
         ></link> */}
-        <link
+        {/* <link
           rel="style"
           href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap"
         />
         <link
           rel="style"
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-        />
+        /> */}
       </Head>
       <body>
         <div>
