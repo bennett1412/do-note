@@ -54,7 +54,6 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewPr
     event.preventDefault();
     const image = imgRef.current;
     if (image !== null) {
-      // console.group("Resize");
       const { width, height } = image.getBoundingClientRect();
       const positioning = positioningRef.current;
       positioning.startWidth = width;
