@@ -19,7 +19,7 @@
   justify-content: space-between;
   transition-property: background, color;
   transition-duration: 0.2s;
-  font-family: monospace;
+  font-family: "Fire Mono", monospace;
 
   input[type="text"] {
     background: var(--note-bg);
@@ -90,13 +90,13 @@
   }
 
   .note_button.dark_button {
-    svg{
+    svg {
       stroke: var(--color-surface-100);
       color: var(--color-surface-100);
     }
   }
   .note_button.light_button {
-    svg{
+    svg {
       stroke: var(--color-primary-100);
       color: var(--color-primary-100);
     }
