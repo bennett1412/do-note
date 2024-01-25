@@ -42,7 +42,6 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewPr
 
         width = clamp(width, minWidth, maxWidth);
         const height = width / positioningRef.current.ratio;
-        console.log("changed width: " + width);
         image.style.width = `${width}px`;
         image.style.height = `${height}px`;
         updateAttributes({ width: `${width}px`, height: `${height}px` });
@@ -63,8 +62,6 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewPr
       positioning.currentHeight = height;
       positioning.startX = event.clientX;
       positioning.isResizing = true;
-      console.log("changed width: " + width);
-      console.log(window.getComputedStyle(image).width);
       image.style.width = `${width}px`;
       image.style.height = `${height}px`;
       document.addEventListener("mousemove", resizeImage);
