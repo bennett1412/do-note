@@ -1,5 +1,5 @@
-import { MutatingDots, Oval, Rings } from "react-loader-spinner";
-import React, { useState, useEffect } from "react";
+import { MutatingDots, Oval } from "react-loader-spinner";
+import React from "react";
 import styles from "@/styles/common/loader.module.scss";
 import useDarkModeDetection from "@/hooks/useDarkMode";
 export const OvalLoader = ({ magnify }: { magnify: string }) => {

@@ -23,7 +23,7 @@ const CustomImageExtension = Image.extend<CustomImageOptions>({
     const baseOptions = Image.options as ImageOptions;
     return {
       ...baseOptions,
-      width: 30,
+      width: 0,
       src: ''
     };
   },

@@ -8,6 +8,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
         <link
@@ -55,20 +56,16 @@ export default function Document() {
         />
         <meta name="twitter:creator" content="@MadavanaB" />
 
-        {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" /> */}
-        {/* <link
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
           href="https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap"
           rel="stylesheet"
-        ></link> */}
-        {/* <link
+        ></link>
+        <link
           rel="style"
           href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap"
         />
-        <link
-          rel="style"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-        /> */}
       </Head>
       <body>
         <div>

@@ -19,7 +19,7 @@
   justify-content: space-between;
   transition-property: background, color;
   transition-duration: 0.2s;
-  font-family: "Fira Mono", monospace;
+  font-family: monospace;
 
   input[type="text"] {
     background: var(--note-bg);
@@ -243,15 +243,13 @@
         }
       }
     }
-    img {
-      height: auto;
-      max-width: 80%;
-      position: relative;
-      left: 50%;
-      transform: translate(-50%);
-      &.ProseMirror-selectednode {
-        outline: 3px solid #121225;
-      }
-    }
+    // img {
+    //   position: relative;
+    //   left: 50%;
+    //   transform: translate(-50%);
+    //   &.ProseMirror-selectednode {
+    //     outline: 3px solid #121225;
+    //   }
+    // }
   }
 }

@@ -63,18 +63,18 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewPr
       positioning.currentHeight = height;
       positioning.startX = event.clientX;
       positioning.isResizing = true;
-
       console.log("changed width: " + width);
+      console.log(window.getComputedStyle(image).width);
       image.style.width = `${width}px`;
       image.style.height = `${height}px`;
-      window.addEventListener("mousemove", resizeImage);
-      window.addEventListener("mouseup", stopTracking);
+      document.addEventListener("mousemove", resizeImage);
+      document.addEventListener("mouseup", stopTracking);
     }
   };
   const stopTracking = () => {
     // console.groupEnd();
-    window.removeEventListener("mousemove", resizeImage);
-    window.removeEventListener("mouseup", stopTracking);
+    document.removeEventListener("mousemove", resizeImage);
+    document.removeEventListener("mouseup", stopTracking);
   };
 
   const handleDelete = () => {
