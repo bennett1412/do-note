@@ -32,7 +32,7 @@ const Home: React.FC = () => {
       });
     },
   });
-  // prop
+
   const handleAdd = async () => {
     const newNote: NoteContent = {
       noteTitle: "",
@@ -61,7 +61,7 @@ const Home: React.FC = () => {
       {isLoading ? (
         <DotsLoader />
       ) : (
-        // <NotesLoader/>
+
         <NotesList
           addNote={handleAdd}
           updateNote={updateNote}
