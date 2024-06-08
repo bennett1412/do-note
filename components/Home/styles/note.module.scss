@@ -122,7 +122,7 @@
   .ProseMirror,
   .ProseMirror-focused {
     height: 100%;
-    overflow-y: clip;
+    overflow-y: auto;
   }
 }
 
