@@ -11,6 +11,7 @@ import Button from "@/components/Common/Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
 import { CustomStyle } from "@/types/Styles";
 import { NotesContext } from "./NotesList";
+import Backdrop from "./Backdrop";
 
 type NoteProps = {
   title: string;
@@ -74,7 +75,7 @@ const Note: React.FC<NoteProps> = ({
   const handleClick = () => {
     if (!editMode) {
       setEditMode(true);
-      if(noteRef.current) noteRef.current.style.zIndex = '1';
+      if(noteRef.current) noteRef.current.style.zIndex = '3';
       setSelectedId(fsId);
     }
   };
@@ -92,9 +93,7 @@ const Note: React.FC<NoteProps> = ({
   //   if(noteRef.current && editMode) noteRef.current.style.zIndex = '2'
   // }
   const handleAnimationComplete = () => {
-    console.log('animation ended')
     if(noteRef.current && editMode === false) {
-      console.log('setting zindx to 0')
       noteRef.current.style.zIndex = '0';
     } 
   }
@@ -103,6 +102,7 @@ const Note: React.FC<NoteProps> = ({
       value={{ noteTitle, content, editMode, fsId, color, setEditMode, setColor }}
     >
       <div
+      // key={fs}
       className={styles.note_placeholder}
       >
         <AnimatePresence
@@ -110,6 +110,7 @@ const Note: React.FC<NoteProps> = ({
           // Fires when all exiting nodes have completed animating out
           onExitComplete={() => null}
         >
+        {editMode && <Backdrop key={fsId} onClick={closeNote}/>}
         <motion.div
           ref={noteRef}
           // transition={{ zIndex: { duration: 7 } }}
