@@ -4,10 +4,19 @@
 
 // @import url("https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap");
 
-.note_container {
-  position: relative;
+.note_placeholder {
   height: 12.5rem;
   width: 17rem;
+  border-radius: 10px;
+  padding: 0.8rem;
+  display: flex;
+}
+
+.note_container {
+  // position: relative;
+  // height: 12.5rem;
+  // width: 17rem;
+  flex: 1;
   overflow: hidden;
   border: 1px colors.$note-border solid;
   border-radius: 10px;
@@ -20,9 +29,11 @@
   transition-property: background, color;
   transition-duration: 0.2s;
   font-family: "Fire Mono", monospace;
+  z-index: 0;
 
   input[type="text"] {
     background: var(--note-bg);
+    z-index: inherit;
   }
 
   .note_main {
@@ -40,6 +51,7 @@
       position: absolute;
       bottom: 0px;
       transition: background 5s 2s;
+      z-index: inherit;
     }
   }
   &:hover {
@@ -102,11 +114,11 @@
     }
   }
 }
-.in_transition {
-  z-index: 1;
-}
+// .in_transition {
+//   z-index: 1;
+// }
 .note_container.note_active {
-  z-index: 2;
+  // z-index: 2;
   width: 70vw;
   height: 70dvh;
   position: fixed;

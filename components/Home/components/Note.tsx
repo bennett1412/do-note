@@ -4,7 +4,7 @@ import styles from "../styles/note.module.scss";
 import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
 import { colors } from "../../../utils/common/noteColors";
-import { motion } from "framer-motion";
+import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 // import useOnClickOutside from "@/hooks/useOnClickOutside";
 import { NoteContextType, NotesContextValue } from "@/types/Note";
 import Button from "@/components/Common/Button";
@@ -65,6 +65,7 @@ const Note: React.FC<NoteProps> = ({
 
   const closeNote = () => {
     setEditMode(false);
+    // if(noteRef.current) noteRef.current.style.zIndex = '0';
     setSelectedId(null);
   };
 
@@ -73,6 +74,7 @@ const Note: React.FC<NoteProps> = ({
   const handleClick = () => {
     if (!editMode) {
       setEditMode(true);
+      if(noteRef.current) noteRef.current.style.zIndex = '1';
       setSelectedId(fsId);
     }
   };
@@ -86,15 +88,32 @@ const Note: React.FC<NoteProps> = ({
   const isNoteDarkThemed = (color: string): boolean => {
     return /dark/i.test(color);
   };
-
+  // const handleAnimationStart = () => {
+  //   if(noteRef.current && editMode) noteRef.current.style.zIndex = '2'
+  // }
+  const handleAnimationComplete = () => {
+    console.log('animation ended')
+    if(noteRef.current && editMode === false) {
+      console.log('setting zindx to 0')
+      noteRef.current.style.zIndex = '0';
+    } 
+  }
   return (
     <NoteContext.Provider
       value={{ noteTitle, content, editMode, fsId, color, setEditMode, setColor }}
     >
-      <div>
+      <div
+      className={styles.note_placeholder}
+      >
+        <AnimatePresence
+          initial={false}
+          // Fires when all exiting nodes have completed animating out
+          onExitComplete={() => null}
+        >
         <motion.div
           ref={noteRef}
-          transition={{ zIndex: { duration: 0 } }}
+          // transition={{ zIndex: { duration: 7 } }}
+          // layout=
           layout
           style={{
             backgroundColor: color,
@@ -106,6 +125,9 @@ const Note: React.FC<NoteProps> = ({
           })}
           id={fsId}
           layoutId={fsId}
+          // onAnimationStart={handleAnimationStart}
+          onLayoutAnimationComplete={handleAnimationComplete}
+          layoutDependency={editMode}
         >
           <motion.div
             style={{ "--note-bg": color } as CustomStyle}
@@ -143,6 +165,7 @@ const Note: React.FC<NoteProps> = ({
             {/* text editor component */}
             <Tiptap />
           </motion.div>
+          
           {/* <Tags /> */}
           {/* <BottomMenu */}
           {/*   fsId={fsId} */}
@@ -156,6 +179,7 @@ const Note: React.FC<NoteProps> = ({
           {/*   theme={color ?? 2 < 3 ? "light" : "dark"} */}
           {/* /> */}
         </motion.div>
+        </AnimatePresence>
       </div>
     </NoteContext.Provider>
   );
