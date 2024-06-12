@@ -71,11 +71,14 @@ const Note: React.FC<NoteProps> = ({
   };
 
   // useOnClickOutside(noteRef, () => closeNote());
-
+  useEffect(() => {
+    if(noteRef.current && editMode) noteRef.current.style.zIndex = '3';
+  
+  }, [editMode])
+  
   const handleClick = () => {
     if (!editMode) {
       setEditMode(true);
-      if(noteRef.current) noteRef.current.style.zIndex = '3';
       setSelectedId(fsId);
     }
   };
