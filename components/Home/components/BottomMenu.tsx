@@ -52,10 +52,11 @@ const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.El
       className={clsx(styles.toolbar, styles.dark_toolbar && true)}
     >
       <ColorMenu setColor={setColor} />
-      <Button onClick={() => setEditMode(true)} className={button.toolbar_button}>
+      <Button title="edit note" onClick={() => setEditMode(true)} className={button.toolbar_button}>
         <FiEdit3 />
       </Button>
       <Button
+        title="copy note content"
         onClick={handleCopy}
         style={copying ? { background: "green" } : {}}
         className={button.toolbar_button}
@@ -64,7 +65,7 @@ const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.El
       </Button>
       {editMode && (
         <>
-          <Button onClick={handleDelete} className={button.toolbar_button}>
+          <Button title="delete note" onClick={handleDelete} className={button.toolbar_button}>
             <MdOutlineDelete />
           </Button>
         </>

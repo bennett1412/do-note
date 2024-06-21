@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
 import { colors } from "../../../utils/common/noteColors";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
-// import useOnClickOutside from "@/hooks/useOnClickOutside";
 import { NoteContextType, NotesContextValue } from "@/types/Note";
 import Button from "@/components/Common/Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
@@ -105,7 +104,8 @@ const Note: React.FC<NoteProps> = ({
     <NoteContext.Provider
       value={{ noteTitle, content, editMode, fsId, color, setEditMode, setColor }}
     >
-      <div
+      <motion.div
+      layout="position"
       // key={fs}
       className={styles.note_placeholder}
       >
@@ -117,8 +117,6 @@ const Note: React.FC<NoteProps> = ({
         {editMode && <Backdrop key={fsId} onClick={closeNote}/>}
         <motion.div
           ref={noteRef}
-          // transition={{ zIndex: { duration: 7 } }}
-          // layout=
           layout
           style={{
             backgroundColor: color,
@@ -185,7 +183,7 @@ const Note: React.FC<NoteProps> = ({
           {/* /> */}
         </motion.div>
         </AnimatePresence>
-      </div>
+      </motion.div>
     </NoteContext.Provider>
   );
 };

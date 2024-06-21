@@ -34,7 +34,7 @@ const ColorMenu = ({ setColor }: ColorMenuProps) => {
   return (
     <Menu
       menuButton={
-        <MenuButton className={clsx(button.button, button.toolbar_button)}>
+        <MenuButton title="change note color" className={clsx(button.button, button.toolbar_button)}>
           <IoIosColorPalette />
         </MenuButton>
       }

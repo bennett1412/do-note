@@ -1,13 +1,9 @@
-import React, { CSSProperties, EventHandler, FC, ReactNode, SyntheticEvent } from "react";
+import React, { ButtonHTMLAttributes, CSSProperties, EventHandler, FC, ReactNode, SyntheticEvent } from "react";
 import styles from "@/styles/common/button.module.scss";
 import clsx from "clsx";
-type ButtonProps = {
-  children?: ReactNode;
-  style?: CSSProperties;
-  className?: string;
-  onClick?: EventHandler<SyntheticEvent>;
-  disabled?: boolean;
-};
+export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+  specialProp?: string;
+}
 
 const Button: FC<ButtonProps> = ({ children, style, className, onClick, disabled }) => {
   return (
