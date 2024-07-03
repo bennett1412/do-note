@@ -37,7 +37,7 @@
 
   .note_main {
     flex-grow: 1;
-    overflow-y: clip;
+    overflow-y: hidden;
     position: relative;
 
     // overflow blur

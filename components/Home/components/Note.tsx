@@ -65,7 +65,7 @@ const Note: React.FC<NoteProps> = ({
 
   const closeNote = () => {
     setEditMode(false);
-    // if(noteRef.current) noteRef.current.style.zIndex = '0';
+    
     setSelectedId(null);
   };
 
@@ -133,7 +133,7 @@ const Note: React.FC<NoteProps> = ({
           layoutDependency={editMode}
         >
           <motion.div
-            style={{ "--note-bg": color } as CustomStyle}
+            style={{ "--note-bg": color, overFlowY: active? "auto" : "clip" } as CustomStyle}
             layout="position"
             className={styles.note_main}
             onClick={handleClick}
