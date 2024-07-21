@@ -6,7 +6,7 @@ interface CustomImageOptions extends ImageOptions {
   width: number;
 }
 
-declare module '@tiptap/core' {
+declare module '@tiptap/react' {
   interface Commands<ReturnType> {
     customImage: {
       /**
