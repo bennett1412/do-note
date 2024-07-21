@@ -7,14 +7,14 @@ import useGetNotes from "@/hooks/useGetNotes";
 import { updateNote } from "@/utils/firebase/firestore";
 import { NoteContent } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
-import { useAuthUser } from "next-firebase-auth";
+import { useUser } from "next-firebase-auth";
 // import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
 import Head from "next/head";
 
 const Home: React.FC = () => {
-  const user = useAuthUser();
+  const user = useUser();
   const { data: notes, isLoading } = useGetNotes(user.id);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
     creatorId: user.id,

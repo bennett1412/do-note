@@ -4,7 +4,7 @@ import { FiLogOut, FiMoon, FiSun } from "react-icons/fi";
 import "react-float-menu/dist/react-float-menu.css";
 // import { useAuthUser } from "@/hooks/useAuthUser";
 import { logout } from "@/utils/firebase/init";
-import { useAuthUser } from "next-firebase-auth";
+import { useUser } from "next-firebase-auth";
 import { Menu, MenuDivider, MenuItem } from "@szhsin/react-menu";
 import SyncIndicator from "./SyncIndicator";
 import OfflineToggle from "./OfflineToggle";
@@ -14,7 +14,7 @@ import Button from "./Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
 
 const Navbar = () => {
-  const user = useAuthUser();
+  const user = useUser();
   const isDarkMode = useDarkModeDetection();
   const handleLogout = async () => {
     await logout();

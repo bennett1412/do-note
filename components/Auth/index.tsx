@@ -3,7 +3,7 @@ import styles from "./styles/auth.module.scss";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithGoogle } from "../../utils/firebase/init";
 import { toast } from "react-hot-toast";
-import { AuthAction, withAuthUser } from "next-firebase-auth";
+import { AuthAction, withUser } from "next-firebase-auth";
 import { DotsLoader } from "@/components/Common/Loader";
 
 const Auth = () => {
@@ -41,7 +41,7 @@ const Auth = () => {
   );
 };
 
-export default withAuthUser({
+export default withUser({
   whenAuthed: AuthAction.REDIRECT_TO_APP,
   whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
   whenUnauthedAfterInit: AuthAction.RENDER,

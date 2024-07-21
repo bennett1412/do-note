@@ -20,9 +20,14 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/notes',
+        destination: '/auth',
         permanent: false
       },
+      {
+        source: '/__/auth/:path*',
+        destination: 'https://do-note-3f1f7.firebaseapp.com/__/auth/:path*',
+        permanent: false
+      }
     ]
   }
 }
