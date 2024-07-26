@@ -12,9 +12,10 @@ import { useUser } from "next-firebase-auth";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
 import Head from "next/head";
+import { useSession } from "@/hooks/useSession";
 
 const Home: React.FC = () => {
-  const user = useUser();
+  const user = useSession;
   const { data: notes, isLoading } = useGetNotes(user.id);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
     creatorId: user.id,

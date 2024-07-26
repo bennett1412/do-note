@@ -1,30 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles/auth.module.scss";
 import { FcGoogle } from "react-icons/fc";
-import { signInWithGoogle } from "../../utils/firebase/init";
+
 import { toast } from "react-hot-toast";
-import { AuthAction, withUser } from "next-firebase-auth";
-import { DotsLoader } from "@/components/Common/Loader";
+import { supabase } from "@/utils/supabase/init";
+import { useRouter } from "next/router";
+import { useSession } from "@/hooks/useSession";
 
 const Auth = () => {
-  const handleGoogleSignup = () => {
+  const handleGoogleSignup = async () => {
     const toastId = toast.loading("Signing you in...");
     // * change to async await and disable button till action completes
+    console.log('handlegooglesigin')
     signInWithGoogle()
-      .then((res) => {
-        if (res.user) {
-          toast.success("Done", {
-            id: toastId,
-          });
-        }
-      })
-      .catch((error) => {
-        // console.log(error);
-        toast.error("Uh oh, something went wrong", {
-          id: toastId,
-        });
-      });
   };
+  const router = useRouter()
+  const {signInWithGoogle} = useSession();
+  
+
   return (
     <section className={styles.auth_section}>
       <div className={styles.text}>
@@ -41,9 +34,4 @@ const Auth = () => {
   );
 };
 
-export default withUser({
-  whenAuthed: AuthAction.REDIRECT_TO_APP,
-  whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
-  whenUnauthedAfterInit: AuthAction.RENDER,
-  LoaderComponent: DotsLoader,
-})(Auth);
+export default Auth;

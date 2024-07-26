@@ -9,6 +9,7 @@ import {
 import { useRef } from "react";
 import { Analytics } from '@vercel/analytics/react';
 import Head from "next/head";
+import { SessionProvider } from "@/hooks/useSession";
 initAuth();
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -23,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
   );
   const descp = "A lightweight note-taking app that aims to combine the best of Google Keep and Notion";
   return (
+    <SessionProvider>
     <QueryClientProvider client={queryClient.current}>
       <Head>
       <meta charSet="UTF-8" />
@@ -58,5 +60,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <Analytics/>
       </Hydrate>
     </QueryClientProvider>
+    </SessionProvider>
   );
 }
