@@ -41,7 +41,7 @@ export type UpdateNoteFn = (noteId: string,
   }) => Promise<void>;
 
 
-export type DeleteMutation = UseMutateFunction<void, Error, string>;
+export type DeleteMutation = UseMutateFunction<null, Error, string>;
 
 // might wanna change this to noteslist or notelist
 export type NotesContextValue = {
