@@ -8,59 +8,71 @@ export const addNote = async (data: AddNoteParams): Promise<string> => {
     return Promise.reject(new Error("Invalid creatorId"));
   }
   try {
-    const { data: note, error } = await supabase
-      .from('notes')
+    // note_title: string;
+    // note_content: string;
+    // color: string;
+    // active?: boolean;
+    const { note_content: note_content, note_title: note_title, color } = data.newNote;
+    const { data: result, error } = await supabase
+      .from("notes")
       .insert([
         {
-          ...data.newNote,
+          note_title,
+          note_content,
+          color,
           timestamp: new Date().toISOString(),
           creator: data.creatorId,
-        }
+        },
       ])
+      .select()
       .single();
 
     if (error) {
       throw error;
     }
-
-    return note.id;
+    // console.log(result)
+    const addedNote = result as Note
+    return addedNote.id;
   } catch (error) {
     console.error("Error adding document: ", error);
-    throw new Error('Failed to add note.');
+    throw new Error("Failed to add note.");
   }
 };
 
 export const getNotes = async (creatorId: string | null): Promise<Note[]> => {
-  if (creatorId === null) {
+  if (creatorId === null || creatorId === "") {
     return Promise.reject(new Error("Invalid creatorId"));
   }
   try {
     const { data: notes, error } = await supabase
-      .from('notes')
-      .select('*')
-      .eq('creator', creatorId)
-      .order('timestamp', { ascending: false });
+      .from("notes")
+      .select("*")
+      .eq("creator", creatorId)
+      .order("timestamp", { ascending: false });
 
     if (error) {
-      throw error;
-    }
+      console.log(error);
 
+      throw new Error(error.message);
+    }
+    console.log("got the notes from ", notes);
     return notes as Note[];
   } catch (error) {
     // console.log(error);
-    throw new Error('Failed to fetch notes');
+    console.log(error);
+    throw new Error("Failed to fetch notes");
   }
 };
 
 export const updateNote: UpdateNoteFn = async (noteId, newNote) => {
   try {
     const { data, error } = await supabase
-      .from('notes')
+      .from("notes")
       .update({
         ...newNote,
         timestamp: new Date().toISOString(),
       })
-      .eq('id', noteId)
+      .eq("id", noteId)
       .single();
 
     if (error) {
@@ -76,10 +88,7 @@ export const updateNote: UpdateNoteFn = async (noteId, newNote) => {
 
 export const deleteNote = async (noteId: string) => {
   try {
-    const { data, error } = await supabase
-      .from('notes')
-      .delete()
-      .eq('id', noteId);
+    const { data, error } = await supabase.from("notes").delete().eq("id", noteId);
 
     if (error) {
       throw error;

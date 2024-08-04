@@ -4,8 +4,8 @@ import { MouseEventHandler, MutableRefObject } from 'react';
 
 
 export interface NoteContent {
-  noteTitle: string;
-  noteContent: string;
+  note_title: string;
+  note_content: string;
   color: string;
   active?: boolean;
 }
@@ -34,8 +34,8 @@ export type DeleteNoteMutationParams = {
 
 export type UpdateNoteFn = (noteId: string,
   newNote: {
-    noteTitle?: string;
-    noteContent?: string;
+    note_title?: string;
+    note_content?: string;
     color?: string;
     active?: boolean;
   }) => Promise<void>;
@@ -52,7 +52,7 @@ export type NotesContextValue = {
 };
 
 export type NoteContextType = {
-  noteTitle: string;
+  note_title: string;
   content: string;
   editMode: boolean;
   fsId: string;

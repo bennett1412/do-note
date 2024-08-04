@@ -12,12 +12,13 @@ import Link from "next/link";
 import Image from "next/image";
 import Button from "./Button";
 import useDarkModeDetection from "@/hooks/useDarkMode";
+import { useSession } from "@/hooks/useSession";
 
 const Navbar = () => {
-  const user = useUser();
+  const { user, signOut } = useSession();
   const isDarkMode = useDarkModeDetection();
   const handleLogout = async () => {
-    await logout();
+    signOut();
   };
   return (
     <nav className={styles.nav}>
@@ -32,7 +33,9 @@ const Navbar = () => {
           <>
             <Menu
               //todo: change to custom next image component
-              menuButton={<Image width={32} height={32} src={user.photoURL ?? ""} alt="profile-pic" />}
+              menuButton={
+                <Image width={32} height={32} src={user.picture ?? ""} alt="profile-pic" />
+              }
               direction="bottom"
               offsetY={12}
               align="end"

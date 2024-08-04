@@ -8,16 +8,18 @@ import { useRouter } from "next/router";
 import { useSession } from "@/hooks/useSession";
 
 const Auth = () => {
+  const { status, signInWithGoogle } = useSession();
   const handleGoogleSignup = async () => {
     const toastId = toast.loading("Signing you in...");
-    // * change to async await and disable button till action completes
-    console.log('handlegooglesigin')
-    signInWithGoogle()
+    signInWithGoogle();
   };
-  const router = useRouter()
-  const {signInWithGoogle} = useSession();
-  
-
+  useEffect(() => {
+    console.log(status);
+    if (status === "authenticated") {
+      toast.success("Already loggedin, redirecting to home...", { id: "prev-loggedin" });
+    }
+  }, [status]);
+  const authLoading = status === "loading" || status == "authenticated";
   return (
     <section className={styles.auth_section}>
       <div className={styles.text}>
@@ -26,9 +28,16 @@ const Auth = () => {
           A lightweight note taking app for your hyper productive self.
         </p>
       </div>
-      <button onClick={handleGoogleSignup}>
-        <FcGoogle size={20} />
-        Continue with Google?
+
+      <button disabled={authLoading} onClick={handleGoogleSignup}>
+        {authLoading ? (
+          <>Checking if you&apos;re logged in...</>
+        ) : (
+          <>
+            <FcGoogle size={20} />
+            Continue with Google?
+          </>
+        )}
       </button>
     </section>
   );

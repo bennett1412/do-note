@@ -7,31 +7,19 @@ import { supabase } from "@/utils/supabase/init";
 import { AuthError, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 
+interface User {
+  id?: string,
+  name?: string, 
+  email?: string,
+  picture?: string,
+};
+
 type SessionType = {
-  session:
-    | {
-        data: {
-          session: Session;
-        };
-        error: null;
-      }
-    | {
-        data: {
-          session: null;
-        };
-        error: AuthError;
-      }
-    | {
-        data: {
-          session: null;
-        };
-        error: null;
-      }
-    | null;
+  user: User;
   // eslint-disable-next-line @typescript-eslint/ban-types
   signInWithGoogle: Function;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  signOut: Function | null;
+  signOut: Function;
   error: string | null;
   status: string;
 };
@@ -43,11 +31,16 @@ const signInWithGoogle = () => {
 };
 
 const signOut = () => {
-  console.log("trying to signout");
+  supabase.auth.signOut();
 };
 
 const defaultSession = {
-  session: null,
+  user: {
+    id: "",
+    name: "",
+    email: "",
+    picture: ""
+  },
   signInWithGoogle,
   signOut,
   error: null,
@@ -57,10 +50,24 @@ const defaultSession = {
 const sessionContext = createContext<SessionType>(defaultSession);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<SessionType>(defaultSession);
+  // const [session, setSession] = useState<SessionType>(defaultSession);
   const [status, setStatus] = useState("loading");
+  const [user, setUser] = useState<User>({
+    id: "",
+    name: "",
+    email: "",
+    picture: ""
+  });
   const router = useRouter();
   useEffect(() => {
+    const setUserData = (userData: User | void) => {
+      setUser({
+        id : userData?.id ?? "",
+        name: userData?.name ?? "",
+        email: userData?.email ?? "",
+        picture: userData?.picture ?? ""
+      })
+    }
     const getCurrentSession = async () => {
       setStatus("loading");
       try {
@@ -69,16 +76,23 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           error,
         } = await supabase.auth.getSession();
         if (session?.user) {
-          console.log(session);
           setStatus("authenticated");
-          router.push('/notes')
-        }
-        if (error) {
+          setUserData({
+            id: session?.user.id,
+            name: session?.user.user_metadata.name,
+            email: session?.user.email,
+            picture: session?.user.user_metadata.picture
+          });
+          router.push("/notes");
+        }else{
           setStatus("unauthenticated");
-          // add some redirection here
-        }
+          setUserData()
+          if (error) {
+            // # todo: add some instruction here
+
+          }
+        }    
       } catch (error) {
-        console.log("Error while getting session");
         setStatus("unauthenticated");
         // might wanna logout user
       }
@@ -87,18 +101,32 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     getCurrentSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, newSession) => {
-      if (event == "SIGNED_IN" && newSession) {
-        const { user_metadata } = newSession?.user;
-        console.log(user_metadata);
+      switch (event) {
+        case "SIGNED_IN":
+          
+          setUser({
+            id: newSession?.user.id,
+            name: newSession?.user.user_metadata.name,
+            email: newSession?.user.email,
+            picture: newSession?.user.user_metadata.picture
+          })
+          break;
+        case "SIGNED_OUT":
+          setStatus("unauthenticated");
+          router.push("/auth");
+          break;
+        default:
+          break;
       }
     });
     return () => {
       authListener.subscription.unsubscribe();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <sessionContext.Provider value={{ ...session, status }}>{children}</sessionContext.Provider>
+    <sessionContext.Provider value={{ ...defaultSession, status, user }}>{children}</sessionContext.Provider>
   );
 }
 
