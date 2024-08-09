@@ -16,7 +16,7 @@ const Auth = () => {
   useEffect(() => {
     console.log(status);
     if (status === "authenticated") {
-      toast.success("Already loggedin, redirecting to home...", { id: "prev-loggedin" });
+      toast.success("Logged in, redirecting to home...", { id: "loggedin" });
     }
   }, [status]);
   const authLoading = status === "loading" || status == "authenticated";

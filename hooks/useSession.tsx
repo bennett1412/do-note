@@ -8,11 +8,11 @@ import { AuthError, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 
 interface User {
-  id?: string,
-  name?: string, 
-  email?: string,
-  picture?: string,
-};
+  id?: string;
+  name?: string;
+  email?: string;
+  picture?: string;
+}
 
 type SessionType = {
   user: User;
@@ -23,10 +23,23 @@ type SessionType = {
   error: string | null;
   status: string;
 };
-
+const getURL = () => {
+  let url =
+    process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
+    process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+    "http://localhost:3000/";
+  // Make sure to include `https://` when not localhost.
+  url = url.startsWith("http") ? url : `https://${url}`;
+  // Make sure to include a trailing `/`.
+  url = url.endsWith("/") ? url : `${url}/`;
+  return url;
+};
 const signInWithGoogle = () => {
   supabase.auth.signInWithOAuth({
     provider: "google",
+    options: {
+      redirectTo: getURL(),
+    },
   });
 };
 
@@ -39,7 +52,7 @@ const defaultSession = {
     id: "",
     name: "",
     email: "",
-    picture: ""
+    picture: "",
   },
   signInWithGoogle,
   signOut,
@@ -56,18 +69,18 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     id: "",
     name: "",
     email: "",
-    picture: ""
+    picture: "",
   });
   const router = useRouter();
   useEffect(() => {
     const setUserData = (userData: User | void) => {
       setUser({
-        id : userData?.id ?? "",
+        id: userData?.id ?? "",
         name: userData?.name ?? "",
         email: userData?.email ?? "",
-        picture: userData?.picture ?? ""
-      })
-    }
+        picture: userData?.picture ?? "",
+      });
+    };
     const getCurrentSession = async () => {
       setStatus("loading");
       try {
@@ -81,17 +94,16 @@ export function SessionProvider({ children }: { children: ReactNode }) {
             id: session?.user.id,
             name: session?.user.user_metadata.name,
             email: session?.user.email,
-            picture: session?.user.user_metadata.picture
+            picture: session?.user.user_metadata.picture,
           });
           router.push("/notes");
-        }else{
+        } else {
           setStatus("unauthenticated");
-          setUserData()
+          setUserData();
           if (error) {
             // # todo: add some instruction here
-
           }
-        }    
+        }
       } catch (error) {
         setStatus("unauthenticated");
         // might wanna logout user
@@ -103,13 +115,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, newSession) => {
       switch (event) {
         case "SIGNED_IN":
-          
           setUser({
             id: newSession?.user.id,
             name: newSession?.user.user_metadata.name,
             email: newSession?.user.email,
-            picture: newSession?.user.user_metadata.picture
-          })
+            picture: newSession?.user.user_metadata.picture,
+          });
           break;
         case "SIGNED_OUT":
           setStatus("unauthenticated");
@@ -122,11 +133,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <sessionContext.Provider value={{ ...defaultSession, status, user }}>{children}</sessionContext.Provider>
+    <sessionContext.Provider value={{ ...defaultSession, status, user }}>
+      {children}
+    </sessionContext.Provider>
   );
 }
 
