@@ -23,7 +23,7 @@ type SessionType = {
 };
 const getURL = () => {
   const site_url =
-    process?.env?.VERCEL_ENV === "test"
+    process?.env?.VERCEL_ENV === "preview"
       ? process?.env?.NEXT_PUBLIC_PREVIEW_SITE_URL
       : process?.env?.NEXT_PUBLIC_SITE_URL;
   let url =
@@ -36,7 +36,7 @@ const getURL = () => {
   return url;
 };
 const signInWithGoogle = () => {
-  console.log(process?.env?.NODE_ENV);
+  console.log(process?.env?.VERCEL_ENV);
   console.log("NEXT_PUBLIC_SITE_URL:", process?.env?.NEXT_PUBLIC_SITE_URL);
   console.log("Final URL:", getURL());
   // supabase.auth.signInWithOAuth({
