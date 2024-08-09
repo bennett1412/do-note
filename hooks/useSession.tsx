@@ -22,7 +22,6 @@ type SessionType = {
   status: string;
 };
 const getURL = () => {
-
   const public_site_url =
     process?.env?.NODE_ENV === "test"
       ? process?.env?.NEXT_PUBLIC_PREVIEW_SITE_URL
@@ -38,12 +37,15 @@ const getURL = () => {
   return url;
 };
 const signInWithGoogle = () => {
-  supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: getURL(),
-    },
-  });
+  console.log("NEXT_PUBLIC_SITE_URL:", process?.env?.NEXT_PUBLIC_SITE_URL);
+  console.log("NEXT_PUBLIC_VERCEL_URL:", process?.env?.NEXT_PUBLIC_VERCEL_URL);
+  console.log("Final URL:", getURL());
+  // supabase.auth.signInWithOAuth({
+  //   provider: "google",
+  //   options: {
+  //     redirectTo: getURL(),
+  //   },
+  // });
 };
 
 const signOut = () => {
