@@ -39,12 +39,12 @@ const signInWithGoogle = () => {
   console.log(process?.env?.VERCEL_ENV);
   console.log("NEXT_PUBLIC_SITE_URL:", process?.env?.NEXT_PUBLIC_SITE_URL);
   console.log("Final URL:", getURL());
-  // supabase.auth.signInWithOAuth({
-  //   provider: "google",
-  //   options: {
-  //     redirectTo: getURL(),
-  //   },
-  // });
+  supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: getURL(),
+    },
+  });
 };
 
 const signOut = () => {
