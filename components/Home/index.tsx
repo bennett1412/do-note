@@ -1,23 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import NotesList from "./components/NotesList";
 import { toast } from "react-hot-toast";
 
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
-import { updateNote } from "@/utils/firebase/firestore";
+import { updateNote } from "@/utils/supabase/db_operations";
 import { NoteContent } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
-import { useUser } from "next-firebase-auth";
 // import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
 import Head from "next/head";
+import { useSession } from "@/hooks/useSession";
+import { supabase } from "@/utils/supabase/init";
 
 const Home: React.FC = () => {
-  const user = useUser();
-  const { data: notes, isLoading } = useGetNotes(user.id);
+  const { user, status } = useSession();
+  const userId = user.id ?? null;
+
+  const { data: notes, isLoading } = useGetNotes(userId);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
-    creatorId: user.id,
+    creatorId: userId,
     errorCb: () => {
       toast.error("Something went wrong please try later", {
         id: "note-creation-error",
@@ -25,7 +28,7 @@ const Home: React.FC = () => {
     },
   });
   const { mutate: deleteMutate } = useDeleteNote({
-    creatorId: user.id,
+    creatorId: userId,
     errorCb: () => {
       toast.error("Deletion failed, pls try later", {
         id: "delete-error",
@@ -35,8 +38,8 @@ const Home: React.FC = () => {
 
   const handleAdd = async () => {
     const newNote: NoteContent = {
-      noteTitle: "",
-      noteContent: JSON.stringify({
+      note_title: "",
+      note_content: JSON.stringify({
         type: "doc",
         content: [
           {
@@ -44,11 +47,13 @@ const Home: React.FC = () => {
           },
         ],
       }),
-      color: "var(--note-bg-dark-4)"
+      color: "var(--note-bg-dark-4)",
     };
+    console.log(userId);
+    // return;
     addMutate({
       newNote: newNote,
-      creatorId: user.id,
+      creatorId: userId,
     });
   };
 
@@ -61,7 +66,6 @@ const Home: React.FC = () => {
       {isLoading ? (
         <DotsLoader />
       ) : (
-
         <NotesList
           addNote={handleAdd}
           updateNote={updateNote}

@@ -24,7 +24,7 @@ type NoteProps = {
 export const NoteContext = createContext<NoteContextType | undefined>(undefined);
 
 const Note: React.FC<NoteProps> = ({
-  title: noteTitle,
+  title: note_title,
   content,
   active,
   fsId,
@@ -35,7 +35,7 @@ const Note: React.FC<NoteProps> = ({
 }) => {
   const { updateNote } = useContext(NotesContext) as NotesContextValue;
   const [editMode, setEditMode] = useState<boolean>(active);
-  const [title, setTitle] = useState<string>(noteTitle);
+  const [title, setTitle] = useState<string>(note_title);
   const [color, setColor] = useState<string>(noteColor ?? "var(--note-bg-dark-4)");
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
@@ -43,17 +43,17 @@ const Note: React.FC<NoteProps> = ({
   const isDarkMode = useDarkModeDetection();
   useEffect(() => {
     const titleHandler = setTimeout(() => {
-      if (title !== "" && title !== noteTitle) {
+      if (title !== "" && title !== note_title) {
         // console.log("being updated");
         updateNote(fsId, {
-          noteTitle: title,
+          note_title: title,
         });
       }
     }, 3000);
     return () => {
       clearTimeout(titleHandler);
     };
-  }, [fsId, title, noteTitle, updateNote]);
+  }, [fsId, title, note_title, updateNote]);
 
   useEffect(() => {
     if (color !== noteColor) {
@@ -102,7 +102,7 @@ const Note: React.FC<NoteProps> = ({
   }
   return (
     <NoteContext.Provider
-      value={{ noteTitle, content, editMode, fsId, color, setEditMode, setColor }}
+      value={{ note_title, content, editMode, fsId, color, setEditMode, setColor }}
     >
       <motion.div
       layout="position"

@@ -32,8 +32,8 @@ const NotesList: React.FC<NoteListProps> = ({
             <Note
               key={note.id}
               active={note.active ?? false}
-              title={note.noteTitle}
-              content={note.noteContent}
+              title={note.note_title}
+              content={note.note_content}
               fsId={note.id}
               color={note.color}
               setSelectedId={setSelectedId}

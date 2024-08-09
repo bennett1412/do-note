@@ -72,7 +72,7 @@ const Tiptap: React.FC<TiptapProps> = ({ style }) => {
       if (editor && !editor.isDestroyed && noteContent !== content) {
         const syncNote = async () => {
           await updateNote(fsId, {
-            noteContent: JSON.stringify(editor.getJSON()),
+            note_content: JSON.stringify(editor.getJSON()),
           });
         };
         syncNote();

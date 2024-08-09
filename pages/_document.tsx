@@ -40,9 +40,6 @@ export default function Document() {
         />
       </Head>
       <body>
-        <div>
-          <Toaster />
-        </div>
         <Main />
         <NextScript />
       </body>

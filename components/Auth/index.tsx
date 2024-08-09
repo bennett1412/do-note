@@ -1,30 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles/auth.module.scss";
 import { FcGoogle } from "react-icons/fc";
-import { signInWithGoogle } from "../../utils/firebase/init";
+
 import { toast } from "react-hot-toast";
-import { AuthAction, withUser } from "next-firebase-auth";
-import { DotsLoader } from "@/components/Common/Loader";
+import { supabase } from "@/utils/supabase/init";
+import { useRouter } from "next/router";
+import { useSession } from "@/hooks/useSession";
 
 const Auth = () => {
-  const handleGoogleSignup = () => {
+  const { status, signInWithGoogle } = useSession();
+  const handleGoogleSignup = async () => {
     const toastId = toast.loading("Signing you in...");
-    // * change to async await and disable button till action completes
-    signInWithGoogle()
-      .then((res) => {
-        if (res.user) {
-          toast.success("Done", {
-            id: toastId,
-          });
-        }
-      })
-      .catch((error) => {
-        // console.log(error);
-        toast.error("Uh oh, something went wrong", {
-          id: toastId,
-        });
-      });
+    signInWithGoogle();
   };
+  useEffect(() => {
+    console.log(status);
+    if (status === "authenticated") {
+      toast.success("Logged in, redirecting to home...", { id: "loggedin" });
+    }
+  }, [status]);
+  const authLoading = status === "loading" || status == "authenticated";
   return (
     <section className={styles.auth_section}>
       <div className={styles.text}>
@@ -33,17 +28,19 @@ const Auth = () => {
           A lightweight note taking app for your hyper productive self.
         </p>
       </div>
-      <button onClick={handleGoogleSignup}>
-        <FcGoogle size={20} />
-        Continue with Google?
+
+      <button disabled={authLoading} onClick={handleGoogleSignup}>
+        {authLoading ? (
+          <>Checking if you&apos;re logged in...</>
+        ) : (
+          <>
+            <FcGoogle size={20} />
+            Continue with Google?
+          </>
+        )}
       </button>
     </section>
   );
 };
 
-export default withUser({
-  whenAuthed: AuthAction.REDIRECT_TO_APP,
-  whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
-  whenUnauthedAfterInit: AuthAction.RENDER,
-  LoaderComponent: DotsLoader,
-})(Auth);
+export default Auth;
