@@ -22,8 +22,13 @@ type SessionType = {
   status: string;
 };
 const getURL = () => {
+
+  const public_site_url =
+    process?.env?.NODE_ENV === "test"
+      ? process?.env?.NEXT_PUBLIC_PREVIEW_SITE_URL
+      : process?.env?.NEXT_PUBLIC_SITE_URL;
   let url =
-    process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
+    public_site_url ?? // Set this to your site URL in production env.
     process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
     "http://localhost:3000/";
   // Make sure to include `https://` when not localhost.
