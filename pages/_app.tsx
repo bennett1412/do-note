@@ -1,13 +1,11 @@
 import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
-import initAuth from "@/utils/firebase/initAuth";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRef } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { SessionProvider } from "@/hooks/useSession";
 import { Toaster } from "react-hot-toast";
-initAuth();
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = useRef(

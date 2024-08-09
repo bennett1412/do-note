@@ -4,11 +4,9 @@ import { toast } from "react-hot-toast";
 
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
-// import { updateNote } from "@/utils/firebase/firestore";
 import { updateNote } from "@/utils/supabase/db_operations";
 import { NoteContent } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
-import { useUser } from "next-firebase-auth";
 // import NotesLoader from "@/components/Common/NotesLoader";
 import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
@@ -19,23 +17,6 @@ import { supabase } from "@/utils/supabase/init";
 const Home: React.FC = () => {
   const { user, status } = useSession();
   const userId = user.id ?? null;
-  // useEffect(() => {
-  //   const getNotes = async () => {
-  //     console.log('userID:',user, status)
-  //     try{
-  //     const { data: notes, error } = await supabase
-  //     .from('notes')
-  //     .select('*')
-  //     .eq('creator', userId)
-  //     .order('timestamp', { ascending: false });
-  //     console.log(notes, error)
-  //     }catch(error){
-  //       console.log(error)
-  //     }
-  //   }
-  //   getNotes()
-
-  // }, [])
 
   const { data: notes, isLoading } = useGetNotes(userId);
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({

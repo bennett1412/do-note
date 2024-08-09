@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient, UseMutationResult } from "@tanstack/react-query";
-// import { deleteNote } from "../utils/firebase/firestore";
 import { deleteNote } from "@/utils/supabase/db_operations";
 import { DeleteNoteMutationParams, Note } from "@/types/Note";
 

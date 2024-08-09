@@ -1,8 +1,6 @@
 import React, { ReactNode } from "react";
-import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../utils/firebase/init";
-import { logout } from "../utils/firebase/init";
+
 import { supabase } from "@/utils/supabase/init";
 import { AuthError, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/router";

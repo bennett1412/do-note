@@ -3,8 +3,6 @@ import styles from "@/styles/common/navbar.module.scss";
 import { FiLogOut, FiMoon, FiSun } from "react-icons/fi";
 import "react-float-menu/dist/react-float-menu.css";
 // import { useAuthUser } from "@/hooks/useAuthUser";
-import { logout } from "@/utils/firebase/init";
-import { useUser } from "next-firebase-auth";
 import { Menu, MenuDivider, MenuItem } from "@szhsin/react-menu";
 import SyncIndicator from "./SyncIndicator";
 import OfflineToggle from "./OfflineToggle";
