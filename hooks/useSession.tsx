@@ -22,9 +22,12 @@ type SessionType = {
   status: string;
 };
 const getURL = () => {
+  const site_url =
+    process?.env?.VERCEL_ENV === "preview"
+      ? process?.env?.NEXT_PUBLIC_PREVIEW_SITE_URL
+      : process?.env?.NEXT_PUBLIC_SITE_URL;
   let url =
-    process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
-    process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+    site_url ?? // Set this to your site URL in production env.
     "http://localhost:3000/";
   // Make sure to include `https://` when not localhost.
   url = url.startsWith("http") ? url : `https://${url}`;
@@ -33,12 +36,15 @@ const getURL = () => {
   return url;
 };
 const signInWithGoogle = () => {
-  supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: getURL(),
-    },
-  });
+  console.log(process?.env?.VERCEL_ENV);
+  console.log("NEXT_PUBLIC_SITE_URL:", process?.env?.NEXT_PUBLIC_SITE_URL);
+  console.log("Final URL:", getURL());
+  // supabase.auth.signInWithOAuth({
+  //   provider: "google",
+  //   options: {
+  //     redirectTo: getURL(),
+  //   },
+  // });
 };
 
 const signOut = () => {
