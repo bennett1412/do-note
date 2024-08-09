@@ -29,7 +29,7 @@ const getURL = () => {
       : process?.env?.NEXT_PUBLIC_SITE_URL;
   let url =
     public_site_url ?? // Set this to your site URL in production env.
-    process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+    process?.env?.VERCEL_URL ?? // Automatically set by Vercel.
     "http://localhost:3000/";
   // Make sure to include `https://` when not localhost.
   url = url.startsWith("http") ? url : `https://${url}`;
