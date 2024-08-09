@@ -42,7 +42,7 @@ const signInWithGoogle = () => {
   supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: getURL(),
+      redirectTo: "https://do-note.vercel.app/",
     },
   });
 };
