@@ -1,20 +1,22 @@
 import React from "react";
 import styles from "@/styles/common/navbar.module.scss";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiMoon, FiSun } from "react-icons/fi";
 import "react-float-menu/dist/react-float-menu.css";
 // import { useAuthUser } from "@/hooks/useAuthUser";
-import { logout } from "@/utils/firebase/init";
-import { useAuthUser } from "next-firebase-auth";
 import { Menu, MenuDivider, MenuItem } from "@szhsin/react-menu";
 import SyncIndicator from "./SyncIndicator";
 import OfflineToggle from "./OfflineToggle";
 import Link from "next/link";
 import Image from "next/image";
+import Button from "./Button";
+import useDarkModeDetection from "@/hooks/useDarkMode";
+import { useSession } from "@/hooks/useSession";
 
 const Navbar = () => {
-  const user = useAuthUser();
+  const { user, signOut } = useSession();
+  const isDarkMode = useDarkModeDetection();
   const handleLogout = async () => {
-    const res = await logout();
+    signOut();
   };
   return (
     <nav className={styles.nav}>
@@ -22,11 +24,16 @@ const Navbar = () => {
         DoNote
       </Link>
       <div className={styles.more_ops}>
+        {/* <Button style={{borderRadius:'100%',backgroundColor:'transparent'}}> */}
+        {/* {isDarkMode?<FiMoon/>:<FiSun/>} */}
+        {/* </Button> */}
         {user.id && (
           <>
             <Menu
               //todo: change to custom next image component
-              menuButton={<Image width={32} height={32} src={user.photoURL!} alt="profile-pic" />}
+              menuButton={
+                <Image width={32} height={32} src={user.picture ?? ""} alt="profile-pic" />
+              }
               direction="bottom"
               offsetY={12}
               align="end"

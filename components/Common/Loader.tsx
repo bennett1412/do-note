@@ -1,6 +1,7 @@
-import { MutatingDots, Oval, Rings } from "react-loader-spinner";
+import { MutatingDots, Oval } from "react-loader-spinner";
 import React from "react";
-
+import styles from "@/styles/common/loader.module.scss";
+import useDarkModeDetection from "@/hooks/useDarkMode";
 export const OvalLoader = ({ magnify }: { magnify: string }) => {
   const style = {
     position: "fixed",
@@ -24,22 +25,26 @@ export const OvalLoader = ({ magnify }: { magnify: string }) => {
   );
 };
 
-export const DotsLoader = () => (
-  <MutatingDots
-    height="100"
-    width="100"
-    color="black"
-    secondaryColor="black"
-    radius="12.5"
-    ariaLabel="mutating-dots-loading"
-    wrapperStyle={{
-      position: "fixed",
-      left: "50%",
-      top: "50%",
-      transform: "translate(-50%,-50%) scale(1.5)",
-      msTransform: "translate(-50%,-50%) scale(1.5)",
-    }}
-    wrapperClass=""
-    visible={true}
-  />
-);
+export const DotsLoader = () => {
+  const isDarkTheme = useDarkModeDetection();
+
+  return (
+    <MutatingDots
+      height="100"
+      width="100"
+      color={isDarkTheme ? "var(--color-primary-100)" : "var(--color-surface-100)"}
+      secondaryColor={isDarkTheme ? "var(--color-primary-100)" : "var(--color-surface-100)"}
+      radius="12.5"
+      ariaLabel="mutating-dots-loading"
+      wrapperStyle={{
+        position: "fixed",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%,-50%) scale(1.5)",
+        msTransform: "translate(-50%,-50%) scale(1.5)",
+      }}
+      wrapperClass={styles.dots_loader}
+      visible={true}
+    />
+  );
+};

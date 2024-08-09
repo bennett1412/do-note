@@ -1,10 +1,11 @@
 import React, { useCallback } from "react";
 import { Editor, FloatingMenu } from "@tiptap/react";
 import clsx from "clsx";
-import styles from "@/styles/home/floatmenu.module.scss";
+import styles from "../../styles/floatmenu.module.scss";
 import { MdFormatListBulleted } from "react-icons/md";
 import { RxHeading } from "react-icons/rx";
 import { BsUiChecks, BsCardImage } from "react-icons/bs";
+import Button from "@/components/Common/Button";
 
 type Props = { editor: Editor | null };
 
@@ -24,19 +25,17 @@ const CustomFloatingMenu: React.FC<Props> = ({ editor }) => {
           editor={editor}
           tippyOptions={{ duration: 100 }}
         >
-          <button
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 3 }).run()
-            }
+          <Button
+            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
             className={clsx({
               [styles.float_item]: true,
               [styles.is_active]: editor.isActive("heading", { level: 1 }),
             })}
           >
             <RxHeading />
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={clsx({
               [styles.float_item]: true,
@@ -44,8 +43,8 @@ const CustomFloatingMenu: React.FC<Props> = ({ editor }) => {
             })}
           >
             <MdFormatListBulleted />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={addImage}
             className={clsx({
               [styles.float_item]: true,
@@ -53,8 +52,8 @@ const CustomFloatingMenu: React.FC<Props> = ({ editor }) => {
             })}
           >
             <BsCardImage />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => editor.chain().focus().toggleTaskList().run()}
             className={clsx({
               [styles.float_item]: true,
@@ -62,7 +61,7 @@ const CustomFloatingMenu: React.FC<Props> = ({ editor }) => {
             })}
           >
             <BsUiChecks />
-          </button>
+          </Button>
         </FloatingMenu>
       ) : null}
     </>

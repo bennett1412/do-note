@@ -1,0 +1,14 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // background: linear-gradient(135deg, #ff00ff54, #00ffff5d);
+  background: rgba(0, 0, 0, 0.7); 
+  z-index: 3; /* Ensure the backdrop is above other elements */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 2s ease-in-out; 
+}

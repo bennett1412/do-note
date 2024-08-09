@@ -1,24 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import FloatingMenu from "./minorComponents/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
-import styles from "@/styles/home/note.module.scss";
+import styles from "../styles/note.module.scss";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import { Placeholder } from "@tiptap/extension-placeholder";
-// import { updateNote } from "./../../../utils/firebase/firestore";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
-import { UpdateNoteFn } from "@/types/Note";
+import CopyToClipboardExtension from "./extensions/CopyToClipboard/CopyToClipboardExtension";
+import { NoteContextType, NotesContextValue } from "@/types/Note";
+import { CustomStyle } from "@/types/Styles";
+import BottomMenu from "./BottomMenu";
+import { NotesContext } from "./NotesList";
+import { NoteContext } from "./Note";
 
 type TiptapProps = {
-  editMode: boolean;
-  content: string;
-  fsId: string;
-  updateNote: UpdateNoteFn;
+  // editMode: boolean;
+  // content: string;
+  // fsId: string;
+  // updateNote: UpdateNoteFn;
+  style?: CustomStyle;
 };
 
-const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote }) => {
+const Tiptap: React.FC<TiptapProps> = ({ style }) => {
+  // function Tiptap({ style }: TiptapProps) {
+  const { updateNote } = useContext(NotesContext) as NotesContextValue;
+  const { editMode, content, fsId } = useContext(NoteContext) as NoteContextType;
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
   const editor = useEditor({
@@ -37,7 +45,7 @@ const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote }) 
         showOnlyWhenEditable: false,
       }),
       CustomImageExtension,
-      // ClipboardExtension,
+      CopyToClipboardExtension,
     ],
     editable: false,
     content: JSON.parse(noteContent),
@@ -64,7 +72,7 @@ const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote }) 
       if (editor && !editor.isDestroyed && noteContent !== content) {
         const syncNote = async () => {
           await updateNote(fsId, {
-            noteContent: JSON.stringify(editor.getJSON()),
+            note_content: JSON.stringify(editor.getJSON()),
           });
         };
         syncNote();
@@ -79,7 +87,8 @@ const Tiptap: React.FC<TiptapProps> = ({ editMode, content, fsId, updateNote }) 
   return (
     <>
       <FloatingMenu editor={editor} />
-      <EditorContent className={styles.editor} editor={editor} />
+      <EditorContent style={style} className={styles.editor} editor={editor} />
+      <BottomMenu editor={editor} />
     </>
   );
 };

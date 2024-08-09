@@ -1,18 +1,18 @@
 import { UseMutateFunction } from '@tanstack/react-query';
-export interface Note {
-  id: string;
-  noteTitle: string;
-  noteContent: string;
-  colorIndex?: number;
-  active?: boolean;
-}
+import { Editor } from '@tiptap/react';
+import { MouseEventHandler, MutableRefObject } from 'react';
+
 
 export interface NoteContent {
-  noteTitle: string;
-  noteContent: string;
-  colorIndex?: number;
+  note_title: string;
+  note_content: string;
+  color: string;
   active?: boolean;
 }
+export interface Note extends NoteContent {
+  id: string;
+}
+
 export type AddNoteParams = {
   newNote: NoteContent,
   creatorId: string | null
@@ -34,11 +34,34 @@ export type DeleteNoteMutationParams = {
 
 export type UpdateNoteFn = (noteId: string,
   newNote: {
-    noteTitle?: string;
-    noteContent?: string;
-    colorIndex?: number;
+    note_title?: string;
+    note_content?: string;
+    color?: string;
     active?: boolean;
   }) => Promise<void>;
 
 
-export type DeleteMutation = UseMutateFunction<void, Error, string>;
+export type DeleteMutation = UseMutateFunction<null, Error, string>;
+
+// might wanna change this to noteslist or notelist
+export type NotesContextValue = {
+  addingNote: boolean;
+  addNote: MouseEventHandler;
+  deleteNote: DeleteMutation;
+  updateNote: UpdateNoteFn;
+};
+
+export type NoteContextType = {
+  note_title: string;
+  content: string;
+  editMode: boolean;
+  fsId: string;
+  color: string;
+  noteRef?: MutableRefObject<HTMLDivElement | null>;
+  setEditMode: (state: boolean) => void;
+  setColor: (color: string) => void
+};
+
+export type EditorContextType = {
+  editor: Editor | null
+}

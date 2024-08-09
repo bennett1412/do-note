@@ -1,0 +1,28 @@
+.notes_list {
+  // position: relative;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+  padding: 1rem;
+  justify-items: center;
+
+  .add_button {
+    display: flex;
+    border: none;
+    width: 4rem;
+    height: 3rem;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    bottom: 10%;
+    right: 5%;
+    border: 1px solid var(--weak-border);
+    z-index: 2;
+    // box-shadow: 3px 1.5px 3px #232336;
+    &:active {
+      box-shadow: none;
+    }
+  }
+}
+
+

@@ -1,0 +1,265 @@
+@use "../../../styles/utilities/colors";
+@use "../../../styles/utilities/buttons";
+@use "../../../styles/utilities/effects";
+
+// @import url("https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap");
+
+.note_placeholder {
+  height: 15rem;
+  width: 18rem;
+  border-radius: 10px;
+  display: flex;
+}
+
+.note_container {
+  // position: relative;
+  // height: 12.5rem;
+  // width: 17rem;
+  flex: 1;
+  overflow: hidden;
+  border: 1px colors.$note-border solid;
+  border-radius: 10px;
+  padding: 0.8rem;
+  background-color: var(--note-bg);
+  color: var(--color-surface-100);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition-property: background, color;
+  transition-duration: 0.2s;
+  font-family: "Fire Mono", monospace;
+  z-index: 0;
+
+  input[type="text"] {
+    background: var(--note-bg);
+    z-index: inherit;
+  }
+
+  .note_main {
+    flex-grow: 1;
+    overflow-y: hidden;
+    position: relative;
+
+    // overflow blur
+    &::after {
+      content: " ";
+      height: 20px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--note-bg) 100%);
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      transition: background 5s 2s;
+      z-index: inherit;
+    }
+  }
+  &:hover {
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  }
+
+  .title {
+    font-size: x-large;
+    height: 10%;
+    width: 100%;
+    outline: none;
+    border: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.5rem;
+    transition-property: background, color;
+    transition-duration: 0.2s;
+    color: inherit;
+  }
+
+  .note_button {
+    position: relative;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 10px;
+
+    &:active {
+      background: rgba(135, 141, 141, 0.441);
+    }
+    &:hover {
+      background: rgba(135, 141, 141, 0.25);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 10px;
+    }
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .note_button.dark_button {
+    svg {
+      stroke: var(--color-surface-100);
+      color: var(--color-surface-100);
+    }
+  }
+  .note_button.light_button {
+    svg {
+      stroke: var(--color-primary-100);
+      color: var(--color-primary-100);
+    }
+  }
+}
+// .in_transition {
+//   z-index: 1;
+// }
+.note_container.note_active {
+  // z-index: 2;
+  width: 70vw;
+  height: 70dvh;
+  position: fixed;
+  margin: auto auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  // related to tiptap
+  .ProseMirror,
+  .ProseMirror-focused {
+    height: 100%;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .note_container.note_active {
+    width: 90dvw;
+    height: 95dvh;
+    .editor {
+      height: 80dvh;
+    }
+  }
+  .toolbar {
+    position: sticky;
+  }
+}
+.dull_background {
+  background-color: rgba(0, 0, 0, 0.158);
+}
+
+.dark {
+  color: var(--color-primary-100);
+  border: 1px solid var(--color-surface-200);
+}
+
+// bottommenu styles
+.toolbar {
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.1s linear;
+  position: absolute;
+  bottom: 10px;
+}
+
+.note_container:hover .toolbar {
+  opacity: 1;
+}
+
+.note_active > .toolbar {
+  opacity: 1;
+}
+
+// tiptap styles
+.editor {
+  // @extend .masked-overflow;
+  height: 90%;
+  width: 100%;
+  outline: none;
+  border: none;
+  position: relative;
+  // custom scrollbar
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 30px;
+    position: relative;
+    z-index: 3;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(139, 139, 139, 0.42);
+    cursor: pointer;
+    border-radius: 30px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(99, 99, 99, 0.676);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(99, 99, 99);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    cursor: pointer;
+    border-radius: 30px;
+  }
+
+  .ProseMirror,
+  .ProseMirror-focused {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    .is-editor-empty {
+      color: black;
+    }
+    p {
+      margin-block-start: 0.5em;
+      margin-block-end: 0.5em;
+    }
+    // ul {
+    //   padding-inline-start: 15px;
+    // }
+    ul[data-type="taskList"] {
+      list-style: none;
+      padding-inline-start: 8px;
+
+      p {
+        margin: 0;
+      }
+
+      li {
+        display: flex;
+
+        > label {
+          flex: 0 0 auto;
+          margin-right: 0.5rem;
+          user-select: none;
+        }
+
+        > div {
+          flex: 1 1 auto;
+        }
+      }
+    }
+    // img {
+    //   position: relative;
+    //   left: 50%;
+    //   transform: translate(-50%);
+    //   &.ProseMirror-selectednode {
+    //     outline: 3px solid #121225;
+    //   }
+    // }
+  }
+}
