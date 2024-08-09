@@ -49,7 +49,6 @@ const Home: React.FC = () => {
       }),
       color: "var(--note-bg-dark-4)",
     };
-    console.log(userId);
     // return;
     addMutate({
       newNote: newNote,

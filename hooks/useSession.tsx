@@ -103,11 +103,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           setUserData();
           if (error) {
             // # todo: add some instruction here
+            router.push('/auth')
           }
         }
       } catch (error) {
         setStatus("unauthenticated");
         // might wanna logout user
+        router.push('/auth')
       }
     };
 
