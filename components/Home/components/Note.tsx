@@ -44,7 +44,6 @@ const Note: React.FC<NoteProps> = ({
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== note_title) {
-        // console.log("being updated");
         updateNote(fsId, {
           note_title: title,
         });
@@ -84,7 +83,6 @@ const Note: React.FC<NoteProps> = ({
   };
 
   const getColor = (index: number | undefined) => {
-    // console.log(colors[index]);
     if (index) return colors[index];
     return isDarkMode ? "var(--color-surface-200)" : "var(--color-primary-200)";
   };

@@ -16,7 +16,6 @@ const CopyToClipboardExtension = Extension.create({
   addCommands() {
     return {
       copyToClipboard: () => ({ editor }: CommandProps) => {
-        // console.log("copy being called");
         // todo: figure out a way to convert editor json/html to string text
         copy(editor.getText());
         return true;

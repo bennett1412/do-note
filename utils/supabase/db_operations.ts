@@ -30,11 +30,11 @@ export const addNote = async (data: AddNoteParams): Promise<string> => {
     if (error) {
       throw error;
     }
-    // console.log(result)
+
     const addedNote = result as Note
     return addedNote.id;
   } catch (error) {
-    console.error("Error adding document: ", error);
+    // console.error("Error adding document: ", error);
     throw new Error("Failed to add note.");
   }
 };
@@ -55,11 +55,10 @@ export const getNotes = async (creatorId: string | null): Promise<Note[]> => {
 
       throw new Error(error.message);
     }
-    console.log("got the notes from ", notes);
     return notes as Note[];
   } catch (error) {
     // console.log(error);
-    console.log(error);
+    // console.log(error);
     throw new Error("Failed to fetch notes");
   }
 };
