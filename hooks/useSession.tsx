@@ -23,7 +23,7 @@ type SessionType = {
 };
 const getURL = () => {
   const site_url =
-    process?.env?.NODE_ENV === "test"
+    process?.env?.VERCEL_ENV === "test"
       ? process?.env?.NEXT_PUBLIC_PREVIEW_SITE_URL
       : process?.env?.NEXT_PUBLIC_SITE_URL;
   let url =
