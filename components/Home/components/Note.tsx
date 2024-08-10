@@ -3,11 +3,10 @@ import Tiptap from "./Tiptap";
 import styles from "../styles/note.module.scss";
 import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
-import { colors } from "../../../utils/common/noteColors";
-import { AnimatePresence, MotionConfig, motion } from "framer-motion";
+// import { colors } from "../../../utils/common/noteColors";
+import { AnimatePresence, motion } from "framer-motion";
 import { NoteContextType, NotesContextValue } from "@/types/Note";
 import Button from "@/components/Common/Button";
-import useDarkModeDetection from "@/hooks/useDarkMode";
 import { CustomStyle } from "@/types/Styles";
 import { NotesContext } from "./NotesList";
 import Backdrop from "./Backdrop";
@@ -40,7 +39,6 @@ const Note: React.FC<NoteProps> = ({
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
   // const [inTransition, setInTransition] = useState<boolean>(false);
-  const isDarkMode = useDarkModeDetection();
   useEffect(() => {
     const titleHandler = setTimeout(() => {
       if (title !== "" && title !== note_title) {
@@ -82,10 +80,10 @@ const Note: React.FC<NoteProps> = ({
     }
   };
 
-  const getColor = (index: number | undefined) => {
-    if (index) return colors[index];
-    return isDarkMode ? "var(--color-surface-200)" : "var(--color-primary-200)";
-  };
+  // const getColor = (index: number | undefined) => {
+  //   if (index) return colors[index];
+  //   return isDarkMode ? "var(--color-surface-200)" : "var(--color-primary-200)";
+  // };
 
   const isNoteDarkThemed = (color: string): boolean => {
     return /dark/i.test(color);

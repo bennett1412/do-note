@@ -1,4 +1,4 @@
-import { CommandProps, Editor, Extension, RawCommands } from "@tiptap/react";
+import { CommandProps, Extension } from "@tiptap/react";
 import copy from 'copy-to-clipboard';
 declare module '@tiptap/react' {
   interface Commands<ReturnType> {

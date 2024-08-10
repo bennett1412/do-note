@@ -3,18 +3,15 @@ import styles from "./styles/auth.module.scss";
 import { FcGoogle } from "react-icons/fc";
 
 import { toast } from "react-hot-toast";
-import { supabase } from "@/utils/supabase/init";
-import { useRouter } from "next/router";
 import { useSession } from "@/hooks/useSession";
 
 const Auth = () => {
   const { status, signInWithGoogle } = useSession();
   const handleGoogleSignup = async () => {
-    const toastId = toast.loading("Signing you in...");
+    toast.loading("Signing you in...");
     signInWithGoogle();
   };
   useEffect(() => {
-    console.log(status);
     if (status === "authenticated") {
       toast.success("Logged in, redirecting to home...", { id: "loggedin" });
     }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, {  } from "react";
 import NotesList from "./components/NotesList";
 import { toast } from "react-hot-toast";
 
@@ -12,10 +12,9 @@ import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
 import Head from "next/head";
 import { useSession } from "@/hooks/useSession";
-import { supabase } from "@/utils/supabase/init";
 
 const Home: React.FC = () => {
-  const { user, status } = useSession();
+  const { user } = useSession();
   const userId = user.id ?? null;
 
   const { data: notes, isLoading } = useGetNotes(userId);

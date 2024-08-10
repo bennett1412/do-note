@@ -19,7 +19,6 @@ const useIndexedDB = () => {
           store.createIndex("date", "date");
         },
       });
-      // console.log("created db");
     };
     createDB();
   }, []);

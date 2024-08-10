@@ -2,7 +2,6 @@ import React, { ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { supabase } from "@/utils/supabase/init";
-import { AuthError, Session } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 
 interface User {
@@ -99,12 +98,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           });
           router.push("/notes");
         } else {
+
           setStatus("unauthenticated");
           setUserData();
           if (error) {
             // # todo: add some instruction here
-            router.push('/auth')
           }
+          router.push('/auth')
         }
       } catch (error) {
         setStatus("unauthenticated");

@@ -8,10 +8,6 @@ export const addNote = async (data: AddNoteParams): Promise<string> => {
     return Promise.reject(new Error("Invalid creatorId"));
   }
   try {
-    // note_title: string;
-    // note_content: string;
-    // color: string;
-    // active?: boolean;
     const { note_content: note_content, note_title: note_title, color } = data.newNote;
     const { data: result, error } = await supabase
       .from("notes")
@@ -51,8 +47,7 @@ export const getNotes = async (creatorId: string | null): Promise<Note[]> => {
       .order("timestamp", { ascending: false });
 
     if (error) {
-      console.log(error);
-
+      // console.log(error);
       throw new Error(error.message);
     }
     return notes as Note[];

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "@/styles/common/navbar.module.scss";
-import { FiLogOut, FiMoon, FiSun } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import "react-float-menu/dist/react-float-menu.css";
 // import { useAuthUser } from "@/hooks/useAuthUser";
 import { Menu, MenuDivider, MenuItem } from "@szhsin/react-menu";
@@ -8,13 +8,10 @@ import SyncIndicator from "./SyncIndicator";
 import OfflineToggle from "./OfflineToggle";
 import Link from "next/link";
 import Image from "next/image";
-import Button from "./Button";
-import useDarkModeDetection from "@/hooks/useDarkMode";
 import { useSession } from "@/hooks/useSession";
 
 const Navbar = () => {
   const { user, signOut } = useSession();
-  const isDarkMode = useDarkModeDetection();
   const handleLogout = async () => {
     signOut();
   };

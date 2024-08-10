@@ -21,7 +21,7 @@ const useDeleteNote = ({
         });
       },
       onError: (error) => {
-        console.error("Error deleting note:", error);
+        // console.error("Error deleting note:", error);
         if (errorCb) errorCb();
       },
     }
