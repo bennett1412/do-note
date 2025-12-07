@@ -7,9 +7,7 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = {
   reactStrictMode: true,
-  publicRuntimeConfig: {
-    basePath: '/notes',
-  },
+  basePath: '/notes',
   images: {
     remotePatterns: [{
       protocol: 'https',
@@ -24,7 +22,8 @@ const nextConfig = {
         permanent: false
       },
     ]
-  }
+  },
+  turbopack: {}
 }
 
 module.exports = withPWA(nextConfig);

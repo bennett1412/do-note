@@ -16,7 +16,7 @@ const Auth = () => {
       toast.success("Logged in, redirecting to home...", { id: "loggedin" });
     }
   }, [status]);
-  const authLoading = status === "loading" || status == "authenticated";
+  const authLoading = status === "loading" || status === "authenticated";
   return (
     <section className={styles.auth_section}>
       <div className={styles.text}>

@@ -32,9 +32,8 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewPr
   }
 
   const resizeImage = (e: MouseEvent) => {
-    const positioning = positioningRef.current;
     const image = imgRef.current;
-    if (positioning.isResizing && !!imgRef.current) {
+    if (positioningRef.current.isResizing && !!imgRef.current) {
       if (image && positioningRef.current.isResizing) {
         const diff = Math.floor(e.clientX - positioningRef.current.startX);
 
