@@ -53,6 +53,11 @@
   transition: color 0.3s, background-color 0.3s;
 }
 
+/* Tailwind base/components/utilities - required for daisyUI classes after Tailwind is installed */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   margin: 0;

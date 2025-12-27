@@ -2,7 +2,7 @@ import { IoIosColorPalette } from "react-icons/io";
 import styles from "./styles/colormenu.module.scss";
 import button from "./styles/button.module.scss";
 import clsx from "clsx";
-import Menu, { MenuButton, MenuItem } from "./Menu";
+import Menu, { MenuButton } from "./Menu";
 
 type ColorMenuProps = {
   setColor: (color: string) => void;
@@ -25,25 +25,30 @@ const ColorMenu = ({ setColor }: ColorMenuProps) => {
     let palletteList = getColors(lightColorPrefix, lightColorCount);
     palletteList = palletteList.concat(getColors(darkColorPrefix, darkColorCount));
     return palletteList.map((color, i) => (
-      <MenuItem key={`${i}-${color}`} className={styles.color_menu_item}>
-        <button type="button" onClick={() => setColor(color)} style={{ background: color }}></button>
-      </MenuItem>
+      <button
+        key={`${i}-${color}`}
+        className={styles.color_circle}
+        type="button"
+        onClick={() => setColor(color)}
+        style={{ background: color }}
+      />
     ));
   };
 
   return (
     <Menu
       menuButton={
-        <MenuButton title="change note color" className={clsx(button.button, button.toolbar_button)}>
+        <button title="change note color" className={clsx(button.button, button.toolbar_button)}>
           <IoIosColorPalette />
-        </MenuButton>
+        </button>
       }
       direction={"bottom"}
       offsetY={12}
       align="center"
-      className={styles.color_menu_container}
     >
-      {getColorPallete()}
+      <div className={styles.color_grid}>
+        {getColorPallete()}
+      </div>
     </Menu>
   );
 };

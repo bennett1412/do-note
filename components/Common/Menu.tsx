@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import styles from "./styles/menu.module.scss";
+import React, { useState, useEffect } from "react";
 import {
 	useFloating,
 	offset as fuOffset,
@@ -12,6 +11,8 @@ import {
 	useRole,
 	type Placement,
 } from "@floating-ui/react";
+import styles from "./styles/menu.module.scss";
+import clsx from "clsx";
 
 type Direction = "bottom" | "top";
 type Align = "start" | "center" | "end";
@@ -93,12 +94,11 @@ const Menu: React.FC<MenuProps> = ({
 	children,
 }) => {
 	const [open, setOpen] = useState(false);
-	const [renderFloating, setRenderFloating] = useState(open);
+	const [renderPanel, setRenderPanel] = useState(open);
 	const TRANSITION_MS = 150;
 
-	const placement = (`${direction === "bottom" ? "bottom" : "top"}${
-		align === "start" ? "-start" : align === "end" ? "-end" : ""
-	}`) as Placement;
+	const placement = (`${direction === "bottom" ? "bottom" : "top"}${align === "start" ? "-start" : align === "end" ? "-end" : ""
+		}`) as Placement;
 
 	const { x, y, reference, floating, strategy, context } = useFloating({
 		open,
@@ -113,8 +113,6 @@ const Menu: React.FC<MenuProps> = ({
 		useDismiss(context),
 		useRole(context, { role: "menu" }),
 	]);
-
-  
 
 	// wrapper for children clicks -- closes menu unless handler set .keepOpen
 	const handleChildClick = (ev: KeepableMouseEvent) => {
@@ -137,11 +135,29 @@ const Menu: React.FC<MenuProps> = ({
 		});
 	});
 
+	// floating-ui handles dismiss via useDismiss; no manual outside-click needed
+
+	// manage mount/unmount for transitions
+	useEffect(() => {
+		if (open) {
+			setRenderPanel(true);
+			return;
+		}
+		if (!open && transition) {
+			const t = setTimeout(() => setRenderPanel(false), TRANSITION_MS + 10);
+			return () => clearTimeout(t);
+		}
+		if (!open) setRenderPanel(false);
+	}, [open, transition]);
+
+	const panelClass = `${styles.menu_panel} ${transition ? (open ? styles.panel_enter : styles.panel_exit) : ""}`;
+
+	const userProps = React.isValidElement(menuButton) ? menuButton.props : {};
 	const referenceProps = getReferenceProps({
-		type: "button",
+		...userProps,
+		ref: reference,
 		"aria-haspopup": "menu",
 		"aria-expanded": open,
-		className: styles.menu_button,
 	}) as React.HTMLAttributes<HTMLElement>;
 
 	const floatingStyle: React.CSSProperties = {
@@ -152,33 +168,24 @@ const Menu: React.FC<MenuProps> = ({
 		zIndex: 9999,
 		...menuStyle,
 	};
-	// manage mount/unmount for transitions
-	React.useEffect(() => {
-		if (open) {
-			setRenderFloating(true);
-			return;
-		}
-		if (!open && transition) {
-			const t = setTimeout(() => setRenderFloating(false), TRANSITION_MS + 10);
-			return () => clearTimeout(t);
-		}
-		if (!open) setRenderFloating(false);
-	}, [open, transition]);
-
-	const panelClass = `${styles.menu_panel} ${transition ? (open ? styles.panel_enter : styles.panel_exit) : ""}`;
 
 	return (
-		<div className={`${styles.menu_root} ${className ?? ""} ${transition ? styles.menu_transition : ""}`}>
-			<button ref={reference} {...referenceProps}>
-				{menuButton}
-			</button>
+		<>
+			{React.isValidElement(menuButton)
+				? React.cloneElement(menuButton as React.ReactElement, referenceProps)
+				: menuButton}
 
-			{renderFloating && (
-				<div ref={floating} {...getFloatingProps({})} className={panelClass} style={floatingStyle}>
+			{renderPanel && (
+				<div
+					ref={floating}
+					{...getFloatingProps({})}
+					className={`${panelClass} dropdown-content menu menu-compact`}
+					style={floatingStyle}
+				>
 					{clonedChildren}
 				</div>
 			)}
-		</div>
+		</>
 	);
 };
 

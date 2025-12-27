@@ -1,7 +1,7 @@
 /* Basic floating menu styles */
 .menu_root {
   position: relative;
-  display: inline-block;
+  display: contents;
 }
 
 .menu_button {
@@ -9,14 +9,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  /* Reset default button styles to avoid double styling */
+  color: inherit;
+  font: inherit;
+  line-height: 0;
 }
 
 .menu_panel {
   background: var(--background, #fff);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-  padding: 0.25rem 0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+  border-radius: 0.5rem;
   min-width: 8rem;
   overflow: hidden;
 }
@@ -30,11 +36,11 @@
   gap: 0.5rem;
   align-items: center;
   width: 100%;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 1rem;
   background: transparent;
   border: none;
   text-align: left;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text, #111);
   cursor: pointer;
 }
@@ -45,7 +51,7 @@
 }
 
 .menu_item:hover:enabled {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .menu_divider {
@@ -76,9 +82,11 @@
     background: #1e1e1e;
     border-color: rgba(255, 255, 255, 0.06);
   }
+
   .menu_item {
     color: #e6e6e6;
   }
+
   .menu_item:hover:enabled {
     background: rgba(255, 255, 255, 0.02);
   }

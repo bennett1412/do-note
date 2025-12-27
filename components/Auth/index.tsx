@@ -26,7 +26,7 @@ const Auth = () => {
         </p>
       </div>
 
-      <button disabled={authLoading} onClick={handleGoogleSignup}>
+      <button type="button" disabled={authLoading} onClick={handleGoogleSignup}>
         {authLoading ? (
           <>Checking if you&apos;re logged in...</>
         ) : (
