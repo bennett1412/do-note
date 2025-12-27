@@ -1,13 +1,12 @@
-import React, {
+import {
 	type EventHandler,
-	FC,
 	type SyntheticEvent,
 	memo,
 	useContext,
 	useState,
 } from "react";
 import styles from "../styles/note.module.scss";
-import button from "./styles/button.module.scss";
+import button from "@/components/Common/styles/button.module.scss";
 import { FiEdit3 } from "react-icons/fi";
 // import { TbPinned } from "react-icons/tb";
 import { BiCheck, BiCopy } from "react-icons/bi";

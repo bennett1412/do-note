@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
 // import { colors } from "../../../utils/common/noteColors";
 import { AnimatePresence, motion } from "framer-motion";
-import { type NoteContextType, NotesContextValue } from "@/types/Note";
+import type { NoteContextType, NotesContextValue } from "@/types/Note";
 import Button from "@/components/Common/Button";
 import type { CustomStyle } from "@/types/Styles";
 import { NotesContext } from "./NotesList";
@@ -35,7 +35,7 @@ const Note: React.FC<NoteProps> = ({
 	// deleteNote,
 	setSelectedId,
 }) => {
-	const { updateNote } = useContext(NotesContext);
+	const { updateNote } = useContext(NotesContext) as NotesContextValue;
 	const [editMode, setEditMode] = useState<boolean>(active);
 	const [title, setTitle] = useState<string>(note_title);
 	const [color, setColor] = useState<string>(
