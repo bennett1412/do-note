@@ -1,0 +1,13 @@
+{
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"options": {
+						"identifierOrder": "lexicographic"
+					}
+				}
+			}
+		}
+	}
+}

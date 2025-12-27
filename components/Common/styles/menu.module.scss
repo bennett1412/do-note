@@ -1,0 +1,85 @@
+/* Basic floating menu styles */
+.menu_root {
+  position: relative;
+  display: inline-block;
+}
+
+.menu_button {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu_panel {
+  background: var(--background, #fff);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 0.25rem 0;
+  min-width: 8rem;
+  overflow: hidden;
+}
+
+.menu_transition {
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.menu_item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 16px;
+  color: var(--text, #111);
+  cursor: pointer;
+}
+
+.menu_item:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.menu_item:hover:enabled {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.menu_divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.06);
+  margin: 0.25rem 0;
+}
+
+/* transition helpers */
+.menu_transition {
+  will-change: opacity, transform;
+}
+
+.panel_enter {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.panel_exit {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .menu_panel {
+    background: #1e1e1e;
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  .menu_item {
+    color: #e6e6e6;
+  }
+  .menu_item:hover:enabled {
+    background: rgba(255, 255, 255, 0.02);
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
-import styles from "@/styles/common/toggle.module.scss";
+import styles from "./styles/toggle.module.scss";
 
 const OfflineToggle = () => {
   const [offline, setOffline] = useState(false);

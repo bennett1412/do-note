@@ -1,0 +1,185 @@
+import React, { useState } from "react";
+import styles from "./styles/menu.module.scss";
+import {
+	useFloating,
+	offset as fuOffset,
+	flip,
+	shift,
+	autoUpdate,
+	useInteractions,
+	useClick,
+	useDismiss,
+	useRole,
+	type Placement,
+} from "@floating-ui/react";
+
+type Direction = "bottom" | "top";
+type Align = "start" | "center" | "end";
+
+interface MenuProps {
+	menuButton: React.ReactNode;
+	direction?: Direction;
+	offsetY?: number;
+	align?: Align;
+	menuStyle?: React.CSSProperties;
+	className?: string;
+	transition?: boolean;
+	children?: React.ReactNode;
+}
+
+interface KeepableMouseEvent<T = Element> extends React.MouseEvent<T, MouseEvent> {
+	keepOpen?: boolean;
+}
+
+interface MenuItemProps {
+	onClick?: (e: KeepableMouseEvent<HTMLButtonElement>) => void;
+	disabled?: boolean;
+	className?: string;
+	children?: React.ReactNode;
+}
+
+export const MenuItem: React.FC<MenuItemProps> = ({
+	onClick,
+	disabled,
+	className,
+	children,
+}) => {
+	const handleClick = (ev: React.MouseEvent) => {
+		if (disabled) return;
+		const proxy = ev as KeepableMouseEvent<HTMLButtonElement>;
+		proxy.keepOpen = proxy.keepOpen ?? false;
+		if (onClick) onClick(proxy);
+	};
+
+	return (
+		<button
+			className={`${styles.menu_item} ${className ?? ""}`}
+			role="menuitem"
+			onClick={handleClick}
+			disabled={disabled}
+			type="button"
+		>
+			{children}
+		</button>
+	);
+};
+
+export const MenuDivider: React.FC = () => {
+	return <div className={styles.menu_divider} />;
+};
+
+interface MenuButtonProps {
+	title?: string;
+	className?: string;
+	children?: React.ReactNode;
+}
+
+export const MenuButton: React.FC<MenuButtonProps> = ({ title, className, children }) => {
+	return (
+		<span className={className} title={title} aria-hidden={title ? undefined : "true"}>
+			{children}
+		</span>
+	);
+};
+
+const Menu: React.FC<MenuProps> = ({
+	menuButton,
+	direction = "bottom",
+	offsetY = 8,
+	align = "start",
+	menuStyle,
+	className,
+	transition,
+	children,
+}) => {
+	const [open, setOpen] = useState(false);
+	const [renderFloating, setRenderFloating] = useState(open);
+	const TRANSITION_MS = 150;
+
+	const placement = (`${direction === "bottom" ? "bottom" : "top"}${
+		align === "start" ? "-start" : align === "end" ? "-end" : ""
+	}`) as Placement;
+
+	const { x, y, reference, floating, strategy, context } = useFloating({
+		open,
+		onOpenChange: setOpen,
+		placement,
+		middleware: [fuOffset(offsetY), flip(), shift({ padding: 8 })],
+		whileElementsMounted: autoUpdate,
+	});
+
+	const { getReferenceProps, getFloatingProps } = useInteractions([
+		useClick(context),
+		useDismiss(context),
+		useRole(context, { role: "menu" }),
+	]);
+
+  
+
+	// wrapper for children clicks -- closes menu unless handler set .keepOpen
+	const handleChildClick = (ev: KeepableMouseEvent) => {
+		if (ev?.keepOpen) return;
+		setOpen(false);
+	};
+
+	const clonedChildren = React.Children.map(children, (child) => {
+		if (!React.isValidElement(child)) return child;
+		const childProps = (child as React.ReactElement<Record<string, unknown>>).props;
+		const orig = childProps.onClick as ((e: KeepableMouseEvent) => void) | undefined;
+		const disabled = childProps.disabled as boolean | undefined;
+		return React.cloneElement(child as React.ReactElement, {
+			onClick: (e: React.MouseEvent) => {
+				const proxy = e as KeepableMouseEvent;
+				proxy.keepOpen = proxy.keepOpen ?? false;
+				if (orig) orig(proxy);
+				if (!proxy.keepOpen && !disabled) handleChildClick(proxy);
+			},
+		});
+	});
+
+	const referenceProps = getReferenceProps({
+		type: "button",
+		"aria-haspopup": "menu",
+		"aria-expanded": open,
+		className: styles.menu_button,
+	}) as React.HTMLAttributes<HTMLElement>;
+
+	const floatingStyle: React.CSSProperties = {
+		position: strategy,
+		left: x != null ? `${Math.round(x)}px` : undefined,
+		top: y != null ? `${Math.round(y)}px` : undefined,
+		minWidth: "8rem",
+		zIndex: 9999,
+		...menuStyle,
+	};
+	// manage mount/unmount for transitions
+	React.useEffect(() => {
+		if (open) {
+			setRenderFloating(true);
+			return;
+		}
+		if (!open && transition) {
+			const t = setTimeout(() => setRenderFloating(false), TRANSITION_MS + 10);
+			return () => clearTimeout(t);
+		}
+		if (!open) setRenderFloating(false);
+	}, [open, transition]);
+
+	const panelClass = `${styles.menu_panel} ${transition ? (open ? styles.panel_enter : styles.panel_exit) : ""}`;
+
+	return (
+		<div className={`${styles.menu_root} ${className ?? ""} ${transition ? styles.menu_transition : ""}`}>
+			<button ref={reference} {...referenceProps}>
+				{menuButton}
+			</button>
+
+			{renderFloating && (
+				<div ref={floating} {...getFloatingProps({})} className={panelClass} style={floatingStyle}>
+					{clonedChildren}
+				</div>
+			)}
+		</div>
+	);
+};
+
+export default Menu;

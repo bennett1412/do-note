@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addNote } from "@/utils/supabase/db_operations";
-import { Note, AddNoteParams, AddNoteMutationParams } from "@/types/Note";
+import type { Note, AddNoteParams, AddNoteMutationParams } from "@/types/Note";
 
 const useAddNote = ({ creatorId, successCb, errorCb }: AddNoteMutationParams) => {
   const queryClient = useQueryClient();

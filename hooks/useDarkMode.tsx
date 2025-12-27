@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 
 const useDarkModeDetection = (): boolean => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  // TODO: add a toggle if needed
   const toggleMode = () => {
     const mode = isDarkMode ? "light" : "dark";
     const nextRoot = document.getElementById("#__next");
     if (nextRoot) nextRoot.style.colorScheme = mode;
   };
   useEffect(() => {
-    setIsDarkMode(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    setIsDarkMode(window.matchMedia?.("(prefers-color-scheme: dark)").matches);
     const handleDarkModeChange = (event: MediaQueryListEvent) => {
       setIsDarkMode(event.matches);
     };

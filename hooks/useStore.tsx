@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { AppState } from "@/types/AppState";
+import type { AppState } from "@/types/AppState";
 
 const useStore = create<AppState>((set) => ({
   syncing: false,
