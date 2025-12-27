@@ -6,6 +6,7 @@ import SyncIndicator from "./SyncIndicator";
 import styles from "./styles/navbar.module.scss";
 import { FiLogOut } from "react-icons/fi";
 import { useSession } from "@/hooks/useSession";
+import Menu, { MenuDivider, MenuItem } from "./Menu";
 
 const Navbar = () => {
 	const { user, signOut } = useSession();
@@ -44,7 +45,7 @@ const Navbar = () => {
 							<MenuDivider />
 							<MenuItem
 								onClick={(e) => {
-									e.stopPropagation = true;
+									e.stopPropagation();
 									e.keepOpen = true;
 								}}
 								disabled
