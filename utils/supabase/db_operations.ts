@@ -50,12 +50,33 @@ export const getNotes = async (creatorId: string | null): Promise<Note[]> => {
 			// console.log(error);
 			throw new Error(error.message);
 		}
-		// Client-side filter to handle null/undefined types effectively
-		return (notes as Note[]).filter((note) => note.type !== 'article');
+// Client-side filter to handle null/undefined types effectively
+		return (notes as Note[]).filter((note) => !note.article);
 	} catch (error) {
 		// console.log(error);
 		// console.log(error);
 		throw new Error("Failed to fetch notes");
+	}
+};
+
+export const getArticles = async (creatorId: string | null): Promise<Note[]> => {
+	if (creatorId === null || creatorId === "") {
+		return Promise.reject(new Error("Invalid creatorId"));
+	}
+	try {
+		const { data: notes, error } = await supabase
+			.from("notes")
+			.select("*")
+			.eq("creator", creatorId)
+			.eq("article", true)
+			.order("timestamp", { ascending: false });
+
+		if (error) {
+			throw new Error(error.message);
+		}
+		return notes as Note[];
+	} catch (error) {
+		throw new Error("Failed to fetch articles");
 	}
 };
 

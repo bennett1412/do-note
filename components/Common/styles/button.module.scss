@@ -50,6 +50,12 @@
   border-radius: 100%;
   margin: auto;
   border: none;
+  background-color: var(--color-surface-300);
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-surface-400);
+  }
 
   svg {
     position: absolute;

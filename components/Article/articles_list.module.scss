@@ -1,0 +1,23 @@
+
+.articles_grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  padding: 2rem;
+}
+
+.article_card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--color-surface-200);
+  border-color: var(--color-surface-300);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: var(--color-surface-300);
+  }
+}
+
+.article_title {
+  color: var(--color-primary-100);
+}

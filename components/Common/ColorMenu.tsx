@@ -2,7 +2,8 @@ import { IoIosColorPalette } from "react-icons/io";
 import styles from "./styles/colormenu.module.scss";
 import button from "./styles/button.module.scss";
 import clsx from "clsx";
-import Menu, { MenuButton } from "./Menu";
+import Menu from "./Menu";
+import Button from "./Button";
 
 type ColorMenuProps = {
   setColor: (color: string) => void;
@@ -38,12 +39,11 @@ const ColorMenu = ({ setColor }: ColorMenuProps) => {
   return (
     <Menu
       menuButton={
-        <button title="change note color" className={clsx(button.button, button.toolbar_button)}>
+        <Button title="change note color" onClick={() => {}} variant="subtle" color="gray" className={clsx(button.button, button.toolbar_button)}>
           <IoIosColorPalette />
-        </button>
+        </Button>
       }
       direction={"bottom"}
-      offsetY={12}
       align="center"
     >
       <div className={styles.color_grid}>

@@ -8,6 +8,7 @@
   // --button-font-color: #;
   // --button-font-color-light: #e6e6e6;
   --weak-border: #0b0e0d1c;
+  --color-background: #0b0e0d; // Base background
   /** CSS DARK THEME PRIMARY COLORS */
   --color-primary-100: #eff2f1;
   --color-primary-200: #f1f3f3;
@@ -59,7 +60,7 @@ html,
 body {
   margin: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 }
 
 #__next {
@@ -79,7 +80,7 @@ h1 {
     color: var(--color-surface-100);
     background-color: var(--color-primary-100);
   }
-}
+} 
 
 #root {
   height: 100%;

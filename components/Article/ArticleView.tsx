@@ -5,9 +5,8 @@ import { Note, NotesContextValue, NoteContextType } from "@/types/Note";
 import { updateNote, deleteNote } from "@/utils/supabase/db_operations";
 import { NotesContext } from "@/components/Home/components/NotesList";
 import { NoteContext } from "@/components/Home/components/Note";
-import Tiptap from "@/components/Home/components/Tiptap";
+import ArticleTiptap from "./ArticleTiptap";
 import styles from "./article_view.module.scss";
-import { toast } from "react-hot-toast";
 
 type ArticleViewProps = {
 	note: Note;
@@ -17,17 +16,15 @@ const ArticleView: React.FC<ArticleViewProps> = ({ note }) => {
 	const router = useRouter();
 	const [title, setTitle] = useState(note.note_title);
 	const [color, setColor] = useState(note.color);
-	const [editMode, setEditMode] = useState(true); // Always edit mode for Article View? Or toggleable? Notion is always editable.
+	const [editMode, setEditMode] = useState(true);
 
-	// Mock NotesContext for Tiptap
 	const notesContextValue: NotesContextValue = {
 		addingNote: false,
-		addNote: () => {}, // No-op
+		addNote: () => {}, 
 		updateNote: updateNote,
 		deleteNote: deleteNote,
 	};
 
-	// NoteContext
 	const noteContextValue: NoteContextType = {
 		note_title: title,
 		content: note.note_content,
@@ -37,21 +34,18 @@ const ArticleView: React.FC<ArticleViewProps> = ({ note }) => {
 		setEditMode: setEditMode,
 		setColor: (newColor: string) => {
 			setColor(newColor);
-			// Optionally sync color immediately
 			updateNote(note.id, { color: newColor });
 		},
 	};
     
-    // Autosave title
     useEffect(() => {
         const handler = setTimeout(() => {
             if (title !== note.note_title) {
                 updateNote(note.id, { note_title: title });
             }
-        }, 1000); // Faster debounce for title in separate view
+        }, 1000);
         return () => clearTimeout(handler);
     }, [title, note.id, note.note_title]);
-
 
 	return (
 		<NotesContext.Provider value={notesContextValue}>
@@ -67,7 +61,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ note }) => {
                         />
                     </div>
 					<div className={styles.editor_wrapper}>
-						<Tiptap style={{ minHeight: '80vh' }} />
+						<ArticleTiptap />
 					</div>
 				</div>
 			</NoteContext.Provider>

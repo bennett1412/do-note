@@ -7,7 +7,7 @@ export interface NoteContent {
   note_content: string;
   color: string;
   active?: boolean;
-  type?: 'note' | 'article';
+  article?: boolean;
 }
 
 export interface Note extends NoteContent {
@@ -39,7 +39,7 @@ export type UpdateNoteFn = (noteId: string,
     note_content?: string;
     color?: string;
     active?: boolean;
-    type?: 'note' | 'article';
+    article?: boolean;
   }) => Promise<void>;
 
 

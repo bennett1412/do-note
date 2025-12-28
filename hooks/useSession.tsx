@@ -98,7 +98,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 						email: session?.user.email,
 						picture: session?.user.user_metadata.picture,
 					});
-					router.push("/notes");
 				} else {
 					setStatus("unauthenticated");
 					setUserData();

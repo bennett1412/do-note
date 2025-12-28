@@ -1,20 +1,38 @@
-@use "../../../styles/utilities/colors";
-// @use "../../../styles/utilities/bu";
 .float_menu {
   background-color: var(--color-surface-300);
   border-radius: 10px;
   display: flex;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+
   .float_item {
-    width: 0.5em;
-    height: 0.5em;
-    border-radius: unset;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0;
     position: relative;
+    color: var(--color-primary-100);
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     svg {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      // position: absolute; // Removed to let flexbox center it
+      // top: 50%;
+      // left: 50%;
+      // transform: translate(-50%, -50%);
+      font-size: 1.2rem;
     }
+
+    &:hover {
+      background-color: var(--color-surface-400);
+    }
+
+    &.is_active {
+      background-color: var(--color-primary-100);
+      color: var(--color-surface-100);
+    }
+
     &:first-child {
       border-radius: 10px 0 0 10px;
     }

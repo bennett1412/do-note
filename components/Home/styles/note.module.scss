@@ -9,6 +9,7 @@
   width: 18rem;
   border-radius: 10px;
   display: flex;
+  overflow: visible; /* Prevent clipping note_container shadows */
 }
 
 .note_container {
@@ -167,7 +168,7 @@
   opacity: 0;
   transition: opacity 0.1s linear;
   position: absolute;
-  bottom: 10px;
+  bottom: 5px;
 }
 
 .note_container:hover .toolbar {
@@ -181,7 +182,7 @@
 // tiptap styles
 .editor {
   // @extend .masked-overflow;
-  height: 90%;
+  height: 89%;
   width: 100%;
   outline: none;
   border: none;

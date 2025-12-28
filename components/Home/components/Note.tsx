@@ -167,6 +167,8 @@ const Note: React.FC<NoteProps> = ({
 								{editMode && (
 									<Button
 										onClick={closeNote}
+										variant="transparent"
+										c={!isNoteDarkThemed(color) ? "surface.0" : "primary.0"}
 										className={clsx({
 											[styles.note_button]: true,
 											[styles.dark_button]: !isNoteDarkThemed(color),

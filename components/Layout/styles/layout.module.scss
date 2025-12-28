@@ -2,7 +2,7 @@
 .layout_container {
   display: flex;
   min-height: 100vh;
-  background-color: var(--color-background);
+  background-color: var(--color-background, var(--color-surface-100));
 }
 
 .main_content {

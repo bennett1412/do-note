@@ -26,14 +26,13 @@ export const OvalLoader = ({ magnify }: { magnify: string }) => {
 };
 
 export const DotsLoader = () => {
-  const isDarkTheme = useDarkModeDetection();
 
   return (
     <MutatingDots
       height="100"
       width="100"
-      color={isDarkTheme ? "var(--color-primary-100)" : "var(--color-surface-100)"}
-      secondaryColor={isDarkTheme ? "var(--color-primary-100)" : "var(--color-surface-100)"}
+      color={ "var(--color-primary-100)"}
+      secondaryColor={ "var(--color-primary-100)"}
       radius="12.5"
       ariaLabel="mutating-dots-loading"
       wrapperStyle={{

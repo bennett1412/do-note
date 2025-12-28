@@ -5,7 +5,9 @@ import { useRouter } from "next/router";
 import { FiHome, FiFileText, FiSettings, FiLogOut } from "react-icons/fi";
 import { useSession } from "@/hooks/useSession";
 import styles from "./styles/sidebar.module.scss";
-import Image from "next/image";
+// import Image from "next/image"; // Using Mantine Avatar instead
+import { Stack, Tooltip, UnstyledButton, Avatar, Group, Box } from "@mantine/core";
+import clsx from "clsx";
 
 const Sidebar: React.FC = () => {
 	const router = useRouter();
@@ -20,50 +22,49 @@ const Sidebar: React.FC = () => {
 	if (!user?.id) return null;
 
 	return (
-		<aside className={styles.sidebar}>
-			
-
-			<nav className={styles.nav_links}>
+		<Stack component="aside" className={styles.sidebar} align="center" justify="space-between" py="md">
+			<Stack className={styles.nav_links} gap="lg" align="center">
 				<div className={styles.logo_container}>
-				<Link href="/notes" className={styles.logo}>
-					DN
-				</Link>
-			</div>
-				<Link
-					href="/notes"
-					className={`${styles.nav_item} ${isActive("/notes") ? styles.active : ""}`}
-				>
-					<FiHome size={24} />
-					<span className={styles.tooltip}>Notes</span>
-				</Link>
-				{/* Placeholder for Articles list or dashboard if we implement it */}
-				<Link
-					href="/articles"
-					className={`${styles.nav_item} ${isActive("/articles") ? styles.active : ""}`}
-				>
-					<FiFileText size={24} />
-					<span className={styles.tooltip}>Articles</span>
-				</Link>
-			</nav>
+					<Link href="/notes" className={styles.logo}>
+						Dn
+					</Link>
+				</div>
+				<Tooltip label="Notes" position="right" withArrow>
+					<Link
+						href="/notes"
+						className={clsx(styles.nav_item, { [styles.active]: isActive("/notes") })}
+					>
+						<FiHome size={24} />
+					</Link>
+				</Tooltip>
+				
+				<Tooltip label="Articles" position="right" withArrow>
+					<Link
+						href="/articles"
+						className={clsx(styles.nav_item, { [styles.active]: isActive("/articles") })}
+					>
+						<FiFileText size={24} />
+					</Link>
+				</Tooltip>
+			</Stack>
 
-			<div className={styles.bottom_actions}>
+			<Stack className={styles.bottom_actions} gap="md" align="center">
 				{user?.picture && (
 					<div className={styles.user_profile}>
-						<Image
+						<Avatar
 							src={user.picture}
 							alt="Profile"
-							width={32}
-							height={32}
+							size={32}
+							radius="xl"
 							className={styles.avatar}
 						/>
-						
 					</div>
 				)}
-				<button onClick={handleLogout} className={styles.logout_btn}>
+				<UnstyledButton onClick={handleLogout} className={styles.logout_btn}>
 					<FiLogOut size={24} />
-				</button>
-			</div>
-		</aside>
+				</UnstyledButton>
+			</Stack>
+		</Stack>
 	);
 };
 

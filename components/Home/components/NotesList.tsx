@@ -44,7 +44,7 @@ const NotesList: React.FC<NoteListProps> = ({
           );
         })}
 
-        <Button disabled={addingNote} onClick={addNote} className={styles.add_button}>
+        <Button disabled={addingNote} onClick={addNote} className={styles.add_button} variant="filled" radius="10px">
           {addingNote ? (
             <Oval
               height={30}
@@ -56,7 +56,7 @@ const NotesList: React.FC<NoteListProps> = ({
               strokeWidthSecondary={2}
             />
           ) : (
-            <IoAddOutline size={25} color="white" />
+            <IoAddOutline size={25} color="var(--color-primary-100)" />
           )}
         </Button>
       </section>

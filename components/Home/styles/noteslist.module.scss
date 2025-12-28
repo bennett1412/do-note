@@ -1,10 +1,11 @@
 .notes_list {
   // position: relative;
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem; /* Increased gap slightly for shadows */
   grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
-  padding: 1rem;
+  padding: 1.5rem; /* Increased padding to prevent edge clipping */
   justify-items: center;
+  overflow: visible; /* Ensure shadows aren't clipped */
 
   .add_button {
     display: flex;

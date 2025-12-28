@@ -1,35 +1,32 @@
+
 import React, { useState, useEffect, useContext } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
-import FloatingMenu from "./minorComponents/FloatingMenu";
+import FloatingMenu from "@/components/Home/components/minorComponents/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
-import styles from "../styles/note.module.scss";
+import styles from "@/components/Home/styles/note.module.scss";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import FloatingMenuExtension from "@tiptap/extension-floating-menu";
-import useStore from "../../../hooks/useStore";
-import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
-import CopyToClipboardExtension from "./extensions/CopyToClipboard/CopyToClipboardExtension";
+import useStore from "@/hooks/useStore";
+import CustomImageExtension from "@/components/Home/components/extensions/resizableImage/ImageExtension";
+import CopyToClipboardExtension from "@/components/Home/components/extensions/CopyToClipboard/CopyToClipboardExtension";
 import { NoteContextType, NotesContextValue } from "@/types/Note";
 import { CustomStyle } from "@/types/Styles";
-import BottomMenu from "./BottomMenu";
-import { NotesContext } from "./NotesList";
-import { NoteContext } from "./Note";
+import { NotesContext } from "@/components/Home/components/NotesList";
+import { NoteContext } from "@/components/Home/components/Note";
+import ArticleSidebarMenu from "./ArticleSidebarMenu";
 
-type TiptapProps = {
-  // editMode: boolean;
-  // content: string;
-  // fsId: string;
-  // updateNote: UpdateNoteFn;
+type Props = {
   style?: CustomStyle;
 };
 
-const Tiptap: React.FC<TiptapProps> = ({ style }) => {
-  // function Tiptap({ style }: TiptapProps) {
+const ArticleTiptap: React.FC<Props> = ({ style }) => {
   const { updateNote } = useContext(NotesContext) as NotesContextValue;
   const { editMode, content, fsId } = useContext(NoteContext) as NoteContextType;
   const updateSync = useStore((state) => state.updateSync);
   const [noteContent, setNoteContent] = useState(content);
+
   const editor = useEditor({
     editorProps: {
       attributes: {
@@ -44,13 +41,14 @@ const Tiptap: React.FC<TiptapProps> = ({ style }) => {
         nested: true,
       }),
       Placeholder.configure({
+        placeholder: "Start writing your article...",
         showOnlyWhenEditable: false,
       }),
       FloatingMenuExtension,
       CustomImageExtension,
       CopyToClipboardExtension,
     ],
-    editable: false,
+    editable: editMode,
     content: JSON.parse(noteContent),
     onUpdate: ({ editor }) => {
       setNoteContent(JSON.stringify(editor.getJSON()));
@@ -59,12 +57,7 @@ const Tiptap: React.FC<TiptapProps> = ({ style }) => {
 
   useEffect(() => {
     if (editor && !editor.isDestroyed) {
-      if (editMode) {
-        editor.setEditable(true);
-        // editor.commands.focus();
-      } else {
-        editor.setEditable(false);
-      }
+      editor.setEditable(editMode);
     }
   }, [editMode, editor]);
 
@@ -81,19 +74,21 @@ const Tiptap: React.FC<TiptapProps> = ({ style }) => {
         syncNote();
         updateSync(false);
       }
-    }, 3000);
-    return () => {
-      clearTimeout(handler);
-    };
+    }, 2000);
+    return () => clearTimeout(handler);
   }, [noteContent, content, updateSync, editor, fsId, updateNote]);
 
   return (
     <>
       <FloatingMenu editor={editor} />
-      <EditorContent style={style} className={styles.editor} editor={editor} />
-      <BottomMenu editor={editor} />
+      <EditorContent 
+        style={{ ...style, minHeight: '80vh', paddingBottom: '20vh' }} 
+        className={styles.editor} 
+        editor={editor} 
+      />
+      <ArticleSidebarMenu editor={editor} />
     </>
   );
 };
 
-export default Tiptap;
+export default ArticleTiptap;

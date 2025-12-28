@@ -69,10 +69,13 @@ const BottomMenu = memo(function BottomMenu({
 			style={editMode ? { opacity: 1 } : {}}
 			className={clsx(styles.toolbar, styles.dark_toolbar && true)}
 		>
-			<ColorMenu setColor={setColor} />
+			{/* TODO: add it back after article */}
+			{/* <ColorMenu setColor={setColor} /> */}
 			<Button
 				title="copy note content"
 				onClick={handleCopy}
+				variant="subtle"
+				color="gray"
 				style={copying ? { background: "green" } : {}}
 				className={button.toolbar_button}
 			>
@@ -85,6 +88,8 @@ const BottomMenu = memo(function BottomMenu({
 			<Button
 				title="delete note"
 				onClick={handleDelete}
+				variant="subtle"
+				color="gray"
 				className={button.toolbar_button}
 			>
 				<MdOutlineDelete />
@@ -97,10 +102,12 @@ const BottomMenu = memo(function BottomMenu({
 							onClick={async () => {
 								if (window.confirm("Convert to long-form Article? This cannot be undone.")) {
 									const { updateNote } = await import("@/utils/supabase/db_operations");
-									await updateNote(fsId, { type: 'article' });
+									await updateNote(fsId, { article: true });
 									router.push(`/articles/${fsId}`);
 								}
 							}}
+							variant="subtle"
+							color="gray"
 							className={button.toolbar_button}
 						>
 							<FiFileText />
