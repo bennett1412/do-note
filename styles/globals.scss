@@ -53,10 +53,7 @@
   transition: color 0.3s, background-color 0.3s;
 }
 
-/* Tailwind base/components/utilities - required for daisyUI classes after Tailwind is installed */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 html,
 body {
@@ -87,6 +84,7 @@ h1 {
 #root {
   height: 100%;
 }
+
 #root,
 .App {
   margin: 0;
@@ -103,10 +101,12 @@ h1 {
   width: 1.5rem;
   height: 1.5rem;
   border: 1px solid transparent;
+
   &:active {
     background: rgba(135, 141, 141, 0.441);
     mix-blend-mode: difference;
   }
+
   &:hover {
     background: rgba(135, 141, 141, 0.25);
     mix-blend-mode: difference;
@@ -114,6 +114,7 @@ h1 {
     -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
   }
+
   svg {
     position: absolute;
     top: 50%;
@@ -122,17 +123,3 @@ h1 {
     transform: translate(-50%, -50%);
   }
 }
-
-/* 
-Dark/Mixed - 100: For body background color
-
-Dark/Mixed - 200: For cards background color
-
-Dark/Mixed - 300: For chips buttons, dropdowns background color
-
-Dark/Mixed - 400: For sidebars, navbar background color
-
-Dark/Mixed - 500: For modal, dialogs background color
-
-Dark/Mixed - 600: For on background texts color
-*/

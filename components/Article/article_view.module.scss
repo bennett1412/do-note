@@ -1,0 +1,38 @@
+
+.article_container {
+  padding: 3rem 4rem;
+  min-height: 100vh;
+  background-color: var(--note-bg, var(--color-background));
+  transition: background-color 0.3s ease;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2rem;
+  
+  .title_input {
+    width: 100%;
+    font-size: 2.5rem;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: var(--text-primary);
+    
+    &::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.5;
+    }
+  }
+}
+
+.editor_wrapper {
+  /* Tiptap specific overrides if needed */
+  :global(.ProseMirror) {
+    min-height: 60vh;
+    padding: 0;
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+}

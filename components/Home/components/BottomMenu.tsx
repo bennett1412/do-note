@@ -5,9 +5,10 @@ import {
 	useContext,
 	useState,
 } from "react";
+import { useRouter } from "next/router";
 import styles from "../styles/note.module.scss";
 import button from "@/components/Common/styles/button.module.scss";
-import { FiEdit3 } from "react-icons/fi";
+import { FiEdit3, FiFileText } from "react-icons/fi";
 // import { TbPinned } from "react-icons/tb";
 import { BiCheck, BiCopy } from "react-icons/bi";
 import { MdOutlineDelete } from "react-icons/md";
@@ -37,14 +38,19 @@ const BottomMenu = memo(function BottomMenu({
 	const { editMode, fsId, setEditMode, setColor } = useContext(
 		NoteContext,
 	) as NoteContextType;
+	const router = useRouter();
+	// Safety check for router
+	const pathname = router?.pathname || "";
+	const isArticle = pathname.includes("/articles/");
 	const [copying, setCopying] = useState<boolean>(false);
-	const handleDelete = async () => {
+	const handleDelete: EventHandler<SyntheticEvent> = async (e) => {
 		const confirm = window.confirm(
 			"Are you sure you want to delete this note?",
 		);
 		if (confirm) {
 			deleteNote(fsId);
 		}
+		e.stopPropagation();
 	};
 
 	const handleCopy: EventHandler<SyntheticEvent> = (e) => {
@@ -65,13 +71,6 @@ const BottomMenu = memo(function BottomMenu({
 		>
 			<ColorMenu setColor={setColor} />
 			<Button
-				title="edit note"
-				onClick={() => setEditMode(true)}
-				className={button.toolbar_button}
-			>
-				<FiEdit3 />
-			</Button>
-			<Button
 				title="copy note content"
 				onClick={handleCopy}
 				style={copying ? { background: "green" } : {}}
@@ -83,15 +82,31 @@ const BottomMenu = memo(function BottomMenu({
 					<BiCopy />
 				)}
 			</Button>
+			<Button
+				title="delete note"
+				onClick={handleDelete}
+				className={button.toolbar_button}
+			>
+				<MdOutlineDelete />
+			</Button>
 			{editMode && (
 				<>
-					<Button
-						title="delete note"
-						onClick={handleDelete}
-						className={button.toolbar_button}
-					>
-						<MdOutlineDelete />
-					</Button>
+					{!isArticle && (
+						<Button
+							title="Convert to Article"
+							onClick={async () => {
+								if (window.confirm("Convert to long-form Article? This cannot be undone.")) {
+									const { updateNote } = await import("@/utils/supabase/db_operations");
+									await updateNote(fsId, { type: 'article' });
+									router.push(`/articles/${fsId}`);
+								}
+							}}
+							className={button.toolbar_button}
+						>
+							<FiFileText />
+						</Button>
+					)}
+
 				</>
 			)}
 		</div>

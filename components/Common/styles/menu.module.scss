@@ -25,6 +25,9 @@
   border-radius: 0.5rem;
   min-width: 8rem;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
 }
 
 .menu_transition {

@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { SessionProvider } from "@/hooks/useSession";
 import { Toaster } from "react-hot-toast";
+import AppLayout from "@/components/Layout/AppLayout";
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = useRef(
@@ -53,7 +54,9 @@ export default function App({ Component, pageProps }: AppProps) {
         </Head>
         <Hydrate state={pageProps.dehydratedState}>
           <Toaster />
-          <Component {...pageProps} />
+          <AppLayout>
+             <Component {...pageProps} />
+          </AppLayout>
           <Analytics />
         </Hydrate>
       </QueryClientProvider>

@@ -50,11 +50,29 @@ export const getNotes = async (creatorId: string | null): Promise<Note[]> => {
 			// console.log(error);
 			throw new Error(error.message);
 		}
-		return notes as Note[];
+		// Client-side filter to handle null/undefined types effectively
+		return (notes as Note[]).filter((note) => note.type !== 'article');
 	} catch (error) {
 		// console.log(error);
 		// console.log(error);
 		throw new Error("Failed to fetch notes");
+	}
+};
+
+export const getNote = async (noteId: string): Promise<Note> => {
+	try {
+		const { data: note, error } = await supabase
+			.from("notes")
+			.select("*")
+			.eq("id", noteId)
+			.single();
+
+		if (error) {
+			throw new Error(error.message);
+		}
+		return note as Note;
+	} catch (error) {
+		throw new Error("Failed to fetch note");
 	}
 };
 

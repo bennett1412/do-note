@@ -1,0 +1,14 @@
+
+.layout_container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.main_content {
+  flex: 1;
+  margin-left: 72px; /* Match Sidebar width */
+  width: calc(100% - 72px);
+  position: relative;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}

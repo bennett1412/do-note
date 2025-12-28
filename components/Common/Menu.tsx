@@ -179,7 +179,7 @@ const Menu: React.FC<MenuProps> = ({
 				<div
 					ref={floating}
 					{...getFloatingProps({})}
-					className={`${panelClass} dropdown-content menu menu-compact`}
+					className={panelClass}
 					style={floatingStyle}
 				>
 					{clonedChildren}

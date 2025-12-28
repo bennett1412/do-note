@@ -8,7 +8,7 @@ import { updateNote } from "@/utils/supabase/db_operations";
 import { NoteContent } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
 // import NotesLoader from "@/components/Common/NotesLoader";
-import Navbar from "../Common/Navbar";
+// import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
 import Head from "next/head";
 import { useSession } from "@/hooks/useSession";
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
       <Head>
         <title>Notes</title>
       </Head>
-      <Navbar />
+      {/* <Navbar />Replaced by Sidebar in AppLayout */}
       {isLoading ? (
         <DotsLoader />
       ) : (

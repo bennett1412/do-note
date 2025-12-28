@@ -2,13 +2,14 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { Editor } from '@tiptap/react';
 import { MouseEventHandler, MutableRefObject } from 'react';
 
-
 export interface NoteContent {
   note_title: string;
   note_content: string;
   color: string;
   active?: boolean;
+  type?: 'note' | 'article';
 }
+
 export interface Note extends NoteContent {
   id: string;
 }
@@ -38,6 +39,7 @@ export type UpdateNoteFn = (noteId: string,
     note_content?: string;
     color?: string;
     active?: boolean;
+    type?: 'note' | 'article';
   }) => Promise<void>;
 
 
