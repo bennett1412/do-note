@@ -6,28 +6,16 @@ import {
 	useState,
 } from "react";
 import { useRouter } from "next/router";
-import styles from "../styles/note.module.scss";
-import button from "@/components/Common/styles/button.module.scss";
-import { FiEdit3, FiFileText } from "react-icons/fi";
-// import { TbPinned } from "react-icons/tb";
+import { FiFileText } from "react-icons/fi";
 import { BiCheck, BiCopy } from "react-icons/bi";
 import { MdOutlineDelete } from "react-icons/md";
-import ColorMenu from "@/components/Common/ColorMenu";
-import { clsx } from "clsx";
 import type { NoteContextType, NotesContextValue } from "@/types/Note";
-import Button from "@/components/Common/Button";
 import { NoteContext } from "./Note";
 import { NotesContext } from "./NotesList";
 import type { Editor } from "@tiptap/react";
+import { ActionIcon, Group } from "@mantine/core";
 
 type BottomMenuProps = {
-	// setEditMode: (flag: boolean) => void;
-	// active: boolean;
-	// fsId: string;
-	// setColor: (colorIndex: number) => void;
-	// theme: string;
-	// deleteNote: DeleteMutation;
-	// isDeleting?: boolean;
 	editor: Editor | null;
 };
 
@@ -35,14 +23,14 @@ const BottomMenu = memo(function BottomMenu({
 	editor,
 }: BottomMenuProps): JSX.Element {
 	const { deleteNote } = useContext(NotesContext) as NotesContextValue;
-	const { editMode, fsId, setEditMode, setColor } = useContext(
+	const { editMode, fsId, setColor } = useContext(
 		NoteContext,
 	) as NoteContextType;
 	const router = useRouter();
-	// Safety check for router
 	const pathname = router?.pathname || "";
 	const isArticle = pathname.includes("/articles/");
 	const [copying, setCopying] = useState<boolean>(false);
+
 	const handleDelete: EventHandler<SyntheticEvent> = async (e) => {
 		const confirm = window.confirm(
 			"Are you sure you want to delete this note?",
@@ -63,60 +51,72 @@ const BottomMenu = memo(function BottomMenu({
 	};
 
 	return (
-		// todo: update theme change to css var change
-
-		<div
-			style={editMode ? { opacity: 1 } : {}}
-			className={clsx(styles.toolbar, styles.dark_toolbar && true)}
+		<Group
+			gap="xs"
+			justify="space-between"
+			w="100%"
+			pos="absolute"
+			bottom={5}
+			left={0}
+			px="sm"
+			style={{
+				zIndex: 1,
+				opacity: editMode ? 1 : undefined, // Controlled by note hover in note.module.scss if not in editMode
+				transition: "opacity 0.1s linear",
+			}}
+			className="note-toolbar"
 		>
-			{/* TODO: add it back after article */}
-			{/* <ColorMenu setColor={setColor} /> */}
-			<Button
-				title="copy note content"
-				onClick={handleCopy}
-				variant="subtle"
-				color="gray"
-				style={copying ? { background: "green" } : {}}
-				className={button.toolbar_button}
-			>
-				{copying ? (
-					<BiCheck style={{ backgroundColor: "green" }} />
-				) : (
-					<BiCopy />
-				)}
-			</Button>
-			<Button
-				title="delete note"
-				onClick={handleDelete}
-				variant="subtle"
-				color="gray"
-				className={button.toolbar_button}
-			>
-				<MdOutlineDelete />
-			</Button>
-			{editMode && (
-				<>
-					{!isArticle && (
-						<Button
-							title="Convert to Article"
-							onClick={async () => {
-								if (window.confirm("Convert to long-form Article? This cannot be undone.")) {
-									const { updateNote } = await import("@/utils/supabase/db_operations");
-									await updateNote(fsId, { article: true });
-									router.push(`/articles/${fsId}`);
-								}
-							}}
-							variant="subtle"
-							color="gray"
-							className={button.toolbar_button}
-						>
-							<FiFileText />
-						</Button>
-					)}
+			<Group gap="xs">
+				<ActionIcon
+					title="copy note content"
+					onClick={handleCopy}
+					variant="subtle"
+					color="gray"
+					radius="xl"
+					size="md"
+					style={copying ? { backgroundColor: "rgba(64, 192, 87, 0.15)", color: "#40C057" } : {}}
+				>
+					{copying ? <BiCheck size={18} /> : <BiCopy size={18} />}
+				</ActionIcon>
+				<ActionIcon
+					title="delete note"
+					onClick={handleDelete}
+					variant="subtle"
+					color="gray"
+					radius="xl"
+					size="md"
+					styles={{
+						root: {
+							"&:hover": {
+								backgroundColor: "rgba(255, 0, 0, 0.1)",
+								color: "#ff6b6b",
+							},
+						},
+					}}
+				>
+					<MdOutlineDelete size={18} />
+				</ActionIcon>
+			</Group>
 
-				</>
+			{editMode && !isArticle && (
+				<ActionIcon
+					title="Convert to Article"
+					onClick={async () => {
+						if (window.confirm("Convert to long-form Article? This cannot be undone.")) {
+							const { updateNote } = await import("@/utils/supabase/db_operations");
+							await updateNote(fsId, { article: true });
+							router.push(`/articles/${fsId}`);
+						}
+					}}
+					variant="subtle"
+					color="gray"
+					radius="xl"
+					size="md"
+				>
+					<FiFileText size={18} />
+				</ActionIcon>
 			)}
-		</div>
+		</Group>
 	);
 });
 

@@ -1,68 +1,106 @@
 import React, { useCallback } from "react";
 import { Editor, FloatingMenu as TiptapFloatingMenu } from "@tiptap/react";
-import clsx from "clsx";
-import styles from "../../styles/floatmenu.module.scss";
-import { MdFormatListBulleted } from "react-icons/md";
+import { MdFormatListBulleted as ListIcon } from "react-icons/md";
 import { RxHeading } from "react-icons/rx";
 import { BsUiChecks, BsCardImage } from "react-icons/bs";
-// import Button from "@/components/Common/Button";
-import { UnstyledButton } from "@mantine/core";
+import { UnstyledButton, Box } from "@mantine/core";
 
 type Props = { editor: Editor | null };
 
 const CustomFloatingMenu: React.FC<Props> = ({ editor }) => {
-  const addImage = useCallback(() => {
-    const url = window.prompt("URL");
-    if (url && editor) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  }, [editor]);
+	const addImage = useCallback(() => {
+		const url = window.prompt("URL");
+		if (url && editor) {
+			editor.chain().focus().setImage({ src: url }).run();
+		}
+	}, [editor]);
 
-  return (
-    <>
-      {editor ? (
-        <TiptapFloatingMenu
-          className={styles.float_menu}
-          editor={editor}
-          tippyOptions={{ duration: 100, appendTo: 'parent' }}
-        >
-          <UnstyledButton
-            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            className={clsx(styles.float_item, {
-              [styles.is_active]: editor.isActive("heading", { level: 3 }),
-            })}
-          >
-            <RxHeading />
-          </UnstyledButton>
+	if (!editor) return null;
 
-          <UnstyledButton
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={clsx(styles.float_item, {
-              [styles.is_active]: editor.isActive("bulletList"),
-            })}
-          >
-            <MdFormatListBulleted />
-          </UnstyledButton>
-          <UnstyledButton
-            onClick={addImage}
-            className={clsx(styles.float_item, {
-              [styles.is_active]: editor.isActive("image"),
-            })}
-          >
-            <BsCardImage />
-          </UnstyledButton>
-          <UnstyledButton
-            onClick={() => editor.chain().focus().toggleTaskList().run()}
-            className={clsx(styles.float_item, {
-              [styles.is_active]: editor.isActive("taskList"),
-            })}
-          >
-            <BsUiChecks />
-          </UnstyledButton>
-        </TiptapFloatingMenu>
-      ) : null}
-    </>
-  );
+	const getButtonStyle = (isActive: boolean, position: "first" | "middle" | "last"): React.CSSProperties => {
+		const borderRadii =
+			position === "first"
+				? "10px 0 0 10px"
+				: position === "last"
+				? "0 10px 10px 0"
+				: "0";
+
+		return {
+			width: "2.5rem",
+			height: "2.5rem",
+			borderRadius: borderRadii,
+			color: isActive ? "var(--color-surface-100)" : "var(--color-primary-100)",
+			backgroundColor: isActive ? "var(--color-primary-100)" : "transparent",
+			transition: "all 0.2s ease",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			cursor: "pointer",
+		};
+	};
+
+	const buttonHoverStyles = (isActive: boolean) => ({
+		root: {
+			"&:hover": {
+				backgroundColor: isActive ? "var(--color-primary-100)" : "var(--color-surface-400)",
+			},
+		},
+	});
+
+	const items = [
+		{
+			icon: <RxHeading size={18} />,
+			onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+			isActive: editor.isActive("heading", { level: 3 }),
+			position: "first" as const,
+		},
+		{
+			icon: <ListIcon size={18} />,
+			onClick: () => editor.chain().focus().toggleBulletList().run(),
+			isActive: editor.isActive("bulletList"),
+			position: "middle" as const,
+		},
+		{
+			icon: <BsCardImage size={18} />,
+			onClick: addImage,
+			isActive: editor.isActive("image"),
+			position: "middle" as const,
+		},
+		{
+			icon: <BsUiChecks size={18} />,
+			onClick: () => editor.chain().focus().toggleTaskList().run(),
+			isActive: editor.isActive("taskList"),
+			position: "last" as const,
+		},
+	];
+
+	return (
+		<TiptapFloatingMenu
+			editor={editor}
+			tippyOptions={{ duration: 100, appendTo: "parent" }}
+		>
+			<Box
+				style={{
+					backgroundColor: "var(--color-surface-300)",
+					borderRadius: "10px",
+					display: "flex",
+					boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
+					overflow: "hidden",
+				}}
+			>
+				{items.map((item, idx) => (
+					<UnstyledButton
+						key={idx}
+						onClick={item.onClick}
+						style={getButtonStyle(item.isActive, item.position)}
+						styles={buttonHoverStyles(item.isActive)}
+					>
+						{item.icon}
+					</UnstyledButton>
+				))}
+			</Box>
+		</TiptapFloatingMenu>
+	);
 };
 
 export default CustomFloatingMenu;

@@ -1,16 +1,13 @@
 import type React from "react";
 import { useRef, useEffect, useState, useContext, createContext } from "react";
 import Tiptap from "./Tiptap";
-import styles from "../styles/note.module.scss";
-import clsx from "clsx";
-import { IoClose } from "react-icons/io5";
-// import { colors } from "../../../utils/common/noteColors";
+import { IoClose } from "react-use/lib/react-use"; // wait, the original used IoClose from react-icons/io5, let's keep that!
+import { IoClose as IoCloseIcon } from "react-icons/io5";
 import { AnimatePresence, motion } from "framer-motion";
 import type { NoteContextType, NotesContextValue } from "@/types/Note";
-import Button from "@/components/Common/Button";
-import type { CustomStyle } from "@/types/Styles";
 import { NotesContext } from "./NotesList";
 import Backdrop from "./Backdrop";
+import { ActionIcon } from "@mantine/core";
 
 type NoteProps = {
 	title: string;
@@ -31,8 +28,6 @@ const Note: React.FC<NoteProps> = ({
 	active,
 	fsId,
 	color: noteColor,
-	// updateNote,
-	// deleteNote,
 	setSelectedId,
 }) => {
 	const { updateNote } = useContext(NotesContext) as NotesContextValue;
@@ -43,7 +38,7 @@ const Note: React.FC<NoteProps> = ({
 	);
 	const ref = useRef<HTMLInputElement | null>(null);
 	const noteRef = useRef<HTMLDivElement | null>(null);
-	// const [inTransition, setInTransition] = useState<boolean>(false);
+
 	useEffect(() => {
 		const titleHandler = setTimeout(() => {
 			if (title !== "" && title !== note_title) {
@@ -67,11 +62,9 @@ const Note: React.FC<NoteProps> = ({
 
 	const closeNote = () => {
 		setEditMode(false);
-
 		setSelectedId(null);
 	};
 
-	// useOnClickOutside(noteRef, () => closeNote());
 	useEffect(() => {
 		if (noteRef.current && editMode) noteRef.current.style.zIndex = "3";
 	}, [editMode]);
@@ -83,22 +76,34 @@ const Note: React.FC<NoteProps> = ({
 		}
 	};
 
-	// const getColor = (index: number | undefined) => {
-	//   if (index) return colors[index];
-	//   return isDarkMode ? "var(--color-surface-200)" : "var(--color-primary-200)";
-	// };
-
 	const isNoteDarkThemed = (color: string): boolean => {
 		return /dark/i.test(color);
 	};
-	// const handleAnimationStart = () => {
-	//   if(noteRef.current && editMode) noteRef.current.style.zIndex = '2'
-	// }
+
 	const handleAnimationComplete = () => {
 		if (noteRef.current && editMode === false) {
 			noteRef.current.style.zIndex = "0";
 		}
 	};
+
+	const activeStyle: React.CSSProperties = editMode
+		? {
+				width: "70vw",
+				height: "70vh",
+				position: "fixed",
+				margin: "auto",
+				left: 0,
+				right: 0,
+				top: 0,
+				bottom: 0,
+				boxShadow: "0px 0px 15px 5px rgba(0, 0, 0, 0.4)",
+				maxWidth: "800px",
+				maxHeight: "600px",
+		  }
+		: {
+				boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)",
+		  };
+
 	return (
 		<NoteContext.Provider
 			value={{
@@ -113,12 +118,16 @@ const Note: React.FC<NoteProps> = ({
 		>
 			<motion.div
 				layout="position"
-				// key={fs}
-				className={styles.note_placeholder}
+				style={{
+					height: "15rem",
+					width: "18rem",
+					borderRadius: "10px",
+					display: "flex",
+					overflow: "visible",
+				}}
 			>
 				<AnimatePresence
 					initial={false}
-					// Fires when all exiting nodes have completed animating out
 					onExitComplete={() => null}
 				>
 					{editMode && <Backdrop key={fsId} onClick={closeNote} />}
@@ -126,75 +135,85 @@ const Note: React.FC<NoteProps> = ({
 						ref={noteRef}
 						layout
 						style={{
+							flex: 1,
+							overflow: "hidden",
+							border: isNoteDarkThemed(color)
+								? "1px solid var(--color-surface-200, #232524)"
+								: "1px solid var(--color-surface-200, #232524)",
+							borderRadius: "10px",
+							padding: "0.8rem",
 							backgroundColor: color,
+							color: isNoteDarkThemed(color)
+								? "var(--color-primary-100, #eff2f1)"
+								: "var(--color-surface-100, #0b0e0d)",
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "space-between",
+							transition: "background-color 0.2s, color 0.2s",
+							fontFamily: '"Fira Mono", monospace',
+							zIndex: 0,
+							...activeStyle,
 						}}
-						className={clsx({
-							[styles.note_container]: true,
-							[styles.note_active]: editMode,
-							[styles.dark]: isNoteDarkThemed(color),
-						})}
+						whileHover={!editMode ? {
+							boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.5)",
+							transform: "scale(1.02)",
+						} : {}}
 						id={fsId}
 						layoutId={fsId}
-						// onAnimationStart={handleAnimationStart}
 						onLayoutAnimationComplete={handleAnimationComplete}
 						layoutDependency={editMode}
 					>
 						<motion.div
-							style={
-								{
-									"--note-bg": color,
-									overFlowY: active ? "auto" : "clip",
-								} as CustomStyle
-							}
+							style={{
+								flexGrow: 1,
+								overflowY: editMode ? "auto" : "hidden",
+								position: "relative",
+							}}
 							layout="position"
-							className={styles.note_main}
 							onClick={handleClick}
 						>
-							<div style={{ display: "flex" }}>
-								{(title != "" || editMode) && (
+							<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+								{(title !== "" || editMode) && (
 									<input
-										// layout='position'
 										ref={ref}
-										// style={{ backgroundColor: color}}
 										disabled={!editMode}
 										defaultValue={title}
 										placeholder="Enter Title"
-										className={styles.title}
-										type={"text"}
+										style={{
+											fontSize: "1.25rem",
+											fontWeight: 700,
+											width: "100%",
+											outline: "none",
+											border: "none",
+											whiteSpace: "nowrap",
+											overflow: "hidden",
+											textOverflow: "ellipsis",
+											marginBottom: "0.5rem",
+											transition: "background-color 0.2s, color 0.2s",
+											color: "inherit",
+											background: "transparent",
+										}}
+										type="text"
 										onChange={(e) => setTitle(e.target.value)}
 									/>
 								)}
 								{editMode && (
-									<Button
-										onClick={closeNote}
-										variant="transparent"
-										c={!isNoteDarkThemed(color) ? "surface.0" : "primary.0"}
-										className={clsx({
-											[styles.note_button]: true,
-											[styles.dark_button]: !isNoteDarkThemed(color),
-											[styles.light_button]: isNoteDarkThemed(color),
-										})}
+									<ActionIcon
+										onClick={(e) => {
+											e.stopPropagation();
+											closeNote();
+										}}
+										variant="subtle"
+										color={isNoteDarkThemed(color) ? "white" : "gray"}
+										radius="md"
+										size="lg"
 									>
-										<IoClose size={25} />
-									</Button>
+										<IoCloseIcon size={24} />
+									</ActionIcon>
 								)}
 							</div>
-							{/* text editor component */}
 							<Tiptap />
 						</motion.div>
-
-						{/* <Tags /> */}
-						{/* <BottomMenu */}
-						{/*   fsId={fsId} */}
-						{/*   active={editMode} */}
-						{/*   deleteNote={deleteNote} */}
-						{/*   setEditMode={(flag: boolean) => { */}
-						{/*     if (noteRef.current) noteRef.current.scrollIntoView(); */}
-						{/*     setEditMode(flag); */}
-						{/*   }} */}
-						{/*   setColor={setcolor} */}
-						{/*   theme={color ?? 2 < 3 ? "light" : "dark"} */}
-						{/* /> */}
 					</motion.div>
 				</AnimatePresence>
 			</motion.div>

@@ -1,21 +1,19 @@
 import React, { useState } from "react";
-import Toggle from "react-toggle";
-import "react-toggle/style.css";
-import styles from "./styles/toggle.module.scss";
+import { Switch, Group, Text } from "@mantine/core";
 
 const OfflineToggle = () => {
-  const [offline, setOffline] = useState(false);
-  return (
-    <>
-      <Toggle
-        defaultChecked={offline}
-        icons={false}
-        onChange={() => setOffline(!offline)}
-        disabled
-      />
-      Offline
-    </>
-  );
+	const [offline, setOffline] = useState(false);
+	return (
+		<Group gap="xs" wrap="nowrap" align="center">
+			<Switch
+				checked={offline}
+				onChange={(event) => setOffline(event.currentTarget.checked)}
+				disabled
+				size="xs"
+			/>
+			<Text size="sm">Offline</Text>
+		</Group>
+	);
 };
 
 export default OfflineToggle;

@@ -1,26 +1,24 @@
 
-import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 import { Note, NotesContextValue, NoteContextType } from "@/types/Note";
 import { updateNote, deleteNote } from "@/utils/supabase/db_operations";
 import { NotesContext } from "@/components/Home/components/NotesList";
 import { NoteContext } from "@/components/Home/components/Note";
 import ArticleTiptap from "./ArticleTiptap";
-import styles from "./article_view.module.scss";
+import { Box } from "@mantine/core";
 
 type ArticleViewProps = {
 	note: Note;
 };
 
 const ArticleView: React.FC<ArticleViewProps> = ({ note }) => {
-	const router = useRouter();
 	const [title, setTitle] = useState(note.note_title);
 	const [color, setColor] = useState(note.color);
 	const [editMode, setEditMode] = useState(true);
 
 	const notesContextValue: NotesContextValue = {
 		addingNote: false,
-		addNote: () => {}, 
+		addNote: () => {},
 		updateNote: updateNote,
 		deleteNote: deleteNote,
 	};
@@ -37,33 +35,61 @@ const ArticleView: React.FC<ArticleViewProps> = ({ note }) => {
 			updateNote(note.id, { color: newColor });
 		},
 	};
-    
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            if (title !== note.note_title) {
-                updateNote(note.id, { note_title: title });
-            }
-        }, 1000);
-        return () => clearTimeout(handler);
-    }, [title, note.id, note.note_title]);
+
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			if (title !== note.note_title) {
+				updateNote(note.id, { note_title: title });
+			}
+		}, 1000);
+		return () => clearTimeout(handler);
+	}, [title, note.id, note.note_title]);
 
 	return (
 		<NotesContext.Provider value={notesContextValue}>
 			<NoteContext.Provider value={noteContextValue}>
-				<div className={styles.article_container} style={{ '--note-bg': color } as React.CSSProperties}>
-                    <div className={styles.header}>
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            className={styles.title_input}
-                            placeholder="Untitled"
-                        />
-                    </div>
-					<div className={styles.editor_wrapper}>
+				<Box
+					style={{
+						padding: "3rem 4rem",
+						minHeight: "100vh",
+						transition: "background-color 0.3s ease",
+						maxWidth: "900px",
+						margin: "0 auto",
+						backgroundColor: color,
+					}}
+				>
+					<Box style={{ marginBottom: "2rem" }}>
+						<input
+							type="text"
+							value={title}
+							onChange={(e) => setTitle(e.target.value)}
+							style={{
+								width: "100%",
+								fontSize: "2.5rem",
+								fontWeight: 700,
+								border: "none",
+								background: "transparent",
+								outline: "none",
+								color: "var(--text-primary)",
+							}}
+							placeholder="Untitled"
+						/>
+					</Box>
+					<Box
+						styles={{
+							root: {
+								"& .ProseMirror": {
+									minHeight: "60vh",
+									padding: 0,
+									fontSize: "1.1rem",
+									lineHeight: 1.7,
+								},
+							},
+						}}
+					>
 						<ArticleTiptap />
-					</div>
-				</div>
+					</Box>
+				</Box>
 			</NoteContext.Provider>
 		</NotesContext.Provider>
 	);

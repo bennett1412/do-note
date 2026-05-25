@@ -1,13 +1,16 @@
 import React from "react";
-import "../../../../styles/home/tags.scss";
+import { Group, Badge } from "@mantine/core";
+
 const Tags = ({ tags = ["books", "coding"] }) => {
-  return (
-    <div className="tag-container">
-      {tags.map((tag, i) => {
-        return <div key={i} className="tag-item">{tag}</div>;
-      })}
-    </div>
-  );
+	return (
+		<Group gap="xs">
+			{tags.map((tag, i) => (
+				<Badge key={i} variant="light" size="sm" radius="md">
+					{tag}
+				</Badge>
+			))}
+		</Group>
+	);
 };
 
 export default Tags;
