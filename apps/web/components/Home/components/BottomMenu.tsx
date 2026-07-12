@@ -1,10 +1,4 @@
-import {
-	type EventHandler,
-	type SyntheticEvent,
-	memo,
-	useContext,
-	useState,
-} from "react";
+import { type EventHandler, type SyntheticEvent, memo, useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { FiFileText } from "react-icons/fi";
 import { BiCheck, BiCopy } from "react-icons/bi";
@@ -16,20 +10,16 @@ import type { Editor } from "@tiptap/react";
 import { ActionIcon, Group } from "@mantine/core";
 
 type BottomMenuProps = {
-	editor: Editor | null;
+  editor: Editor | null;
 };
 
-const BottomMenu = memo(function BottomMenu({
-	editor,
-}: BottomMenuProps): JSX.Element {
-	const { deleteNote } = useContext(NotesContext) as NotesContextValue;
-	const { editMode, fsId, setColor } = useContext(
-		NoteContext,
-	) as NoteContextType;
-	const router = useRouter();
-	const pathname = router?.pathname || "";
-	const isArticle = pathname.includes("/articles/");
-	const [copying, setCopying] = useState<boolean>(false);
+const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.Element {
+  const { deleteNote } = useContext(NotesContext) as NotesContextValue;
+  const { editMode, fsId, setColor } = useContext(NoteContext) as NoteContextType;
+  const router = useRouter();
+  const pathname = router?.pathname || "";
+  const isArticle = pathname.includes("/articles/");
+  const [copying, setCopying] = useState<boolean>(false);
 
 	const handleDelete: EventHandler<SyntheticEvent> = async (e) => {
 		const confirm = window.confirm(
@@ -41,62 +31,62 @@ const BottomMenu = memo(function BottomMenu({
 		e.stopPropagation();
 	};
 
-	const handleCopy: EventHandler<SyntheticEvent> = (e) => {
-		setCopying(true);
-		editor?.chain().copyToClipboard();
-		setTimeout(() => {
-			setCopying(false);
-		}, 500);
-		e.stopPropagation();
-	};
+  const handleCopy: EventHandler<SyntheticEvent> = (e) => {
+    setCopying(true);
+    editor?.chain().copyToClipboard();
+    setTimeout(() => {
+      setCopying(false);
+    }, 500);
+    e.stopPropagation();
+  };
 
-	return (
-		<Group
-			gap="xs"
-			justify="space-between"
-			w="100%"
-			pos="absolute"
-			bottom={5}
-			left={0}
-			px="sm"
-			style={{
-				zIndex: 1,
-				opacity: editMode ? 1 : undefined, // Controlled by note hover in note.module.scss if not in editMode
-				transition: "opacity 0.1s linear",
-			}}
-			className="note-toolbar"
-		>
-			<Group gap="xs">
-				<ActionIcon
-					title="copy note content"
-					onClick={handleCopy}
-					variant="subtle"
-					color="gray"
-					radius="xl"
-					size="md"
-					style={copying ? { backgroundColor: "rgba(64, 192, 87, 0.15)", color: "#40C057" } : {}}
-				>
-					{copying ? <BiCheck size={18} /> : <BiCopy size={18} />}
-				</ActionIcon>
-				<ActionIcon
-					title="delete note"
-					onClick={handleDelete}
-					variant="subtle"
-					color="gray"
-					radius="xl"
-					size="md"
-					styles={{
-						root: {
-							"&:hover": {
-								backgroundColor: "rgba(255, 0, 0, 0.1)",
-								color: "#ff6b6b",
-							},
-						},
-					}}
-				>
-					<MdOutlineDelete size={18} />
-				</ActionIcon>
-			</Group>
+  return (
+    <Group
+      gap="xs"
+      justify="space-between"
+      w="100%"
+      pos="absolute"
+      bottom={5}
+      left={0}
+      px="sm"
+      style={{
+        zIndex: 1,
+        opacity: editMode ? 1 : undefined, // Controlled by note hover in note.module.scss if not in editMode
+        transition: "opacity 0.1s linear",
+      }}
+      className="note-toolbar"
+    >
+      <Group gap="xs">
+        <ActionIcon
+          title="copy note content"
+          onClick={handleCopy}
+          variant="subtle"
+          color="gray"
+          radius="xl"
+          size="md"
+          style={copying ? { backgroundColor: "rgba(64, 192, 87, 0.15)", color: "#40C057" } : {}}
+        >
+          {copying ? <BiCheck size={18} /> : <BiCopy size={18} />}
+        </ActionIcon>
+        <ActionIcon
+          title="delete note"
+          onClick={handleDelete}
+          variant="subtle"
+          color="gray"
+          radius="xl"
+          size="md"
+          styles={{
+            root: {
+              "&:hover": {
+                backgroundColor: "rgba(255, 0, 0, 0.1)",
+                color: "#ff6b6b",
+              },
+            },
+          }}
+        >
+          <MdOutlineDelete size={18} />
+        </ActionIcon>
+      </Group>
 
 			{editMode && !isArticle && (
 				<ActionIcon

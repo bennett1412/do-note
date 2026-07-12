@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import FloatingMenu from "@/components/Home/components/minorComponents/FloatingMenu";
@@ -81,10 +80,10 @@ const ArticleTiptap: React.FC<Props> = ({ style }) => {
   return (
     <>
       <FloatingMenu editor={editor} />
-      <EditorContent 
-        style={{ ...style, minHeight: '80vh', paddingBottom: '20vh' }} 
-        className={styles.editor} 
-        editor={editor} 
+      <EditorContent
+        style={{ ...style, minHeight: "80vh", paddingBottom: "20vh" }}
+        className={styles.editor}
+        editor={editor}
       />
       <ArticleSidebarMenu editor={editor} />
     </>

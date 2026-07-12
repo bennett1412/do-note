@@ -1,11 +1,10 @@
-
 import React from "react";
 import Link from "next/link";
 import { Card, Text, Title, Stack, Group, Badge, SimpleGrid } from "@mantine/core";
 import { Note as NoteType } from "@/types/Note";
 
 type ArticlesListProps = {
-	articles: NoteType[];
+  articles: NoteType[];
 };
 
 const ArticlesList: React.FC<ArticlesListProps> = ({ articles }) => {

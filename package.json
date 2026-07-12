@@ -6,6 +6,9 @@
     "dev": "pnpm --filter web dev",
     "build": "pnpm --filter web build",
     "start": "pnpm --filter web start",
-    "lint": "pnpm --filter web lint"
+    "lint": "pnpm --filter web lint",
+    "api:dev": "pnpm --filter api dev",
+    "api:build": "pnpm --filter api build",
+    "api:start": "pnpm --filter api start"
   }
 }
