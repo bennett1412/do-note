@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import ArticleView from "@/components/Article/ArticleView";
 import useGetNote from "@/hooks/useGetNote";
 import { DotsLoader } from "@/components/Common/Loader";
-import styles from "./styles/article_page.module.scss"; // Placeholder for page specific styles
+import styles from "./styles/article_page.module.scss";
 import Head from "next/head";
 import Button from "@/components/Common/Button";
 
@@ -11,19 +11,18 @@ const ArticlePage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-    // Ensure id is a string
-    const noteId = typeof id === 'string' ? id : null;
+  const noteId = typeof id === "string" ? Number(id) : null;
 
   const { data: note, isLoading, error } = useGetNote(noteId);
 
   if (isLoading) {
     return (
-        <>
-            <Head>
-                <title>{note.note_title || "Untitled Article"}</title>
-            </Head>
-            <ArticleView note={note} />
-        </>
+      <>
+        <Head>
+          <title>Untitled Article</title>
+        </Head>
+        <DotsLoader />
+      </>
     );
   }
 

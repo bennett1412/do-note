@@ -18,14 +18,13 @@ export async function runMigrations() {
     process.exit(1);
   }
 
-  // Determine the migrations folder relative to this file's location
-  // In production (dist/), drizzle folder is at apps/api/drizzle
-  // In dev (src/), drizzle folder is at apps/api/drizzle
-  const migrationsFolder = path.resolve(__dirname, "..", "drizzle");
+  // In dev (src/): __dirname = apps/api/src/db, need ../../drizzle
+  // In production (dist/): __dirname = apps/api/dist/db, need ../../drizzle
+  const migrationsFolder = path.resolve(__dirname, "..", "..", "drizzle");
 
   if (!fs.existsSync(migrationsFolder)) {
     console.log(
-      `Migrations folder not found at ${migrationsFolder}, skipping migrations.`
+      `Migrations folder not found at ${migrationsFolder}, skipping migrations.`,
     );
     return;
   }

@@ -1,23 +1,40 @@
-import { UseMutateFunction } from '@tanstack/react-query';
-import { Editor } from '@tiptap/react';
-import { MouseEventHandler, MutableRefObject } from 'react';
+import { UseMutateFunction } from "@tanstack/react-query";
+import { Editor } from "@tiptap/react";
+import { MouseEventHandler, MutableRefObject } from "react";
 
-export interface NoteContent {
-  note_title: string;
-  note_content: string;
+// ── API types (camelCase, matching backend) ─────────────────────
+
+export interface Note {
+  id: number;
+  noteTitle: string;
+  noteContent: string;
   color: string;
-  active?: boolean;
-  article?: boolean;
+  isActive?: boolean;
+  isArticle?: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface Note extends NoteContent {
-  id: string;
+export interface NoteCreate {
+  noteTitle: string;
+  noteContent?: string;
+  color?: string;
+  isArticle?: boolean;
 }
+
+export interface NoteUpdate {
+  noteTitle?: string;
+  noteContent?: string;
+  color?: string;
+  isArticle?: boolean;
+}
+
+// ── Legacy types kept for component compatibility ───────────────
 
 export type AddNoteParams = {
-  newNote: NoteContent,
-  creatorId: string | null
-}
+  newNote: NoteCreate;
+  creatorId: string | null;
+};
 
 type cbFn = () => void;
 
@@ -28,24 +45,15 @@ export type AddNoteMutationParams = {
 };
 
 export type DeleteNoteMutationParams = {
-  creatorId: string | null,
-  successCb?: cbFn,
-  errorCb?: cbFn
-}
+  creatorId: string | null;
+  successCb?: cbFn;
+  errorCb?: cbFn;
+};
 
-export type UpdateNoteFn = (noteId: string,
-  newNote: {
-    note_title?: string;
-    note_content?: string;
-    color?: string;
-    active?: boolean;
-    article?: boolean;
-  }) => Promise<void>;
+export type UpdateNoteFn = (noteId: number, newNote: NoteUpdate) => Promise<Note>;
 
+export type DeleteMutation = UseMutateFunction<void, Error, string>;
 
-export type DeleteMutation = UseMutateFunction<null, Error, string>;
-
-// might wanna change this to noteslist or notelist
 export type NotesContextValue = {
   addingNote: boolean;
   addNote: MouseEventHandler;
@@ -61,9 +69,9 @@ export type NoteContextType = {
   color: string;
   noteRef?: MutableRefObject<HTMLDivElement | null>;
   setEditMode: (state: boolean) => void;
-  setColor: (color: string) => void
+  setColor: (color: string) => void;
 };
 
 export type EditorContextType = {
-  editor: Editor | null
-}
+  editor: Editor | null;
+};

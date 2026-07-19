@@ -2,10 +2,7 @@ import Fastify from "fastify";
 import type { FastifyError } from "fastify";
 import cors from "@fastify/cors";
 import dotenv from "dotenv";
-import {
-  serializerCompiler,
-  validatorCompiler,
-} from "fastify-type-provider-zod";
+
 import { routes } from "./routes.js";
 import { dbClient } from "./db/index.js";
 import { runMigrations } from "./db/migrate.js";
@@ -31,10 +28,6 @@ const server = Fastify({
 server.register(cors, {
   origin: "*",
 });
-
-// Set up Zod compilers
-server.setValidatorCompiler(validatorCompiler);
-server.setSerializerCompiler(serializerCompiler);
 
 // Register all routes
 server.register(routes);

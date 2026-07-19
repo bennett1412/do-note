@@ -9,8 +9,8 @@ import FloatingMenuExtension from "@tiptap/extension-floating-menu";
 import useStore from "../../../hooks/useStore";
 import CustomImageExtension from "./extensions/resizableImage/ImageExtension";
 import CopyToClipboardExtension from "./extensions/CopyToClipboard/CopyToClipboardExtension";
-import { NoteContextType, NotesContextValue } from "@/types/Note";
-import { CustomStyle } from "@/types/Styles";
+import type { NoteContextType, NotesContextValue } from "@/types/Note";
+import type { CustomStyle } from "@/types/Styles";
 import BottomMenu from "./BottomMenu";
 import { NotesContext } from "./NotesList";
 import { NoteContext } from "./Note";
@@ -61,24 +61,24 @@ const Tiptap: React.FC<TiptapProps> = ({ style }) => {
     }
   }, [editMode, editor]);
 
-	// debounce logic to save notes
-	useEffect(() => {
-		if (noteContent !== content) updateSync(true);
-		const handler = setTimeout(() => {
-			if (editor && !editor.isDestroyed && noteContent !== content) {
-				const syncNote = async () => {
-					await updateNote(fsId, {
-						note_content: JSON.stringify(editor.getJSON()),
-					});
-				};
-				syncNote();
-				updateSync(false);
-			}
-		}, 3000);
-		return () => {
-			clearTimeout(handler);
-		};
-	}, [noteContent, content, updateSync, editor, fsId, updateNote]);
+  // debounce logic to save notes
+  useEffect(() => {
+    if (noteContent !== content) updateSync(true);
+    const handler = setTimeout(() => {
+      if (editor && !editor.isDestroyed && noteContent !== content) {
+        const syncNote = async () => {
+          await updateNote(Number(fsId), {
+            noteContent: JSON.stringify(editor.getJSON()),
+          });
+        };
+        syncNote();
+        updateSync(false);
+      }
+    }, 3000);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [noteContent, content, updateSync, editor, fsId, updateNote]);
 
   return (
     <>

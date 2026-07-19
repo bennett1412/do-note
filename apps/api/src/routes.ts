@@ -1,4 +1,4 @@
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import type { FastifyPluginAsync } from "fastify";
 import { dbClient } from "./db/index.js";
 import {
   hashPassword,
@@ -51,7 +51,7 @@ function requireRole(...roles: string[]) {
 }
 
 // ── Routes ──────────────────────────────────────────────────────
-export const routes: FastifyPluginAsyncZod = async (fastify) => {
+export const routes: FastifyPluginAsync = async (fastify) => {
   // ================================================================
   //  AUTH
   // ================================================================
@@ -99,7 +99,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
         user: { id: user.id, email: user.email, role: user.role },
         token,
       });
-    }
+    },
   );
 
   // -- Login --
@@ -141,7 +141,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
         user: { id: user.id, email: user.email, role: user.role },
         token,
       };
-    }
+    },
   );
 
   // ================================================================
@@ -155,7 +155,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
     async (request, reply) => {
       const notesList = await dbClient.getNotes(request.user!.id);
       return notesList;
-    }
+    },
   );
 
   // -- Get single note --
@@ -176,7 +176,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
       const note = await dbClient.getNote(Number(id), request.user!.id);
       if (!note) return reply.status(404).send({ error: "Note not found" });
       return note;
-    }
+    },
   );
 
   // -- Create note (with limit checks) --
@@ -187,11 +187,10 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
       schema: {
         body: {
           type: "object",
-          required: ["noteTitle"],
           properties: {
-            noteTitle: { type: "string", minLength: 1, maxLength: 255 },
+            noteTitle: { type: "string", maxLength: 255 },
             noteContent: { type: "string", default: "" },
-            color: { type: "string", pattern: "^#[0-9a-fA-F]{6}$" },
+            color: { type: "string" },
             isArticle: { type: "boolean" },
           },
         },
@@ -221,14 +220,14 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
 
       const note = await dbClient.createNote({
         creator: userId,
-        noteTitle: body.noteTitle,
+        noteTitle: body.noteTitle ?? "Untitled",
         noteContent: body.noteContent ?? "",
         color: body.color ?? "#ffffff",
         isArticle: body.isArticle ?? false,
       });
 
       return reply.status(201).send(note);
-    }
+    },
   );
 
   // -- Update note --
@@ -272,7 +271,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
       const updated = await dbClient.updateNote(Number(id), userId, body);
       if (!updated) return reply.status(404).send({ error: "Note not found" });
       return updated;
-    }
+    },
   );
 
   // -- Delete note (soft delete) --
@@ -293,7 +292,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
       const deleted = await dbClient.deleteNote(Number(id), request.user!.id);
       if (!deleted) return reply.status(404).send({ error: "Note not found" });
       return reply.status(204).send();
-    }
+    },
   );
 
   // ================================================================
@@ -309,7 +308,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
     async (request, reply) => {
       const stats = await dbClient.getDbStats();
       return stats;
-    }
+    },
   );
 
   // -- List all users (passwords stripped) --
@@ -321,7 +320,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
     async (request, reply) => {
       const allUsers = await dbClient.getAllUsers();
       return allUsers;
-    }
+    },
   );
 
   // -- Update user limits (super_user only) --
@@ -353,7 +352,7 @@ export const routes: FastifyPluginAsyncZod = async (fastify) => {
       const updated = await dbClient.updateUser(id, body);
       if (!updated) return reply.status(404).send({ error: "User not found" });
       return updated;
-    }
+    },
   );
 
   // -- Health / metrics --

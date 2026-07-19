@@ -1,17 +1,30 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addNote } from "@/utils/supabase/db_operations";
-import type { Note, AddNoteParams, AddNoteMutationParams } from "@/types/Note";
+import type { Note, NoteCreate } from "@/types/Note";
 
-const useAddNote = ({ creatorId, successCb, errorCb }: AddNoteMutationParams) => {
+const useAddNote = ({ successCb, errorCb }: { successCb?: () => void; errorCb?: () => void }) => {
   const queryClient = useQueryClient();
   const AddNoteMutation = useMutation({
-    mutationFn: addNote,
-    onSuccess: (data: string, variables: AddNoteParams) => {
+    mutationFn: (data: NoteCreate) => addNote(data),
+    onSuccess: (id: number, variables: NoteCreate) => {
       if (successCb) successCb();
-      queryClient.setQueryData(["notes", creatorId], (oldNotes: Note[] | undefined) => {
+      queryClient.setQueryData<Note[]>(["notes"], (oldNotes) => {
         if (oldNotes) {
-          return [{ ...variables.newNote, id: data, active: true }, ...oldNotes];
+          return [
+            {
+              id,
+              noteTitle: variables.noteTitle,
+              noteContent: variables.noteContent ?? "",
+              color: variables.color ?? "#ffffff",
+              isActive: true,
+              isArticle: variables.isArticle ?? false,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            },
+            ...oldNotes,
+          ];
         }
+        return oldNotes;
       });
     },
     onError: () => {

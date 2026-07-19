@@ -10,8 +10,8 @@ import FloatingMenuExtension from "@tiptap/extension-floating-menu";
 import useStore from "@/hooks/useStore";
 import CustomImageExtension from "@/components/Home/components/extensions/resizableImage/ImageExtension";
 import CopyToClipboardExtension from "@/components/Home/components/extensions/CopyToClipboard/CopyToClipboardExtension";
-import { NoteContextType, NotesContextValue } from "@/types/Note";
-import { CustomStyle } from "@/types/Styles";
+import type { NoteContextType, NotesContextValue } from "@/types/Note";
+import type { CustomStyle } from "@/types/Styles";
 import { NotesContext } from "@/components/Home/components/NotesList";
 import { NoteContext } from "@/components/Home/components/Note";
 import ArticleSidebarMenu from "./ArticleSidebarMenu";
@@ -66,8 +66,8 @@ const ArticleTiptap: React.FC<Props> = ({ style }) => {
     const handler = setTimeout(() => {
       if (editor && !editor.isDestroyed && noteContent !== content) {
         const syncNote = async () => {
-          await updateNote(fsId, {
-            note_content: JSON.stringify(editor.getJSON()),
+          await updateNote(Number(fsId), {
+            noteContent: JSON.stringify(editor.getJSON()),
           });
         };
         syncNote();

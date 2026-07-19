@@ -1,9 +1,9 @@
 import "@mantine/core/styles.css";
-import "@/styles/globals.scss";
+import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRef } from "react";
-import { Analytics } from "@vercel/analytics/react";
+
 import Head from "next/head";
 import { SessionProvider } from "@/hooks/useSession";
 import { Toaster } from "react-hot-toast";
@@ -61,7 +61,6 @@ export default function App({ Component, pageProps }: AppProps) {
             <AppLayout>
               <Component {...pageProps} />
             </AppLayout>
-            <Analytics />
           </Hydrate>
         </MantineProvider>
       </QueryClientProvider>

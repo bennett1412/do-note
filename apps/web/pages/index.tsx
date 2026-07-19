@@ -1,7 +1,10 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  return (
-    <></>
-  )
+  const router = useRouter();
+  useEffect(() => {
+    router.replace("/notes");
+  }, [router]);
+  return null;
 }
-

@@ -1,6 +1,6 @@
 import React from "react";
 import { ColorRing } from "react-loader-spinner";
-import { BsCloudCheck } from "react-icons/bs";
+import { CloudCheckIcon } from "@/utils/icons";
 import useStore from "@/hooks/useStore";
 import { AppState } from "@/types/AppState";
 
@@ -20,7 +20,7 @@ const SyncIndicator = () => {
           colors={[ringColor, ringColor, ringColor, ringColor, ringColor]}
         />
       ) : (
-        <BsCloudCheck color="#545454" size={30} />
+        <CloudCheckIcon size={30} style={{ color: "#545454" }} />
       )}
     </>
   );

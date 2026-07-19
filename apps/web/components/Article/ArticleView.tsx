@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Note, NotesContextValue, NoteContextType } from "@/types/Note";
-import { updateNote, deleteNote } from "@/utils/supabase/db_operations";
+import type { Note, NotesContextValue, NoteContextType } from "@/types/Note";
+import { updateNote } from "@/utils/supabase/db_operations";
+import useDeleteNote from "@/hooks/useDeleteNote";
 import { NotesContext } from "@/components/Home/components/NotesList";
 import { NoteContext } from "@/components/Home/components/Note";
 import ArticleTiptap from "./ArticleTiptap";
@@ -11,38 +12,39 @@ type ArticleViewProps = {
 };
 
 const ArticleView: React.FC<ArticleViewProps> = ({ note }) => {
-	const [title, setTitle] = useState(note.note_title);
-	const [color, setColor] = useState(note.color);
-	const [editMode, setEditMode] = useState(true);
+  const [title, setTitle] = useState(note.noteTitle);
+  const [color, setColor] = useState(note.color);
+  const [editMode, setEditMode] = useState(true);
+  const { mutate: deleteMutate } = useDeleteNote({});
 
   const notesContextValue: NotesContextValue = {
     addingNote: false,
     addNote: () => {},
     updateNote: updateNote,
-    deleteNote: deleteNote,
+    deleteNote: deleteMutate,
   };
 
-	const noteContextValue: NoteContextType = {
-		note_title: title,
-		content: note.note_content,
-		editMode: editMode,
-		fsId: note.id,
-		color: color,
-		setEditMode: setEditMode,
-		setColor: (newColor: string) => {
-			setColor(newColor);
-			updateNote(note.id, { color: newColor });
-		},
-	};
+  const noteContextValue: NoteContextType = {
+    note_title: title,
+    content: note.noteContent,
+    editMode: editMode,
+    fsId: String(note.id),
+    color: color,
+    setEditMode: setEditMode,
+    setColor: (newColor: string) => {
+      setColor(newColor);
+      updateNote(note.id, { color: newColor });
+    },
+  };
 
-	useEffect(() => {
-		const handler = setTimeout(() => {
-			if (title !== note.note_title) {
-				updateNote(note.id, { note_title: title });
-			}
-		}, 1000);
-		return () => clearTimeout(handler);
-	}, [title, note.id, note.note_title]);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (title !== note.noteTitle) {
+        updateNote(note.id, { noteTitle: title });
+      }
+    }, 1000);
+    return () => clearTimeout(handler);
+  }, [title, note.id, note.noteTitle]);
 
   return (
     <NotesContext.Provider value={notesContextValue}>

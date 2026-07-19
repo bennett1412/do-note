@@ -1,7 +1,7 @@
 import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
 import React, { MouseEventHandler, useRef } from "react";
-import styles from "./styles/customimg.module.scss";
-import { MdDeleteForever } from "react-icons/md";
+import styles from "./styles/customimg.module.css";
+import { DeleteIcon } from "@/utils/icons";
 
 const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewProps) => {
   const imgRef = useRef<HTMLImageElement>(null);
@@ -91,7 +91,7 @@ const ImageWrapper = ({ node, deleteNode, updateAttributes, editor }: NodeViewPr
           </div>
           <div className={styles.img_ops}>
             <button onClick={handleDelete}>
-              <MdDeleteForever size={20} />
+              <DeleteIcon size={20} />
             </button>
           </div>
         </div>

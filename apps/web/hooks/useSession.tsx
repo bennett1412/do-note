@@ -1,159 +1,128 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-
-import { supabase } from "@/utils/supabase/init";
 import { useRouter } from "next/router";
+import { api, ApiError } from "@/utils/api";
 
 interface User {
-	id?: string;
-	name?: string;
-	email?: string;
-	picture?: string;
+  id: string;
+  email: string;
+  role: "super_user" | "admin" | "user";
 }
 
 type SessionType = {
-	user: User;
-	signInWithGoogle: () => void;
-	signOut: () => void;
-	error: string | null;
-	status: string;
+  user: User;
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string) => Promise<void>;
+  signOut: () => void;
+  error: string | null;
+  status: string;
 };
 
-const getURL = () => {
-	const site_url =
-		process?.env?.VERCEL_ENV === "preview"
-			? process?.env?.NEXT_PUBLIC_PREVIEW_SITE_URL
-			: process?.env?.NEXT_PUBLIC_SITE_URL;
-	let url =
-		site_url ?? // Set this to your site URL in production env.
-		"http://localhost:3000/";
-	// Make sure to include `https://` when not localhost.
-	url = url.startsWith("http") ? url : `https://${url}`;
-	// Make sure to include a trailing `/`.
-	url = url.endsWith("/") ? url : `${url}/`;
-	return url;
-};
+function getToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("token");
+}
 
-const signInWithGoogle = () => {
-	supabase.auth.signInWithOAuth({
-		provider: "google",
-		options: {
-			redirectTo: "https://do-note.vercel.app/",
-		},
-	});
-};
+function setToken(token: string) {
+  localStorage.setItem("token", token);
+}
 
-const signOut = () => {
-	supabase.auth.signOut();
-};
+function clearToken() {
+  localStorage.removeItem("token");
+}
 
-const defaultSession = {
-	user: {
-		id: "",
-		name: "",
-		email: "",
-		picture: "",
-	},
-	signInWithGoogle,
-	signOut,
-	error: null,
-	status: "loading",
+const defaultSession: SessionType = {
+  user: { id: "", email: "", role: "user" },
+  login: async () => {},
+  register: async () => {},
+  signOut: () => {},
+  error: null,
+  status: "loading",
 };
 
 const SessionContext = createContext<SessionType>(defaultSession);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
-	// const [session, setSession] = useState<SessionType>(defaultSession);
-	const [status, setStatus] = useState("loading");
-	const [user, setUser] = useState<User>({
-		id: "",
-		name: "",
-		email: "",
-		picture: "",
-	});
+  const [status, setStatus] = useState("loading");
+  const [user, setUser] = useState<User>({ id: "", email: "", role: "user" });
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-	const router = useRouter();
-	// biome-ignore lint/correctness/useExhaustiveDependencies: need it to run once the component is mounted
-	useEffect(() => {
-		const setUserData = (userData: User | void) => {
-			setUser({
-				id: userData?.id ?? "",
-				name: userData?.name ?? "",
-				email: userData?.email ?? "",
-				picture: userData?.picture ?? "",
-			});
-		};
-		const getCurrentSession = async () => {
-			setStatus("loading");
-			try {
-				const {
-					data: { session },
-					error,
-				} = await supabase.auth.getSession();
-				if (session?.user) {
-					setStatus("authenticated");
-					setUserData({
-						id: session?.user.id,
-						name: session?.user.user_metadata.name,
-						email: session?.user.email,
-						picture: session?.user.user_metadata.picture,
-					});
-				} else {
-					setStatus("unauthenticated");
-					setUserData();
-					if (error) {
-						// # todo: add some instruction here
-					}
-					router.push("/auth");
-				}
-			} catch (error) {
-				setStatus("unauthenticated");
-				// might wanna logout user
-				router.push("/auth");
-			}
-		};
+  // Validate token on mount
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      setStatus("unauthenticated");
+      return;
+    }
+    api
+      .get<{ id: string; email: string; role: "super_user" | "admin" | "user" }>("/api/auth/me")
+      .then((u) => {
+        setUser(u);
+        setStatus("authenticated");
+      })
+      .catch(() => {
+        clearToken();
+        setStatus("unauthenticated");
+      });
+  }, []);
 
-		getCurrentSession();
+  const login = async (email: string, password: string) => {
+    setStatus("loading");
+    setError(null);
+    try {
+      const res = await api.post<{
+        user: User;
+        token: string;
+      }>("/api/auth/login", { email, password });
+      setToken(res.token);
+      setUser(res.user);
+      setStatus("authenticated");
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : "Login failed";
+      setError(message);
+      setStatus("unauthenticated");
+      throw err;
+    }
+  };
 
-		const { data: authListener } = supabase.auth.onAuthStateChange(
-			async (event, newSession) => {
-				switch (event) {
-					case "SIGNED_IN":
-						setUser({
-							id: newSession?.user.id,
-							name: newSession?.user.user_metadata.name,
-							email: newSession?.user.email,
-							picture: newSession?.user.user_metadata.picture,
-						});
-						break;
-					case "SIGNED_OUT":
-						setStatus("unauthenticated");
-						router.push("/auth");
-						break;
-					default:
-						break;
-				}
-			},
-		);
-		return () => {
-			authListener.subscription.unsubscribe();
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+  const register = async (email: string, password: string) => {
+    setStatus("loading");
+    setError(null);
+    try {
+      const res = await api.post<{
+        user: User;
+        token: string;
+      }>("/api/auth/register", { email, password });
+      setToken(res.token);
+      setUser(res.user);
+      setStatus("authenticated");
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : "Registration failed";
+      setError(message);
+      setStatus("unauthenticated");
+      throw err;
+    }
+  };
 
-	return (
-		<SessionContext.Provider value={{ ...defaultSession, status, user }}>
-			{children}
-		</SessionContext.Provider>
-	);
+  const signOut = () => {
+    clearToken();
+    setUser({ id: "", email: "", role: "user" });
+    setStatus("unauthenticated");
+    router.push("/auth");
+  };
+
+  return (
+    <SessionContext.Provider value={{ user, login, register, signOut, error, status }}>
+      {children}
+    </SessionContext.Provider>
+  );
 }
 
 export const useSession = () => {
-	const context = useContext(SessionContext);
-
-	if (!context) {
-		throw new Error("useSession hook must be used within SessionProvider");
-	}
-
-	return context;
+  const context = useContext(SessionContext);
+  if (!context) {
+    throw new Error("useSession hook must be used within SessionProvider");
+  }
+  return context;
 };

@@ -1,25 +1,18 @@
-import React, {  } from "react";
+import React from "react";
 import NotesList from "./components/NotesList";
 import { toast } from "react-hot-toast";
 
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
 import { updateNote } from "@/utils/supabase/db_operations";
-import { NoteContent } from "@/types/Note";
+import type { NoteCreate } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
-// import NotesLoader from "@/components/Common/NotesLoader";
-// import Navbar from "../Common/Navbar";
 import { DotsLoader } from "../Common/Loader";
 import Head from "next/head";
-import { useSession } from "@/hooks/useSession";
 
 const Home: React.FC = () => {
-  const { user } = useSession();
-  const userId = user.id ?? null;
-
-  const { data: notes, isLoading } = useGetNotes(userId);
+  const { data: notes, isLoading } = useGetNotes();
   const { mutate: addMutate, isLoading: addingNote } = useAddNote({
-    creatorId: userId,
     errorCb: () => {
       toast.error("Something went wrong please try later", {
         id: "note-creation-error",
@@ -27,7 +20,6 @@ const Home: React.FC = () => {
     },
   });
   const { mutate: deleteMutate } = useDeleteNote({
-    creatorId: userId,
     errorCb: () => {
       toast.error("Deletion failed, pls try later", {
         id: "delete-error",
@@ -36,9 +28,9 @@ const Home: React.FC = () => {
   });
 
   const handleAdd = async () => {
-    const newNote: NoteContent = {
-      note_title: "",
-      note_content: JSON.stringify({
+    const newNote: NoteCreate = {
+      noteTitle: "",
+      noteContent: JSON.stringify({
         type: "doc",
         content: [
           {
@@ -48,11 +40,7 @@ const Home: React.FC = () => {
       }),
       color: "var(--note-bg-dark-4)",
     };
-    // return;
-    addMutate({
-      newNote: newNote,
-      creatorId: userId,
-    });
+    addMutate(newNote);
   };
 
   return (
@@ -60,7 +48,6 @@ const Home: React.FC = () => {
       <Head>
         <title>Notes</title>
       </Head>
-      {/* <Navbar />Replaced by Sidebar in AppLayout */}
       {isLoading ? (
         <DotsLoader />
       ) : (

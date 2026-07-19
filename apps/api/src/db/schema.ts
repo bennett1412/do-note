@@ -40,7 +40,7 @@ export const users = pgTable(
       .defaultNow()
       .notNull(),
   },
-  (table) => [uniqueIndex("idx_users_email").on(table.email)]
+  (table) => [uniqueIndex("idx_users_email").on(table.email)],
 );
 
 // ── Notes table ─────────────────────────────────────────────────
@@ -55,7 +55,7 @@ export const notes = pgTable(
       .references(() => users.id, { onDelete: "cascade" }),
     noteTitle: varchar("note_title", { length: 255 }).notNull(),
     noteContent: text("note_content").default(""),
-    color: varchar("color", { length: 7 }).default("#ffffff"),
+    color: varchar("color", { length: 255 }).default("#ffffff"),
     isArticle: boolean("is_article").default(false),
     isActive: boolean("is_active").default(true),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -69,9 +69,9 @@ export const notes = pgTable(
     index("idx_notes_creator").on(table.creator),
     index("idx_notes_creator_created").on(
       table.creator,
-      table.createdAt.desc()
+      table.createdAt.desc(),
     ),
-  ]
+  ],
 );
 
 // ── Exported types ──────────────────────────────────────────────

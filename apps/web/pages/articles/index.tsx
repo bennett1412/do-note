@@ -2,18 +2,19 @@ import React from "react";
 import Head from "next/head";
 import { useQuery } from "@tanstack/react-query";
 import { getArticles } from "@/utils/supabase/db_operations";
-import { useSession } from "@/hooks/useSession";
 import ArticlesList from "@/components/Article/ArticlesList";
 import { DotsLoader } from "@/components/Common/Loader";
 import { Center, Title, Stack, Container } from "@mantine/core";
 
 const ArticlesIndex = () => {
-    const { user } = useSession();
-    const { data: articles, isLoading, error } = useQuery({
-        queryKey: ["articles", user?.id],
-        queryFn: () => getArticles(user?.id || null),
-        enabled: !!user?.id,
-    });
+  const {
+    data: articles,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["articles"],
+    queryFn: () => getArticles(),
+  });
 
   if (isLoading) return <DotsLoader />;
 
