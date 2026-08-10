@@ -21,7 +21,6 @@ export const createNoteSchema = z.object({
     .regex(/^#[0-9a-fA-F]{6}$/)
     .default("#ffffff"),
   isArticle: z.boolean().default(false),
-  isActive: z.boolean().default(true),
 });
 
 export const updateNoteSchema = z.object({
@@ -32,7 +31,6 @@ export const updateNoteSchema = z.object({
     .regex(/^#[0-9a-fA-F]{6}$/)
     .optional(),
   isArticle: z.boolean().optional(),
-  isActive: z.boolean().optional(),
 });
 
 export const noteIdParamSchema = z.object({

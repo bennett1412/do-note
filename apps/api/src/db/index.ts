@@ -12,6 +12,9 @@ import {
 import { eq, and, count, sql, gte } from "drizzle-orm";
 import * as dotenv from "dotenv";
 
+// ── Public user type (without password hash) ────────────────────
+export type PublicUser = Omit<User, "passwordHash">;
+
 dotenv.config();
 
 // ── Repository interface ────────────────────────────────────────
@@ -26,12 +29,12 @@ export interface IDatabaseRepository {
   getNotes(creatorId: string): Promise<Note[]>;
   getNote(id: number, creatorId: string): Promise<Note | null>;
   createNote(
-    note: Omit<NewNote, "id" | "createdAt" | "updatedAt">
+    note: Omit<NewNote, "id" | "createdAt" | "updatedAt">,
   ): Promise<Note>;
   updateNote(
     id: number,
     creatorId: string,
-    fields: Partial<NewNote>
+    fields: Partial<NewNote>,
   ): Promise<Note | null>;
   deleteNote(id: number, creatorId: string): Promise<boolean>;
 
@@ -41,7 +44,7 @@ export interface IDatabaseRepository {
 
   // Admin / monitoring
   getDbStats(): Promise<DbStats>;
-  getAllUsers(): Promise<User[]>;
+  getAllUsers(): Promise<PublicUser[]>;
 
   close(): Promise<void>;
 }
@@ -57,7 +60,7 @@ export interface DbStats {
 class DrizzleRepository implements IDatabaseRepository {
   constructor(
     private db: PostgresJsDatabase<typeof schema>,
-    private client: postgres.Sql
+    private client: postgres.Sql,
   ) {}
 
   // -- Auth -------------------------------------------------------
@@ -101,7 +104,7 @@ class DrizzleRepository implements IDatabaseRepository {
     return this.db
       .select()
       .from(notes)
-      .where(and(eq(notes.creator, creatorId), eq(notes.isActive, true)))
+      .where(eq(notes.creator, creatorId))
       .orderBy(sql`${notes.updatedAt} DESC`);
   }
 
@@ -115,7 +118,7 @@ class DrizzleRepository implements IDatabaseRepository {
   }
 
   async createNote(
-    note: Omit<NewNote, "id" | "createdAt" | "updatedAt">
+    note: Omit<NewNote, "id" | "createdAt" | "updatedAt">,
   ): Promise<Note> {
     const result = await this.db.insert(notes).values(note).returning();
     if (!result[0]) throw new Error("Failed to create note");
@@ -125,7 +128,7 @@ class DrizzleRepository implements IDatabaseRepository {
   async updateNote(
     id: number,
     creatorId: string,
-    fields: Partial<NewNote>
+    fields: Partial<NewNote>,
   ): Promise<Note | null> {
     const result = await this.db
       .update(notes)
@@ -181,7 +184,7 @@ class DrizzleRepository implements IDatabaseRepository {
         .from(notes)
         .where(gte(notes.updatedAt, sevenDaysAgo)),
       this.db.execute<{ size_bytes: string }>(
-        sql`SELECT pg_database_size(current_database()) AS size_bytes`
+        sql`SELECT pg_database_size(current_database()) AS size_bytes`,
       ),
     ]);
 
@@ -194,11 +197,11 @@ class DrizzleRepository implements IDatabaseRepository {
       totalUsers: totalUsers[0]?.count ?? 0,
       totalNotes: totalNotes[0]?.count ?? 0,
       activeUsers7d: activeCount[0]?.count ?? 0,
-      estimatedDbSizeBytes: Number(dbSize.rows[0]?.size_bytes ?? 0),
+      estimatedDbSizeBytes: Number(dbSize[0]?.size_bytes ?? 0),
     };
   }
 
-  async getAllUsers(): Promise<User[]> {
+  async getAllUsers(): Promise<PublicUser[]> {
     return this.db
       .select({
         id: users.id,
@@ -232,7 +235,7 @@ function createDrizzleConnection() {
   const client = postgres(connectionString, { max: maxConnections });
   const db = drizzle(client, { schema });
   console.log(
-    `PostgreSQL connection pool initialized (max: ${maxConnections}).`
+    `PostgreSQL connection pool initialized (max: ${maxConnections}).`,
   );
   return { db, client };
 }

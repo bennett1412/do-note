@@ -1,16 +1,10 @@
 import type { FastifyPluginAsync } from "fastify";
-import { dbClient } from "./db/index.js";
-import {
-  hashPassword,
-  verifyPassword,
-  signToken,
-  verifyToken,
-  type JwtPayload,
-} from "./auth.js";
-import { eq, and } from "drizzle-orm";
-
-// ── Auth middleware ─────────────────────────────────────────────
 import type { FastifyRequest, FastifyReply } from "fastify";
+import fastifyJwt from "@fastify/jwt";
+import { dbClient } from "./db/index.js";
+import { hashPassword, verifyPassword } from "./auth.js";
+
+// ── Types ────────────────────────────────────────────────────────
 
 interface AuthUser {
   id: string;
@@ -18,26 +12,34 @@ interface AuthUser {
   role: "super_user" | "admin" | "user";
 }
 
-// Extend FastifyRequest to carry user
-declare module "fastify" {
-  interface FastifyRequest {
-    user?: AuthUser;
+interface JwtPayload {
+  sub: string;
+  email: string;
+  role: "super_user" | "admin" | "user";
+}
+
+declare module "@fastify/jwt" {
+  interface FastifyJWT {
+    payload: JwtPayload;
+    user: AuthUser;
   }
 }
 
+// ── Auth middleware ─────────────────────────────────────────────
+
 async function authMiddleware(request: FastifyRequest, reply: FastifyReply) {
-  const header = request.headers.authorization;
-  if (!header?.startsWith("Bearer ")) {
-    return reply.status(401).send({ error: "Missing or invalid token" });
-  }
   try {
-    const payload = verifyToken(header.slice(7));
+    await request.jwtVerify();
+    const payload = request.user as unknown as JwtPayload;
     const user = await dbClient.getUserById(payload.sub);
     if (!user || !user.isActive) {
       return reply.status(401).send({ error: "User not found or inactive" });
     }
     request.user = { id: user.id, email: user.email, role: user.role };
-  } catch {
+  } catch (err: any) {
+    if (err?.code === "FAST_JWT_EXPIRED") {
+      return reply.status(401).send({ error: "Token expired" });
+    }
     return reply.status(401).send({ error: "Invalid token" });
   }
 }
@@ -52,6 +54,12 @@ function requireRole(...roles: string[]) {
 
 // ── Routes ──────────────────────────────────────────────────────
 export const routes: FastifyPluginAsync = async (fastify) => {
+  // Register JWT plugin
+  fastify.register(fastifyJwt, {
+    secret: process.env.JWT_SECRET || "dev-secret-change-me-in-production",
+    sign: { expiresIn: "7d" },
+  });
+
   // ================================================================
   //  AUTH
   // ================================================================
@@ -90,7 +98,7 @@ export const routes: FastifyPluginAsync = async (fastify) => {
         role: "user",
       });
 
-      const token = signToken({
+      const token = fastify.jwt.sign({
         sub: user.id,
         email: user.email,
         role: user.role,
@@ -132,7 +140,7 @@ export const routes: FastifyPluginAsync = async (fastify) => {
         return reply.status(401).send({ error: "Invalid credentials" });
       }
 
-      const token = signToken({
+      const token = fastify.jwt.sign({
         sub: user.id,
         email: user.email,
         role: user.role,
@@ -141,6 +149,54 @@ export const routes: FastifyPluginAsync = async (fastify) => {
         user: { id: user.id, email: user.email, role: user.role },
         token,
       };
+    },
+  );
+
+  // -- Get current user from token --
+  fastify.get(
+    "/api/auth/me",
+    { preHandler: [authMiddleware] },
+    async (request, reply) => {
+      return {
+        id: request.user!.id,
+        email: request.user!.email,
+        role: request.user!.role,
+      };
+    },
+  );
+
+  // -- Refresh token --
+  fastify.post(
+    "/api/auth/refresh",
+    {
+      schema: {
+        body: {
+          type: "object",
+          required: ["token"],
+          properties: {
+            token: { type: "string" },
+          },
+        },
+      },
+    },
+    async (request, reply) => {
+      const { token } = request.body as { token: string };
+      try {
+        const payload = fastify.jwt.verify<{ sub: string; email: string; role: AuthUser["role"] }>(token);
+        const user = await dbClient.getUserById(payload.sub);
+        if (!user || !user.isActive) {
+          return reply.status(401).send({ error: "User not found or inactive" });
+        }
+        // Issue a fresh token
+        const newToken = fastify.jwt.sign({
+          sub: user.id,
+          email: user.email,
+          role: user.role,
+        });
+        return { token: newToken };
+      } catch {
+        return reply.status(401).send({ error: "Invalid or expired token" });
+      }
     },
   );
 

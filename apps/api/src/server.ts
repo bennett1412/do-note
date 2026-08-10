@@ -27,6 +27,7 @@ const server = Fastify({
 // Register CORS
 server.register(cors, {
   origin: "*",
+  methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
 });
 
 // Register all routes

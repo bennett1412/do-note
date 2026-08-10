@@ -1,7 +1,13 @@
+/**
+ * Session context — thin wrapper around useAuth() for backward compatibility.
+ *
+ * Existing components import { useSession } from "@/hooks/useSession".
+ * Under the hood it uses React Query via useAuth().
+ */
+
 import type { ReactNode } from "react";
-import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { api, ApiError } from "@/utils/api";
+import { createContext, useContext } from "react";
+import { useAuth } from "./useAuth";
 
 interface User {
   id: string;
@@ -18,19 +24,6 @@ type SessionType = {
   status: string;
 };
 
-function getToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem("token");
-}
-
-function setToken(token: string) {
-  localStorage.setItem("token", token);
-}
-
-function clearToken() {
-  localStorage.removeItem("token");
-}
-
 const defaultSession: SessionType = {
   user: { id: "", email: "", role: "user" },
   login: async () => {},
@@ -43,77 +36,23 @@ const defaultSession: SessionType = {
 const SessionContext = createContext<SessionType>(defaultSession);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
-  const [status, setStatus] = useState("loading");
-  const [user, setUser] = useState<User>({ id: "", email: "", role: "user" });
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  const auth = useAuth();
 
-  // Validate token on mount
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      setStatus("unauthenticated");
-      return;
-    }
-    api
-      .get<{ id: string; email: string; role: "super_user" | "admin" | "user" }>("/api/auth/me")
-      .then((u) => {
-        setUser(u);
-        setStatus("authenticated");
-      })
-      .catch(() => {
-        clearToken();
-        setStatus("unauthenticated");
-      });
-  }, []);
-
-  const login = async (email: string, password: string) => {
-    setStatus("loading");
-    setError(null);
-    try {
-      const res = await api.post<{
-        user: User;
-        token: string;
-      }>("/api/auth/login", { email, password });
-      setToken(res.token);
-      setUser(res.user);
-      setStatus("authenticated");
-    } catch (err) {
-      const message = err instanceof ApiError ? err.message : "Login failed";
-      setError(message);
-      setStatus("unauthenticated");
-      throw err;
-    }
-  };
-
-  const register = async (email: string, password: string) => {
-    setStatus("loading");
-    setError(null);
-    try {
-      const res = await api.post<{
-        user: User;
-        token: string;
-      }>("/api/auth/register", { email, password });
-      setToken(res.token);
-      setUser(res.user);
-      setStatus("authenticated");
-    } catch (err) {
-      const message = err instanceof ApiError ? err.message : "Registration failed";
-      setError(message);
-      setStatus("unauthenticated");
-      throw err;
-    }
-  };
-
-  const signOut = () => {
-    clearToken();
-    setUser({ id: "", email: "", role: "user" });
-    setStatus("unauthenticated");
-    router.push("/auth");
+  const value: SessionType = {
+    user: auth.user ?? { id: "", email: "", role: "user" },
+    login: async (email: string, password: string) => {
+      await auth.login({ email, password });
+    },
+    register: async (email: string, password: string) => {
+      await auth.register({ email, password });
+    },
+    signOut: auth.signOut,
+    error: auth.error,
+    status: auth.status,
   };
 
   return (
-    <SessionContext.Provider value={{ user, login, register, signOut, error, status }}>
+    <SessionContext.Provider value={value}>
       {children}
     </SessionContext.Provider>
   );

@@ -72,7 +72,7 @@ const CustomFloatingMenu: React.FC<Props> = ({ editor }) => {
   ];
 
   return (
-    <TiptapFloatingMenu editor={editor} tippyOptions={{ duration: 100, appendTo: "parent" }}>
+    <TiptapFloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
       <Box
         style={{
           backgroundColor: "var(--color-surface-300)",

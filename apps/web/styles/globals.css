@@ -1,15 +1,8 @@
 :root {
-  /* --font-color: #f8f9f9; */
-  /* --font-color-light: #213547; */
-  /* --bg: black; //change this */
-  /* --bg-light: #eff2f1; */
-  /* --button-bg: #4b4c4c; */
-  /* --button-bg-light: #1a1a1a; */
-  /* --button-font-color: #; */
-  /* --button-font-color-light: #e6e6e6; */
   --weak-border: #0b0e0d1c;
-  --color-background: #0b0e0d; /* Base background */
-  /** CSS DARK THEME PRIMARY COLORS */
+  --color-background: #0b0e0d;
+
+  /* Dark theme (default) — light text on dark surface */
   --color-primary-100: #eff2f1;
   --color-primary-200: #f1f3f3;
   --color-primary-300: #f3f5f4;
@@ -17,14 +10,6 @@
   --color-primary-500: #f6f8f7;
   --color-primary-600: #f8f9f9;
 
-  /* --color-primary-100: #eff2f1; */
-  /* --color-primary-200: #babcbc; */
-  /* --color-primary-300: #888a89; */
-  /* --color-primary-400: #595a5a; */
-  /* --color-primary-500: #2e2e2e; */
-  /* --color-primary-600: #000000; */
-
-  /** CSS DARK THEME SURFACE COLORS */
   --color-surface-100: #0b0e0d;
   --color-surface-200: #232524;
   --color-surface-300: #3a3c3b;
@@ -33,13 +18,13 @@
   --color-surface-600: #898a89;
 
   /* note background colors */
-  /* --note-bg-default: var(--color-surface-200); */
   --note-bg-light-1: #ffc6c6;
   --note-bg-light-2: #dbd5ff;
   --note-bg-dark-1: #0d5c63;
   --note-bg-dark-2: #241623;
   --note-bg-dark-3: #071e22;
   --note-bg-dark-4: var(--color-surface-200);
+
   color: var(--color-primary-100);
   background-color: var(--color-surface-100);
 
@@ -54,7 +39,30 @@
   transition: color 0.3s, background-color 0.3s;
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --weak-border: #c0c4c31c;
+    --color-background: #eff2f1;
 
+    /* Light theme — dark text on light surface */
+    --color-primary-100: #0b0e0d;
+    --color-primary-200: #2e2e2e;
+    --color-primary-300: #595a5a;
+    --color-primary-400: #888a89;
+    --color-primary-500: #babcbc;
+    --color-primary-600: #eff2f1;
+
+    --color-surface-100: #ffffff;
+    --color-surface-200: #f0f2f1;
+    --color-surface-300: #e0e4e3;
+    --color-surface-400: #d0d4d3;
+    --color-surface-500: #bcc0bf;
+    --color-surface-600: #a8acab;
+
+    color: var(--color-primary-100);
+    background-color: var(--color-surface-100);
+  }
+}
 
 html,
 body {
@@ -66,20 +74,11 @@ body {
 #__next {
   min-height: 100%;
   min-width: 100%;
-  /* background: var(); */
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-}
-
-/* settings for light mode */
-@media (prefers-color-scheme: light) {
-  :root {
-    color: var(--color-surface-100);
-    background-color: var(--color-primary-100);
-  }
 }
 
 #root {
@@ -97,7 +96,6 @@ h1 {
 .icon_button {
   position: relative;
   background-color: transparent;
-  /* padding: 0.5rem; */
   border-radius: 10px;
   width: 1.5rem;
   height: 1.5rem;

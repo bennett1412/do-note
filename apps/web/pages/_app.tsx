@@ -24,8 +24,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const descp =
     "A lightweight note-taking app that aims to combine the best of Google Keep and Notion";
   return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient.current}>
+    <QueryClientProvider client={queryClient.current}>
+      <SessionProvider>
         <MantineProvider theme={theme} forceColorScheme="dark">
           <Head>
             <meta charSet="UTF-8" />
@@ -63,7 +63,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </AppLayout>
           </Hydrate>
         </MantineProvider>
-      </QueryClientProvider>
-    </SessionProvider>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }

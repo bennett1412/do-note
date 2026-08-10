@@ -46,7 +46,6 @@ const NotesList: React.FC<NoteListProps> = ({
           return (
             <Note
               key={note.id}
-              active={note.isActive ?? false}
               title={note.noteTitle}
               content={note.noteContent}
               fsId={String(note.id)}
