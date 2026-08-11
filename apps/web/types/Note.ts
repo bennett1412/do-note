@@ -9,7 +9,6 @@ export interface Note {
   noteTitle: string;
   noteContent: string;
   color: string;
-  isActive?: boolean;
   isArticle?: boolean;
   createdAt: string;
   updatedAt: string;

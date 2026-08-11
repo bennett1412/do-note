@@ -15,6 +15,13 @@
       "when": 1784462950531,
       "tag": "0001_small_susan_delgado",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786453054652,
+      "tag": "0002_rare_starhawk",
+      "breakpoints": true
     }
   ]
 }

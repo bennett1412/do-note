@@ -57,7 +57,7 @@ export const notes = pgTable(
     noteContent: text("note_content").default(""),
     color: varchar("color", { length: 255 }).default("#ffffff"),
     isArticle: boolean("is_article").default(false),
-    isActive: boolean("is_active").default(true),
+    isDeleted: boolean("is_deleted").default(false),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),

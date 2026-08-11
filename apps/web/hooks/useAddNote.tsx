@@ -16,7 +16,6 @@ const useAddNote = ({ successCb, errorCb }: { successCb?: () => void; errorCb?: 
               noteTitle: variables.noteTitle,
               noteContent: variables.noteContent ?? "",
               color: variables.color ?? "#ffffff",
-              isActive: true,
               isArticle: variables.isArticle ?? false,
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),

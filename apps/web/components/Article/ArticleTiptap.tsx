@@ -81,7 +81,7 @@ const ArticleTiptap: React.FC<Props> = ({ style }) => {
     <>
       <FloatingMenu editor={editor} />
       <EditorContent
-        style={{ ...style, minHeight: "80vh", paddingBottom: "20vh" }}
+        style={style}
         className={styles.editor}
         editor={editor}
       />

@@ -1,15 +1,14 @@
-
 .article_container {
   padding: 3rem 4rem;
   min-height: 100vh;
-  transition: background-color 0.3s ease;
   max-width: 900px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--mantine-color-surface-0);
 }
 
 .header {
-  margin-bottom: 2rem;
-  
   .title_input {
     width: 100%;
     font-size: 2.5rem;
@@ -18,7 +17,7 @@
     background: transparent;
     outline: none;
     color: var(--text-primary);
-    
+
     &::placeholder {
       color: var(--text-secondary);
       opacity: 0.5;
@@ -26,12 +25,32 @@
   }
 }
 
+.divider {
+  height: 1px;
+  background: var(--color-surface-300);
+  margin: 1.5rem 0;
+  opacity: 0.3;
+}
+
 .editor_wrapper {
-  /* Tiptap specific overrides if needed */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
   :global(.ProseMirror) {
-    min-height: 60vh;
+    flex: 1;
     padding: 0;
     font-size: 1.1rem;
     line-height: 1.7;
+    outline: none;
+  }
+
+  :global(.ProseMirror p.is-editor-empty:first-child::before) {
+    content: attr(data-placeholder);
+    float: left;
+    color: var(--text-secondary);
+    opacity: 0.5;
+    pointer-events: none;
+    height: 0;
   }
 }

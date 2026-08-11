@@ -104,7 +104,7 @@ class DrizzleRepository implements IDatabaseRepository {
     return this.db
       .select()
       .from(notes)
-      .where(eq(notes.creator, creatorId))
+      .where(and(eq(notes.creator, creatorId), eq(notes.isDeleted, false)))
       .orderBy(sql`${notes.updatedAt} DESC`);
   }
 
@@ -112,7 +112,7 @@ class DrizzleRepository implements IDatabaseRepository {
     const result = await this.db
       .select()
       .from(notes)
-      .where(and(eq(notes.id, id), eq(notes.creator, creatorId)))
+      .where(and(eq(notes.id, id), eq(notes.creator, creatorId), eq(notes.isDeleted, false)))
       .limit(1);
     return result[0] ?? null;
   }
@@ -139,10 +139,10 @@ class DrizzleRepository implements IDatabaseRepository {
   }
 
   async deleteNote(id: number, creatorId: string): Promise<boolean> {
-    // Soft delete: mark as inactive instead of hard delete (saves FK headaches)
+    // Soft delete: mark as deleted instead of hard delete
     const result = await this.db
       .update(notes)
-      .set({ isActive: false, updatedAt: new Date() })
+      .set({ isDeleted: true, updatedAt: new Date() })
       .where(and(eq(notes.id, id), eq(notes.creator, creatorId)))
       .returning({ id: notes.id });
     return result.length > 0;
@@ -154,7 +154,7 @@ class DrizzleRepository implements IDatabaseRepository {
     const result = await this.db
       .select({ count: count() })
       .from(notes)
-      .where(and(eq(notes.creator, creatorId), eq(notes.isActive, true)));
+      .where(and(eq(notes.creator, creatorId), eq(notes.isDeleted, false)));
     return result[0]?.count ?? 0;
   }
 
@@ -164,7 +164,7 @@ class DrizzleRepository implements IDatabaseRepository {
         total: sql<number>`COALESCE(SUM(LENGTH(${notes.noteContent})), 0)::int`,
       })
       .from(notes)
-      .where(and(eq(notes.creator, creatorId), eq(notes.isActive, true)));
+      .where(and(eq(notes.creator, creatorId), eq(notes.isDeleted, false)));
     return result[0]?.total ?? 0;
   }
 
@@ -178,7 +178,7 @@ class DrizzleRepository implements IDatabaseRepository {
       this.db
         .select({ count: count() })
         .from(notes)
-        .where(eq(notes.isActive, true)),
+        .where(eq(notes.isDeleted, false)),
       this.db
         .select({ count: count() })
         .from(notes)

@@ -6,6 +6,7 @@ import { NotesContext } from "@/components/Home/components/NotesList";
 import { NoteContext } from "@/components/Home/components/Note";
 import ArticleTiptap from "./ArticleTiptap";
 import { Box } from "@mantine/core";
+import styles from "./article_view.module.scss";
 
 type ArticleViewProps = {
   note: Note;
@@ -49,45 +50,18 @@ const ArticleView: React.FC<ArticleViewProps> = ({ note }) => {
   return (
     <NotesContext.Provider value={notesContextValue}>
       <NoteContext.Provider value={noteContextValue}>
-        <Box
-          style={{
-            padding: "3rem 4rem",
-            minHeight: "100vh",
-            transition: "background-color 0.3s ease",
-            maxWidth: "900px",
-            margin: "0 auto",
-            backgroundColor: color,
-          }}
-        >
-          <Box style={{ marginBottom: "2rem" }}>
+        <Box className={styles.article_container}>
+          <Box className={styles.header}>
             <input
+              className={styles.title_input}
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              style={{
-                width: "100%",
-                fontSize: "2.5rem",
-                fontWeight: 700,
-                border: "none",
-                background: "transparent",
-                outline: "none",
-                color: "var(--text-primary)",
-              }}
               placeholder="Untitled"
             />
           </Box>
-          <Box
-            styles={{
-              root: {
-                "& .ProseMirror": {
-                  minHeight: "60vh",
-                  padding: 0,
-                  fontSize: "1.1rem",
-                  lineHeight: 1.7,
-                },
-              },
-            }}
-          >
+          <Box className={styles.divider} />
+          <Box className={styles.editor_wrapper} style={{ flex: 1 }}>
             <ArticleTiptap />
           </Box>
         </Box>
