@@ -63,12 +63,16 @@ export type NotesContextValue = {
 export type NoteContextType = {
   note_title: string;
   content: string;
+  color: string;
+  dirty: boolean;
+  syncing: boolean;
   editMode: boolean;
   fsId: string;
-  color: string;
-  noteRef?: MutableRefObject<HTMLDivElement | null>;
   setEditMode: (state: boolean) => void;
   setColor: (color: string) => void;
+  setTitle: (title: string) => void;
+  setContent: (content: string) => void;
+  onEditModeChange?: (cb: (editable: boolean) => void) => void;
 };
 
 export type EditorContextType = {

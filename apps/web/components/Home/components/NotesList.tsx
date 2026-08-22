@@ -76,7 +76,7 @@ const NotesList: React.FC<NoteListProps> = ({
           {addingNote ? (
             <Loader size="sm" color="gray" />
           ) : (
-            <PlusIcon size={25} style={{ color: "var(--color-primary-100)" }} />
+            <PlusIcon size={25} style={{ color: "var(--color-surface-100, #0b0e0d)" }} />
           )}
         </Button>
       </Box>

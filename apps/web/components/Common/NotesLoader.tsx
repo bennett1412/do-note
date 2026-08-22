@@ -1,34 +1,23 @@
-import React from "react";
-import ContentLoader from "react-content-loader";
+import { Card, SimpleGrid, Skeleton, Stack } from "@mantine/core";
 
-const StickyNoteLoader: React.FC = () => (
-  <ContentLoader
-    speed={2}
-    width={"80%"}
-    height={"100%"}
-    viewBox="0 0 35% 35%"
-    backgroundColor="#f3f3f3"
-    foregroundColor="#e0e0e0"
-    // {...props}
-  >
-    <rect x="10" y="10" rx="3" ry="3" width="100%" height="15" />
-    <rect x="10" y="35" rx="3" ry="3" width="100%" height="100" />
-  </ContentLoader>
+const SkeletonNote = () => (
+  <Card h={180} radius="md" padding="lg" shadow="sm" withBorder>
+    <Stack gap="md">
+      <Skeleton height={20} width="60%" />
+      <Skeleton height={12} />
+      <Skeleton height={12} width="80%" />
+      <Skeleton height={12} width="40%" />
+    </Stack>
+  </Card>
 );
 
 const NotesLoader = () => {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(min(18rem, 100%), 1fr))",
-        gap: "1rem",
-      }}
-    >
-      {[1, 2, 3, 4, 5, 6, 7, 9].map((i) => {
-        return <StickyNoteLoader key={i} />;
-      })}
-    </div>
+    <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing={24} p={24}>
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <SkeletonNote key={i} />
+      ))}
+    </SimpleGrid>
   );
 };
 

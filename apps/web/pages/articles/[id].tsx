@@ -5,7 +5,7 @@ import useGetNote from "@/hooks/useGetNote";
 import { DotsLoader } from "@/components/Common/Loader";
 import styles from "./styles/article_page.module.scss";
 import Head from "next/head";
-import Button from "@/components/Common/Button";
+import { Button } from "@mantine/core";
 
 const ArticlePage = () => {
   const router = useRouter();

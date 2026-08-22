@@ -1,21 +1,27 @@
-# Do Note
-A Google Keep like note taking app with some rich text formating options inspired from Notion and some more improvements, will be integrated to a sticky note browser extension (a work in progress 😅). 
+# Donote Web
 
----
+Frontend for the Donote note-taking app — a Google Keep / Notion inspired rich-text note and article editor.
 
-## Main Features that have to be implemented
+## Stack
 
-- [X] Paste image from clipboard, positioned within the text
-- [ ] Voice to text
-- [ ] Works offline
+- **Next.js 16** (pages router) + **TypeScript**
+- **Mantine v8** for the component library & theming
+- **Tiptap 2** for the rich-text editor (checklists, floating menus, resizable images)
+- **TanStack Query v4** for server state (note CRUD, optimistic updates)
+- **Zustand** for UI/offline-sync state
+- **Framer Motion** for animations
 
----  
+## Development
 
-## To run the app
-1. Install all the dependencies with: `pnpm install`.
-2. Create a supabase project and add the following config variables in a .env file:
-```env
-NEXT_PUBLIC_SUPABASE_URL = {supabase_url}
-NEXT_PUBLIC_SUPABASE_ANON_KEY = {secret_key}
+```bash
+pnpm install
+pnpm dev
 ```
-4. Run the project in development with: `pnpm run dev`.
+
+Set a local environment variable pointing at the API:
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:80
+```
+
+The backend is a Fastify + Postgres API running alongside this frontend — see the monorepo root `docker-compose.yml`.

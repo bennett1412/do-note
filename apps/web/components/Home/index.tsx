@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 
 import useAddNote from "@/hooks/useAddNote";
 import useGetNotes from "@/hooks/useGetNotes";
-import { updateNote } from "@/utils/supabase/db_operations";
+import { updateNote } from "@/utils/notesApi";
 import type { NoteCreate } from "@/types/Note";
 import useDeleteNote from "@/hooks/useDeleteNote";
 import { DotsLoader } from "../Common/Loader";

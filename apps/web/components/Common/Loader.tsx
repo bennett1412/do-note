@@ -1,45 +1,34 @@
-import { MutatingDots, Oval } from "react-loader-spinner";
+import { Loader } from "@mantine/core";
 import React from "react";
 
 export const OvalLoader = ({ magnify }: { magnify: string }) => {
-	const style = {
-		position: "fixed",
-		top: "50%",
-		left: "50%",
-		transform: `translate(-50%,-50%) scale(${magnify})`,
-	};
 	return (
-		<Oval
-			height={80}
-			width={80}
-			color="black"
-			wrapperStyle={style}
-			wrapperClass=""
-			visible={true}
-			ariaLabel="oval-loading"
-			secondaryColor="gray"
-			strokeWidth={2}
-			strokeWidthSecondary={2}
+		<Loader
+			type="oval"
+			size={80}
+			color="var(--color-surface-500, #6d6f6e)"
+			style={{
+				position: "fixed",
+				top: "50%",
+				left: "50%",
+				transform: `translate(-50%,-50%) scale(${magnify})`,
+			}}
 		/>
 	);
 };
 
 export const DotsLoader = () => {
 	return (
-		<MutatingDots
-			height="100"
-			width="100"
-			color="var(--color-primary-100)"
-			secondaryColor="var(--color-primary-100)"
-			radius="12.5"
-			ariaLabel="mutating-dots-loading"
-			wrapperStyle={{
+		<Loader
+			type="dots"
+			size={64}
+			color="var(--color-primary-500, #f6f8f7)"
+			style={{
 				position: "fixed",
 				left: "50%",
 				top: "50%",
 				transform: "translate(-50%,-50%) scale(1.5)",
 			}}
-			visible={true}
 		/>
 	);
 };

@@ -1,11 +1,11 @@
 import React, { memo, useContext, useState } from "react";
 import type { Editor } from "@tiptap/react";
-import { UnstyledButton, Tooltip, Stack, Box } from "@mantine/core";
+import { ActionIcon, Tooltip, Stack, Paper } from "@mantine/core";
 import { HomeIcon, CopyIcon, CheckIcon, DeleteIcon } from "@/utils/icons";
 import { useRouter } from "next/router";
 import { NotesContext } from "@/components/Home/components/NotesList";
-import { NoteContext } from "@/components/Home/components/Note";
-import type { NotesContextValue, NoteContextType } from "@/types/Note";
+import { useNoteContext } from "@/components/Home/components/NoteContext";
+import type { NotesContextValue } from "@/types/Note";
 
 type Props = {
   editor: Editor | null;
@@ -14,7 +14,7 @@ type Props = {
 const ArticleSidebarMenu: React.FC<Props> = ({ editor }) => {
   const router = useRouter();
   const { deleteNote } = useContext(NotesContext) as NotesContextValue;
-  const { fsId } = useContext(NoteContext) as NoteContextType;
+  const { fsId } = useNoteContext();
   const [copying, setCopying] = useState(false);
 
   const handleCopy = () => {
@@ -31,69 +31,37 @@ const ArticleSidebarMenu: React.FC<Props> = ({ editor }) => {
   };
 
   return (
-    <Box
+    <Paper
       pos="fixed"
       right={20}
       top="50%"
       p={8}
       bg="surface.1"
-      style={{
-        transform: "translateY(-50%)",
-        zIndex: 100,
-        border: "1px solid var(--color-surface-300)",
-        borderRadius: "12px",
-        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
-      }}
+      radius="md"
+      withBorder
+      shadow="lg"
+      style={{ transform: "translateY(-50%)", zIndex: 100 }}
     >
       <Stack gap="xs">
         <Tooltip label="Back to Notes" position="left" withArrow>
-          <UnstyledButton
-            w={40}
-            h={40}
-            display="flex"
-            c="var(--color-primary-100)"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "8px",
-              transition: "all 0.2s ease",
-              cursor: "pointer",
-            }}
-            styles={{
-              root: {
-                "&:hover": {
-                  backgroundColor: "var(--color-surface-300)",
-                  transform: "scale(1.05)",
-                },
-              },
-            }}
+          <ActionIcon
+            size="lg"
+            variant="subtle"
+            color="gray"
+            radius="md"
             onClick={() => router.push("/notes")}
+            data-testid="back-notes"
           >
             <HomeIcon size={20} />
-          </UnstyledButton>
+          </ActionIcon>
         </Tooltip>
 
         <Tooltip label={copying ? "Copied!" : "Copy Content"} position="left" withArrow>
-          <UnstyledButton
-            w={40}
-            h={40}
-            display="flex"
-            c="var(--color-primary-100)"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "8px",
-              transition: "all 0.2s ease",
-              cursor: "pointer",
-            }}
-            styles={{
-              root: {
-                "&:hover": {
-                  backgroundColor: "var(--color-surface-300)",
-                  transform: "scale(1.05)",
-                },
-              },
-            }}
+          <ActionIcon
+            size="lg"
+            variant="subtle"
+            color="gray"
+            radius="md"
             onClick={handleCopy}
           >
             {copying ? (
@@ -101,37 +69,30 @@ const ArticleSidebarMenu: React.FC<Props> = ({ editor }) => {
             ) : (
               <CopyIcon size={20} />
             )}
-          </UnstyledButton>
+          </ActionIcon>
         </Tooltip>
 
         <Tooltip label="Delete Article" position="left" withArrow>
-          <UnstyledButton
-            w={40}
-            h={40}
-            display="flex"
-            c="var(--color-primary-100)"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "8px",
-              transition: "all 0.2s ease",
-              cursor: "pointer",
-            }}
+          <ActionIcon
+            size="lg"
+            variant="subtle"
+            color="gray"
+            radius="md"
+            onClick={handleDelete}
             styles={{
               root: {
                 "&:hover": {
-                  backgroundColor: "var(--color-surface-300)",
-                  transform: "scale(1.05)",
+                  backgroundColor: "rgba(255, 0, 0, 0.1)",
+                  color: "#ff6b6b",
                 },
               },
             }}
-            onClick={handleDelete}
           >
             <DeleteIcon size={20} />
-          </UnstyledButton>
+          </ActionIcon>
         </Tooltip>
       </Stack>
-    </Box>
+    </Paper>
   );
 };
 

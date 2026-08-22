@@ -3,11 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { HomeIcon, FileTextIcon, LogOutIcon } from "@/utils/icons";
 import { useSession } from "@/hooks/useSession";
-import { Stack, Tooltip, UnstyledButton, Avatar, Box } from "@mantine/core";
+import { Stack, NavLink, ActionIcon, Tooltip, Loader } from "@mantine/core";
+import useStore from "@/hooks/useStore";
 
 const Sidebar: React.FC = () => {
   const router = useRouter();
   const { user, signOut } = useSession();
+  const syncing = useStore((state) => state.syncing);
 
   const handleLogout = () => {
     signOut();
@@ -26,121 +28,82 @@ const Sidebar: React.FC = () => {
       left={0}
       top={0}
       bg="surface.0"
-      bdr="1px solid var(--color-surface-200, #232524)"
-      align="center"
-      justify="space-between"
       py="md"
-      style={{ zIndex: 50, transition: "width 0.3s ease" }}
+      align="center"
+      visibleFrom="sm"
+      style={{
+        zIndex: 50,
+        borderRight: "1px solid var(--color-surface-200, #232524)",
+      }}
     >
       <Stack gap="lg" align="center" w="100%">
-        <Box py="xs">
+        <Tooltip label={syncing ? "Saving..." : "DoNote"} position="right" withArrow>
           <Link
             href="/notes"
             style={{
               fontWeight: 700,
               fontSize: "1.5rem",
+              width: "2rem",
+              height: "2rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               color: "var(--color-primary-500, #f6f8f7)",
               textDecoration: "none",
             }}
           >
-            Dn
+            {syncing ? <Loader size={22} color="var(--color-primary-500)" /> : "Dn"}
           </Link>
-        </Box>
+        </Tooltip>
 
         <Tooltip label="Notes" position="right" withArrow>
-          <UnstyledButton
+          <NavLink
             component={Link}
             href="/notes"
+            label=""
+            leftSection={<HomeIcon size={22} />}
+            active={isActive("/notes")}
+            variant="filled"
             w={48}
             h={48}
-            display="flex"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "12px",
-              transition: "all 0.2s ease",
-            }}
-            bg={isActive("/notes") ? "primary.0" : "transparent"}
-            c={isActive("/notes") ? "surface.0" : "var(--text-secondary, #898a89)"}
             styles={{
-              root: {
-                "&:hover": {
-                  backgroundColor: isActive("/notes")
-                    ? "var(--color-primary-100, #eff2f1)"
-                    : "var(--color-surface-200, #232524)",
-                  color: isActive("/notes")
-                    ? "var(--color-surface-100, #0b0e0d)"
-                    : "var(--text-primary, #f8f9f9)",
-                },
-              },
+              root: { borderRadius: "12px" },
+              label: { display: "none" },
             }}
-          >
-            <HomeIcon size={24} />
-          </UnstyledButton>
+          />
         </Tooltip>
 
         <Tooltip label="Articles" position="right" withArrow>
-          <UnstyledButton
+          <NavLink
             component={Link}
             href="/articles"
+            label=""
+            leftSection={<FileTextIcon size={22} />}
+            active={isActive("/articles")}
+            variant="filled"
             w={48}
             h={48}
-            display="flex"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "12px",
-              transition: "all 0.2s ease",
-            }}
-            bg={isActive("/articles") ? "primary.0" : "transparent"}
-            c={isActive("/articles") ? "surface.0" : "var(--text-secondary, #898a89)"}
             styles={{
-              root: {
-                "&:hover": {
-                  backgroundColor: isActive("/articles")
-                    ? "var(--color-primary-100, #eff2f1)"
-                    : "var(--color-surface-200, #232524)",
-                  color: isActive("/articles")
-                    ? "var(--color-surface-100, #0b0e0d)"
-                    : "var(--text-primary, #f8f9f9)",
-                },
-              },
+              root: { borderRadius: "12px" },
+              label: { display: "none" },
             }}
-          >
-            <FileTextIcon size={24} />
-          </UnstyledButton>
+          />
         </Tooltip>
       </Stack>
 
       <Stack gap="md" align="center">
-        {user?.picture && (
-          <Box style={{ borderRadius: "50%" }}>
-            <Avatar src={user.picture} alt="Profile" size={32} radius="xl" />
-          </Box>
-        )}
-        <UnstyledButton
-          onClick={handleLogout}
-          w={48}
-          h={48}
-          display="flex"
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: "12px",
-            transition: "all 0.2s ease",
-          }}
-          c="var(--text-secondary, #898a89)"
-          styles={{
-            root: {
-              "&:hover": {
-                backgroundColor: "rgba(255, 0, 0, 0.1)",
-                color: "#ff6b6b",
-              },
-            },
-          }}
-        >
-          <LogOutIcon size={24} />
-        </UnstyledButton>
+        <Tooltip label="Log out" position="right" withArrow>
+          <ActionIcon
+            variant="subtle"
+            color="gray"
+            size="lg"
+            radius="md"
+            onClick={handleLogout}
+            aria-label="Log out"
+          >
+            <LogOutIcon size={22} />
+          </ActionIcon>
+        </Tooltip>
       </Stack>
     </Stack>
   );

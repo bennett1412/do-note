@@ -1,6 +1,11 @@
-import { createTheme, type MantineThemeColors } from "@mantine/core";
+import {
+  createTheme,
+  type MantineTheme,
+  type MantineThemeColors,
+  type MantineColorsTuple,
+} from "@mantine/core";
 
-const surfaceDark = [
+const surfaceDark: MantineColorsTuple = [
   "#0b0e0d", // 0
   "#232524", // 1
   "#3a3c3b", // 2
@@ -13,7 +18,7 @@ const surfaceDark = [
   "#eff2f1", // 9
 ];
 
-const surfaceLight = [
+const surfaceLight: MantineColorsTuple = [
   "#ffffff", // 0
   "#f0f2f1", // 1
   "#e0e4e3", // 2
@@ -26,7 +31,7 @@ const surfaceLight = [
   "#585c5b", // 9
 ];
 
-const primaryDark = [
+const primaryDark: MantineColorsTuple = [
   "#eff2f1", // 0
   "#f1f3f3", // 1
   "#f3f5f4", // 2
@@ -39,7 +44,7 @@ const primaryDark = [
   "#ffffff", // 9
 ];
 
-const primaryLight = [
+const primaryLight: MantineColorsTuple = [
   "#0b0e0d", // 0
   "#2e2e2e", // 1
   "#595a5a", // 2
@@ -56,7 +61,7 @@ export const theme = createTheme({
   colors: {
     surface: surfaceDark,
     primary: primaryDark,
-  } as MantineThemeColors,
+  } as unknown as MantineThemeColors,
   primaryColor: "primary",
   defaultRadius: "md",
   fontFamily: "Inter, Avenir, Helvetica, Arial, sans-serif",
@@ -64,7 +69,7 @@ export const theme = createTheme({
   luminanceThreshold: 0.4,
   components: {
     Button: {
-      vars: (_, props: any) => {
+      vars: (_: MantineTheme, props: any) => {
         if (props.variant === "subtle" && props.color === "gray") {
           return {
             root: {

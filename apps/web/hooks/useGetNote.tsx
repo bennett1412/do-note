@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getNote } from "@/utils/supabase/db_operations";
+import { getNote } from "@/utils/notesApi";
 import type { Note } from "@/types/Note";
 
 const useGetNote = (noteId: number | null | undefined) => {

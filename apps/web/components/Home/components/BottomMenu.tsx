@@ -1,9 +1,9 @@
 import { type EventHandler, type SyntheticEvent, memo, useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { FileTextIcon, CheckIcon, CopyIcon, DeleteIcon } from "@/utils/icons";
-import type { NoteContextType, NotesContextValue } from "@/types/Note";
-import { NoteContext } from "./Note";
+import type { NotesContextValue } from "@/types/Note";
 import { NotesContext } from "./NotesList";
+import { useNoteContext } from "./NoteContext";
 import type { Editor } from "@tiptap/react";
 import { ActionIcon, Group } from "@mantine/core";
 
@@ -13,7 +13,7 @@ type BottomMenuProps = {
 
 const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.Element {
   const { deleteNote } = useContext(NotesContext) as NotesContextValue;
-  const { editMode, fsId, setColor } = useContext(NoteContext) as NoteContextType;
+  const { editMode, fsId, setColor } = useNoteContext();
   const router = useRouter();
   const pathname = router?.pathname || "";
   const isArticle = pathname.includes("/articles/");
@@ -89,7 +89,7 @@ const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.El
           title="Convert to Article"
           onClick={async () => {
             if (window.confirm("Convert to long-form Article? This cannot be undone.")) {
-              const { updateNote } = await import("@/utils/supabase/db_operations");
+              const { updateNote } = await import("@/utils/notesApi");
               await updateNote(Number(fsId), { isArticle: true });
               router.push(`/articles/${fsId}`);
             }

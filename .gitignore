@@ -25,6 +25,7 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
+.nev
 
 # typescript
 *.tsbuildinfo

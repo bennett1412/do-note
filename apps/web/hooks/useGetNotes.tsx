@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getNotes } from "../utils/supabase/db_operations";
+import { getNotes } from "../utils/notesApi";
 import { toast } from "react-hot-toast";
 
 const useGetNotes = () => {

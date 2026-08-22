@@ -1,11 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import OfflineToggle from "./OfflineToggle";
 import SyncIndicator from "./SyncIndicator";
 import { LogOutIcon } from "@/utils/icons";
 import { useSession } from "@/hooks/useSession";
-import Menu, { MenuDivider, MenuItem } from "./Menu";
-import { Group, Box } from "@mantine/core";
+import { Group, Box, Avatar, Menu } from "@mantine/core";
 
 const Navbar = () => {
   const { user, signOut } = useSession();
@@ -43,48 +41,31 @@ const Navbar = () => {
       <Group gap="md" align="center">
         {user.id && (
           <>
-            <Menu
-              menuButton={
+            <Menu position="bottom-end" offset={12} shadow="md" styles={{ dropdown: { minWidth: "8rem", fontSize: "18px" } }}>
+              <Menu.Target>
                 <Box style={{ cursor: "pointer" }}>
-                  <Image
-                    width={32}
-                    height={32}
-                    src={user.picture ?? ""}
-                    alt="profile-pic"
-                    style={{ borderRadius: "100%" }}
-                  />
+                  <Avatar radius="xl" size={32} color="primary" variant="filled">
+                    {user.email[0]?.toUpperCase() ?? "U"}
+                  </Avatar>
                 </Box>
-              }
-              direction="bottom"
-              offsetY={12}
-              align="end"
-              menuStyle={{ minWidth: "8rem", fontSize: "18px" }}
-            >
-              <MenuItem
-                onClick={handleLogout}
-                style={{
-                  justifyContent: "space-around",
-                  paddingLeft: "0.5rem",
-                  paddingRight: "0.5rem",
-                }}
-              >
-                <LogOutIcon size={25} /> Logout
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.keepOpen = true;
-                }}
-                disabled
-                style={{
-                  justifyContent: "space-around",
-                  paddingLeft: "0.5rem",
-                  paddingRight: "0.5rem",
-                }}
-              >
-                <OfflineToggle />
-              </MenuItem>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item
+                  onClick={handleLogout}
+                  leftSection={<LogOutIcon size={20} />}
+                  style={{
+                    justifyContent: "space-around",
+                    paddingLeft: "0.5rem",
+                    paddingRight: "0.5rem",
+                  }}
+                >
+                  Logout
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item disabled>
+                  <OfflineToggle />
+                </Menu.Item>
+              </Menu.Dropdown>
             </Menu>
             <SyncIndicator />
           </>

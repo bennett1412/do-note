@@ -1,14 +1,13 @@
 import type React from "react";
-import { useRef, useEffect, useState, useContext, createContext } from "react";
+import { useRef, useEffect } from "react";
 import Tiptap from "./Tiptap";
 import styles from "../styles/note.module.scss";
 import clsx from "clsx";
 import { CloseIcon } from "@/utils/icons";
 import { AnimatePresence, motion } from "framer-motion";
-import type { NoteContextType, NotesContextValue } from "@/types/Note";
 import type { CustomStyle } from "@/types/Styles";
-import { NotesContext } from "./NotesList";
 import Backdrop from "./Backdrop";
+import { NoteProvider, useNoteContext } from "./NoteContext";
 
 type NoteProps = {
   title: string;
@@ -18,49 +17,23 @@ type NoteProps = {
   setSelectedId: (id: string | null) => void;
 };
 
-export const NoteContext = createContext<NoteContextType | undefined>(undefined);
-
-const Note: React.FC<NoteProps> = ({
-  title: note_title,
-  content,
-  fsId,
-  color: noteColor,
-  setSelectedId,
-}) => {
-  const { updateNote } = useContext(NotesContext) as NotesContextValue;
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(note_title);
-  const [color, setColor] = useState<string>(noteColor ?? "var(--note-bg-dark-4)");
+const NoteInner: React.FC<{
+  fsId: string;
+  color: string;
+  setSelectedId: (id: string | null) => void;
+}> = ({ fsId, color: noteColor, setSelectedId }) => {
+  const { note_title, color, editMode, setEditMode, setTitle } = useNoteContext();
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const titleHandler = setTimeout(() => {
-      if (title !== "" && title !== note_title) {
-        updateNote(Number(fsId), {
-          noteTitle: title,
-        });
-      }
-    }, 3000);
-    return () => clearTimeout(titleHandler);
-  }, [fsId, title, note_title, updateNote]);
-
-  useEffect(() => {
-    if (color !== noteColor) {
-      updateNote(Number(fsId), {
-        color: color,
-      });
-    }
-  }, [noteColor, color, fsId, updateNote]);
+    if (noteRef.current && editMode) noteRef.current.style.zIndex = "3";
+  }, [editMode]);
 
   const closeNote = () => {
     setEditMode(false);
     setSelectedId(null);
   };
-
-  useEffect(() => {
-    if (noteRef.current && editMode) noteRef.current.style.zIndex = "3";
-  }, [editMode]);
 
   const handleClick = () => {
     if (!editMode) {
@@ -69,9 +42,7 @@ const Note: React.FC<NoteProps> = ({
     }
   };
 
-  const isNoteDarkThemed = (color: string): boolean => {
-    return /dark/i.test(color);
-  };
+  const isNoteDarkThemed = (c: string): boolean => /dark/i.test(c);
 
   const handleAnimationComplete = () => {
     if (noteRef.current && editMode === false) {
@@ -80,59 +51,46 @@ const Note: React.FC<NoteProps> = ({
   };
 
   return (
-    <NoteContext.Provider
-      value={{
-        note_title,
-        content,
-        editMode,
-        fsId,
-        color,
-        setEditMode,
-        setColor,
-      }}
-    >
-      <motion.div layout="position" className={styles.note_placeholder}>
-        <AnimatePresence initial={false} onExitComplete={() => null}>
-          {editMode && <Backdrop key={fsId} onClick={closeNote} />}
+    <motion.div layout="position" className={styles.note_placeholder}>
+      <AnimatePresence initial={false} onExitComplete={() => null}>
+        {editMode && <Backdrop key={fsId} onClick={closeNote} />}
+        <motion.div
+          ref={noteRef}
+          style={{ backgroundColor: color }}
+          className={clsx({
+            [styles.note_container]: true,
+            [styles.note_active]: editMode,
+            [styles.dark]: isNoteDarkThemed(color),
+          })}
+          id={fsId}
+          layoutId={fsId}
+          onLayoutAnimationComplete={handleAnimationComplete}
+          layoutDependency={editMode}
+        >
           <motion.div
-            ref={noteRef}
-            style={{
-              backgroundColor: color,
-            }}
-            className={clsx({
-              [styles.note_container]: true,
-              [styles.note_active]: editMode,
-              [styles.dark]: isNoteDarkThemed(color),
-            })}
-            id={fsId}
-            layoutId={fsId}
-            onLayoutAnimationComplete={handleAnimationComplete}
-            layoutDependency={editMode}
+            style={
+              {
+                "--note-bg": color,
+                overflowY: editMode ? "auto" : "clip",
+              } as CustomStyle
+            }
+            layout="position"
+            className={styles.note_main}
+            onClick={handleClick}
           >
-            <motion.div
-              style={
-                {
-                  "--note-bg": color,
-                  overflowY: editMode ? "auto" : "clip",
-                } as CustomStyle
-              }
-              layout="position"
-              className={styles.note_main}
-              onClick={handleClick}
-            >
-              <div style={{ display: "flex" }}>
-                {(title != "" || editMode) && (
-                  <input
-                    ref={ref}
-                    disabled={!editMode}
-                    defaultValue={title}
-                    placeholder="Enter Title"
-                    className={styles.title}
-                    type="text"
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                )}
-                {editMode && (
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              {(note_title != "" || editMode) && (
+                <input
+                  ref={ref}
+                  disabled={!editMode}
+                  value={note_title}
+                  placeholder="Enter Title"
+                  className={styles.title}
+                  type="text"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              )}
+              {editMode && (
                   <button
                     onClick={closeNote}
                     className={clsx({
@@ -143,14 +101,21 @@ const Note: React.FC<NoteProps> = ({
                   >
                     <CloseIcon size={25} />
                   </button>
-                )}
-              </div>
-              <Tiptap />
-            </motion.div>
+              )}
+            </div>
+            <Tiptap editable={editMode} />
           </motion.div>
-        </AnimatePresence>
-      </motion.div>
-    </NoteContext.Provider>
+        </motion.div>
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
+const Note: React.FC<NoteProps> = ({ title, content, fsId, color, setSelectedId }) => {
+  return (
+    <NoteProvider note={{ id: Number(fsId), noteTitle: title, noteContent: content, color }}>
+      <NoteInner fsId={fsId} color={color} setSelectedId={setSelectedId} />
+    </NoteProvider>
   );
 };
 

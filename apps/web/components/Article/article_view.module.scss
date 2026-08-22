@@ -5,31 +5,6 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  background: var(--mantine-color-surface-0);
-}
-
-.header {
-  .title_input {
-    width: 100%;
-    font-size: 2.5rem;
-    font-weight: 700;
-    border: none;
-    background: transparent;
-    outline: none;
-    color: var(--text-primary);
-
-    &::placeholder {
-      color: var(--text-secondary);
-      opacity: 0.5;
-    }
-  }
-}
-
-.divider {
-  height: 1px;
-  background: var(--color-surface-300);
-  margin: 1.5rem 0;
-  opacity: 0.3;
 }
 
 .editor_wrapper {

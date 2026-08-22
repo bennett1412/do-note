@@ -1,11 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addNote } from "@/utils/supabase/db_operations";
+import { addNote } from "@/utils/notesApi";
+import useStore from "./useStore";
 import type { Note, NoteCreate } from "@/types/Note";
 
 const useAddNote = ({ successCb, errorCb }: { successCb?: () => void; errorCb?: () => void }) => {
   const queryClient = useQueryClient();
+  const updateSync = useStore((state) => state.updateSync);
   const AddNoteMutation = useMutation({
     mutationFn: (data: NoteCreate) => addNote(data),
+    onMutate: () => {
+      updateSync(true);
+    },
     onSuccess: (id: number, variables: NoteCreate) => {
       if (successCb) successCb();
       queryClient.setQueryData<Note[]>(["notes"], (oldNotes) => {
@@ -28,6 +33,11 @@ const useAddNote = ({ successCb, errorCb }: { successCb?: () => void; errorCb?: 
     },
     onError: () => {
       if (errorCb) errorCb();
+    },
+    // Silently refetch in background to sync server state
+    onSettled: () => {
+      updateSync(false);
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
     },
   });
   return AddNoteMutation;

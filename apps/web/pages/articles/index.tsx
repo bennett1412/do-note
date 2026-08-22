@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useQuery } from "@tanstack/react-query";
-import { getArticles } from "@/utils/supabase/db_operations";
+import { getArticles } from "@/utils/notesApi";
 import ArticlesList from "@/components/Article/ArticlesList";
 import { DotsLoader } from "@/components/Common/Loader";
 import { Center, Title, Stack, Container } from "@mantine/core";
