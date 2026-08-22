@@ -61,7 +61,7 @@ export type NotesContextValue = {
 };
 
 export type NoteContextType = {
-  note_title: string;
+  noteTitle: string;
   content: string;
   color: string;
   dirty: boolean;

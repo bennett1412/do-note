@@ -22,7 +22,7 @@ const NoteInner: React.FC<{
   color: string;
   setSelectedId: (id: string | null) => void;
 }> = ({ fsId, color: noteColor, setSelectedId }) => {
-  const { note_title, color, editMode, setEditMode, setTitle } = useNoteContext();
+  const { noteTitle: note_title, color, editMode, setEditMode, setTitle } = useNoteContext();
   const ref = useRef<HTMLInputElement | null>(null);
   const noteRef = useRef<HTMLDivElement | null>(null);
 

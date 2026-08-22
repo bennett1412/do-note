@@ -12,7 +12,7 @@ type ArticleViewProps = {
 };
 
 const ArticleViewInner: React.FC = () => {
-  const { note_title, setTitle, syncing, dirty } = useNoteContext();
+  const { noteTitle: note_title, setTitle, syncing, dirty } = useNoteContext();
   const { mutate: deleteMutate } = useDeleteNote({});
 
   const notesContextValue: NotesContextValue = {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import FloatingMenu from "@/components/Home/components/minorComponents/FloatingMenu";
 import StarterKit from "@tiptap/starter-kit";
@@ -12,15 +12,12 @@ import CopyToClipboardExtension from "@/components/Home/components/extensions/Co
 import type { CustomStyle } from "@/types/Styles";
 import { useNoteContext } from "@/components/Home/components/NoteContext";
 import ArticleSidebarMenu from "./ArticleSidebarMenu";
-import useStore from "@/hooks/useStore";
-
 type Props = {
   style?: CustomStyle;
 };
 
 const ArticleTiptap: React.FC<Props> = ({ style }) => {
-  const { content, setContent, syncing } = useNoteContext();
-  const updateSync = useStore((state) => state.updateSync);
+  const { content, setContent } = useNoteContext();
   const editor = useEditor({
     editorProps: {
       attributes: {
@@ -46,10 +43,6 @@ const ArticleTiptap: React.FC<Props> = ({ style }) => {
       setContent(JSON.stringify(editor.getJSON()));
     },
   });
-
-  useEffect(() => {
-    updateSync(syncing);
-  }, [syncing, updateSync]);
 
   return (
     <>
