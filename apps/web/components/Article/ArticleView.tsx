@@ -12,7 +12,7 @@ type ArticleViewProps = {
 };
 
 const ArticleViewInner: React.FC = () => {
-  const { noteTitle: note_title, setTitle, syncing, dirty } = useNoteContext();
+  const { noteTitle: note_title, setTitle } = useNoteContext();
   const { mutate: deleteMutate } = useDeleteNote({});
 
   const notesContextValue: NotesContextValue = {
@@ -36,7 +36,6 @@ const ArticleViewInner: React.FC = () => {
             aria-label="Article title"
           />
         </Box>
-        {syncing && <span className={styles.saving}>Saving...</span>}
         <Box className={styles.divider} />
         <Box className={styles.editor_wrapper} style={{ flex: 1 }}>
           <ArticleTiptap />
@@ -48,7 +47,14 @@ const ArticleViewInner: React.FC = () => {
 
 const ArticleView: React.FC<ArticleViewProps> = ({ note }) => {
   return (
-    <NoteProvider note={{ id: note.id, noteTitle: note.noteTitle, noteContent: note.noteContent, color: note.color }}>
+    <NoteProvider
+      note={{
+        id: note.id,
+        noteTitle: note.noteTitle,
+        noteContent: note.noteContent,
+        color: note.color,
+      }}
+    >
       <ArticleViewInner />
     </NoteProvider>
   );

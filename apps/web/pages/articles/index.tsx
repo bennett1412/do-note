@@ -33,9 +33,6 @@ const ArticlesIndex = () => {
         <title>My Articles | DoNote</title>
       </Head>
       <Stack gap="xl">
-        <Title order={1} c="primary.0">
-          My Articles
-        </Title>
         {articles && articles.length > 0 ? (
           <ArticlesList articles={articles} />
         ) : (

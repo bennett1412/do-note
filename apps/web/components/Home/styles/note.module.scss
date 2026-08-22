@@ -38,20 +38,58 @@
 
   .note_main {
     flex-grow: 1;
-    overflow-y: hidden;
+    min-height: 0;
+    overflow: hidden;
     position: relative;
+    display: flex;
+    flex-direction: column;
 
     // overflow blur
     &::after {
       content: " ";
-      height: 20px;
+      height: 3.8rem;
       width: 100%;
       background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--note-bg) 100%);
       display: block;
       position: absolute;
       bottom: 0px;
-      transition: background 5s 2s;
+      transition: opacity 0.15s linear;
       z-index: inherit;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  &:hover .note_main::after,
+  &.note_active .note_main::after {
+    opacity: 1;
+  }
+
+  // The editor is the single scroll region for note content. It flexes to fill
+  // the card (min-height: 0 is required so it never grows the card), and clips
+  // when inactive so the card keeps its fixed height. See
+  // `.note_active :global(.tiptap-editor)` below for the scroll-on-edit state.
+  .note_main :global(.tiptap-editor) {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(139, 139, 139, 0.42);
+      border-radius: 30px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(99, 99, 99, 0.676);
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
     }
   }
   &:hover {
@@ -60,9 +98,18 @@
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   }
 
+  .titleRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
   .title {
     font-size: x-large;
-    height: 10%;
     width: 100%;
     outline: none;
     border: none;
@@ -70,6 +117,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 0.5rem;
+    flex-shrink: 0;
     transition-property: background, color;
     transition-duration: 0.2s;
     color: inherit;
@@ -135,10 +183,8 @@
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  // related to tiptap
-  .ProseMirror,
-  .ProseMirror-focused {
-    height: 100%;
+  // The editor becomes the single scroll region when active.
+  :global(.tiptap-editor) {
     overflow-y: auto;
   }
 }
@@ -182,6 +228,55 @@
 
 .note_active > .toolbar {
   opacity: 1;
+}
+
+// frosted-glass pill wrapping the copy/delete actions
+.toolbarPill {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.3rem 0.35rem;
+  border-radius: 14px;
+  background-color: rgba(20, 22, 21, 0.38);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+
+  // hidden until the card is hovered (desktop) or note is active
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.15s linear, transform 0.15s linear;
+
+  svg {
+    color: rgba(255, 255, 255, 0.92);
+    stroke: rgba(255, 255, 255, 0.92);
+  }
+}
+
+// darker notes get a lighter pill so the buttons stay visible
+.toolbarPill_dark {
+  background-color: rgba(245, 245, 245, 0.28);
+}
+
+// Desktop / mouse: the pill comes up on hover of the card.
+// Only applies to pointer devices that support hover — on touch it stays visible.
+@media (hover: hover) and (pointer: fine) {
+  .note_container:hover .toolbarPill,
+  .note_active .toolbarPill {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+// Touch devices: no hover, so always show the pill.
+@media (hover: none) {
+  .toolbarPill {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
 }
 
 // tiptap styles

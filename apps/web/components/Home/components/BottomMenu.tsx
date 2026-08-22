@@ -6,14 +6,18 @@ import { NotesContext } from "./NotesList";
 import { useNoteContext } from "./NoteContext";
 import type { Editor } from "@tiptap/react";
 import { ActionIcon, Group } from "@mantine/core";
+import clsx from "clsx";
+import styles from "../styles/note.module.scss";
 
 type BottomMenuProps = {
   editor: Editor | null;
 };
 
+const isNoteDarkThemed = (c: string): boolean => /dark/i.test(c);
+
 const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.Element {
   const { deleteNote } = useContext(NotesContext) as NotesContextValue;
-  const { editMode, fsId, setColor } = useNoteContext();
+  const { editMode, fsId, color } = useNoteContext();
   const router = useRouter();
   const pathname = router?.pathname || "";
   const isArticle = pathname.includes("/articles/");
@@ -39,27 +43,33 @@ const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.El
   return (
     <Group
       gap="xs"
-      justify="space-between"
+      justify="flex-end"
       w="100%"
       pos="absolute"
-      bottom={5}
+      bottom={10}
       left={0}
-      px="sm"
+      px="xs"
       style={{
         zIndex: 1,
         opacity: editMode ? 1 : undefined,
         transition: "opacity 0.1s linear",
+        pointerEvents: "none",
       }}
       className="note-toolbar"
     >
-      <Group gap="xs">
+      <div
+        className={clsx(styles.toolbarPill, {
+          [styles.toolbarPill_dark]: isNoteDarkThemed(color),
+        })}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ActionIcon
           title="copy note content"
           onClick={handleCopy}
           variant="subtle"
           color="gray"
           radius="xl"
-          size="md"
+          size="sm"
           style={copying ? { backgroundColor: "rgba(64, 192, 87, 0.15)", color: "#40C057" } : {}}
         >
           {copying ? <CheckIcon size={18} /> : <CopyIcon size={18} />}
@@ -70,7 +80,7 @@ const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.El
           variant="subtle"
           color="gray"
           radius="xl"
-          size="md"
+          size="sm"
           styles={{
             root: {
               "&:hover": {
@@ -82,26 +92,25 @@ const BottomMenu = memo(function BottomMenu({ editor }: BottomMenuProps): JSX.El
         >
           <DeleteIcon size={18} />
         </ActionIcon>
-      </Group>
-
-      {editMode && !isArticle && (
-        <ActionIcon
-          title="Convert to Article"
-          onClick={async () => {
-            if (window.confirm("Convert to long-form Article? This cannot be undone.")) {
-              const { updateNote } = await import("@/utils/notesApi");
-              await updateNote(Number(fsId), { isArticle: true });
-              router.push(`/articles/${fsId}`);
-            }
-          }}
-          variant="subtle"
-          color="gray"
-          radius="xl"
-          size="md"
-        >
-          <FileTextIcon size={18} />
-        </ActionIcon>
-      )}
+        {editMode && !isArticle && (
+          <ActionIcon
+            title="Convert to Article"
+            onClick={async () => {
+              if (window.confirm("Convert to long-form Article? This cannot be undone.")) {
+                const { updateNote } = await import("@/utils/notesApi");
+                await updateNote(Number(fsId), { isArticle: true });
+                router.push(`/articles/${fsId}`);
+              }
+            }}
+            variant="subtle"
+            color="gray"
+            radius="xl"
+            size="sm"
+          >
+            <FileTextIcon size={18} />
+          </ActionIcon>
+        )}
+      </div>
     </Group>
   );
 });

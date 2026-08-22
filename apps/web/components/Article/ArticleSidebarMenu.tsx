@@ -1,7 +1,7 @@
 import React, { memo, useContext, useState } from "react";
 import type { Editor } from "@tiptap/react";
 import { ActionIcon, Tooltip, Stack, Paper } from "@mantine/core";
-import { HomeIcon, CopyIcon, CheckIcon, DeleteIcon } from "@/utils/icons";
+import { CopyIcon, CheckIcon, DeleteIcon } from "@/utils/icons";
 import { useRouter } from "next/router";
 import { NotesContext } from "@/components/Home/components/NotesList";
 import { useNoteContext } from "@/components/Home/components/NoteContext";
@@ -43,19 +43,6 @@ const ArticleSidebarMenu: React.FC<Props> = ({ editor }) => {
       style={{ transform: "translateY(-50%)", zIndex: 100 }}
     >
       <Stack gap="xs">
-        <Tooltip label="Back to Notes" position="left" withArrow>
-          <ActionIcon
-            size="lg"
-            variant="subtle"
-            color="gray"
-            radius="md"
-            onClick={() => router.push("/notes")}
-            data-testid="back-notes"
-          >
-            <HomeIcon size={20} />
-          </ActionIcon>
-        </Tooltip>
-
         <Tooltip label={copying ? "Copied!" : "Copy Content"} position="left" withArrow>
           <ActionIcon
             size="lg"

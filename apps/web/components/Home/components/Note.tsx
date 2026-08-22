@@ -71,14 +71,13 @@ const NoteInner: React.FC<{
             style={
               {
                 "--note-bg": color,
-                overflowY: editMode ? "auto" : "clip",
               } as CustomStyle
             }
             layout="position"
             className={styles.note_main}
             onClick={handleClick}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <div className={styles.titleRow}>
               {(note_title != "" || editMode) && (
                 <input
                   ref={ref}
