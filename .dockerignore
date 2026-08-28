@@ -1,0 +1,15 @@
+# Dependencies and compiled code
+node_modules
+dist
+
+# Secrets (CRITICAL)
+.env
+.env.*
+
+# Git and Docs
+.git
+.gitignore
+*.md
+
+# Local Package Manager Configs
+.npmrc

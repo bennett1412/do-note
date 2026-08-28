@@ -1,0 +1,366 @@
+@use "../../../styles/utilities/colors";
+@use "../../../styles/utilities/buttons";
+@use "../../../styles/utilities/effects";
+
+// @import url("https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap");
+
+.note_placeholder {
+  height: 15rem;
+  width: 18rem;
+  border-radius: 10px;
+  display: flex;
+  overflow: visible; /* Prevent clipping note_container shadows */
+}
+
+.note_container {
+  // position: relative;
+  // height: 12.5rem;
+  // width: 17rem;
+  flex: 1;
+  overflow: hidden;
+  border: 1px colors.$note-border solid;
+  border-radius: 10px;
+  padding: 0.8rem;
+  background-color: var(--note-bg);
+  color: var(--color-surface-100);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition-property: background, color;
+  transition-duration: 0.2s;
+  font-family: "Fire Mono", monospace;
+  z-index: 0;
+
+  input[type="text"] {
+    background: var(--note-bg);
+    z-index: inherit;
+  }
+
+  .note_main {
+    flex-grow: 1;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    // overflow blur
+    &::after {
+      content: " ";
+      height: 3.8rem;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--note-bg) 100%);
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      transition: opacity 0.15s linear;
+      z-index: inherit;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  &:hover .note_main::after,
+  &.note_active .note_main::after {
+    opacity: 1;
+  }
+
+  // The editor is the single scroll region for note content. It flexes to fill
+  // the card (min-height: 0 is required so it never grows the card), and clips
+  // when inactive so the card keeps its fixed height. See
+  // `.note_active :global(.tiptap-editor)` below for the scroll-on-edit state.
+  .note_main :global(.tiptap-editor) {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(139, 139, 139, 0.42);
+      border-radius: 30px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(99, 99, 99, 0.676);
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  }
+  &:hover {
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  }
+
+  .titleRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .title {
+    font-size: x-large;
+    width: 100%;
+    outline: none;
+    border: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+    transition-property: background, color;
+    transition-duration: 0.2s;
+    color: inherit;
+  }
+
+  .note_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background-color: transparent;
+    box-shadow: none;
+    cursor: pointer;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &:hover {
+      background: rgba(135, 141, 141, 0.25);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    &:active {
+      background: rgba(135, 141, 141, 0.441);
+    }
+  }
+
+  .note_button.dark_button {
+    svg {
+      stroke: var(--color-surface-100);
+      color: var(--color-surface-100);
+    }
+  }
+  .note_button.light_button {
+    svg {
+      stroke: var(--color-primary-100);
+      color: var(--color-primary-100);
+    }
+  }
+}
+// .in_transition {
+//   z-index: 1;
+// }
+.note_container.note_active {
+  // z-index: 2;
+  width: 70vw;
+  height: 70dvh;
+  position: fixed;
+  margin: auto auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  // The editor becomes the single scroll region when active.
+  :global(.tiptap-editor) {
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .note_container.note_active {
+    width: 90dvw;
+    height: 95dvh;
+    .editor {
+      height: 80dvh;
+    }
+  }
+  .toolbar {
+    position: sticky;
+  }
+}
+.dull_background {
+  background-color: rgba(0, 0, 0, 0.158);
+}
+
+.dark {
+  color: var(--color-primary-100);
+  border: 1px solid var(--color-surface-200);
+}
+
+// bottommenu styles
+.toolbar {
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.1s linear;
+  position: absolute;
+  bottom: 5px;
+}
+
+.note_container:hover .toolbar {
+  opacity: 1;
+}
+
+.note_active > .toolbar {
+  opacity: 1;
+}
+
+// frosted-glass pill wrapping the copy/delete actions
+.toolbarPill {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.3rem 0.35rem;
+  border-radius: 14px;
+  background-color: rgba(20, 22, 21, 0.38);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+
+  // hidden until the card is hovered (desktop) or note is active
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.15s linear, transform 0.15s linear;
+
+  svg {
+    color: rgba(255, 255, 255, 0.92);
+    stroke: rgba(255, 255, 255, 0.92);
+  }
+}
+
+// darker notes get a lighter pill so the buttons stay visible
+.toolbarPill_dark {
+  background-color: rgba(245, 245, 245, 0.28);
+}
+
+// Desktop / mouse: the pill comes up on hover of the card.
+// Only applies to pointer devices that support hover — on touch it stays visible.
+@media (hover: hover) and (pointer: fine) {
+  .note_container:hover .toolbarPill,
+  .note_active .toolbarPill {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+// Touch devices: no hover, so always show the pill.
+@media (hover: none) {
+  .toolbarPill {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+// tiptap styles
+.editor {
+  // @extend .masked-overflow;
+  height: 89%;
+  width: 100%;
+  outline: none;
+  border: none;
+  position: relative;
+  // custom scrollbar
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 30px;
+    position: relative;
+    z-index: 3;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(139, 139, 139, 0.42);
+    cursor: pointer;
+    border-radius: 30px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(99, 99, 99, 0.676);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(99, 99, 99);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    cursor: pointer;
+    border-radius: 30px;
+  }
+
+  .ProseMirror,
+  .ProseMirror-focused {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    .is-editor-empty {
+      color: black;
+    }
+    p {
+      margin-block-start: 0.5em;
+      margin-block-end: 0.5em;
+    }
+    // ul {
+    //   padding-inline-start: 15px;
+    // }
+    ul[data-type="taskList"] {
+      list-style: none;
+      padding-inline-start: 8px;
+
+      p {
+        margin: 0;
+      }
+
+      li {
+        display: flex;
+
+        > label {
+          flex: 0 0 auto;
+          margin-right: 0.5rem;
+          user-select: none;
+        }
+
+        > div {
+          flex: 1 1 auto;
+        }
+      }
+    }
+    // img {
+    //   position: relative;
+    //   left: 50%;
+    //   transform: translate(-50%);
+    //   &.ProseMirror-selectednode {
+    //     outline: 3px solid #121225;
+    //   }
+    // }
+  }
+}

@@ -1,0 +1,10 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+syncInjectedDepsAfterScripts:
+  - build
+injectWorkspacePackages: true
+allowBuilds:
+  "sharp": true
+  "esbuild": true
+  "@parcel/watcher": true

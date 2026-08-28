@@ -1,21 +1,33 @@
-# Do Note
-A Google Keep like note taking app with some rich text formating options inspired from Notion and some more improvements, will be integrated to a sticky note browser extension (a work in progress 😅). 
+````mermaid
+flowchart TD
 
----
+    client[Client / Next.js]
+    api[Go API]
+    pg[(Postgres)]
 
-## Main Features that have to be implemented
+    rp[(Redpanda)]
 
-- [X] Paste image from clipboard, positioned within the text
-- [ ] Voice to text
-- [ ] Works offline
+    curator[Feed Poller Worker]
+    parser[Feed Parser Worker]
+    analytics[Analytics Worker]
 
----  
+    rss[External RSS Feeds]
 
-## To run the app
-1. Install all the dependencies with: `pnpm install`.
-2. Create a supabase project and add the following config variables in a .env file:
-```env
-NEXT_PUBLIC_SUPABASE_URL = {supabase_url}
-NEXT_PUBLIC_SUPABASE_ANON_KEY = {secret_key}
-```
-4. Run the project in development with: `pnpm run dev`.
+    client <-->|CRUD + publish| api
+
+    api <--> pg
+
+    api -->|PostPublished event| rp
+
+    curator -->|poll feeds| rss
+    curator -->|FeedFetched event| rp
+
+    rp --> parser
+    parser -->|store normalized content| pg
+
+    client -->|view article| api
+    api -->|ArticleViewed event| rp
+
+    rp --> analytics
+    analytics -->|aggregate stats| pg ```
+````
